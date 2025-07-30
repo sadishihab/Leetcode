@@ -17,5 +17,5 @@ class Solution(object):
 sol = Solution()
 nums = [0,0,3,3,4,4,4,6]
 k = sol.removeDuplicates(nums)
-print(k)
+print("Total number of unique elements", k)
 print(nums[:k])

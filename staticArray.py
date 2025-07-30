@@ -47,4 +47,3 @@ def removeMiddle(arr, i, length):
 def printArr(arr, capacity):
     for i in range(capacity):
         print(arr[i])
-
