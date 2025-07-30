@@ -8,7 +8,7 @@ class Solution(object):
             if nums[i] != val:                                  # Check if current element is not equal to val
                 nums[k] = nums[i]                               # Copy non-val element to position k
                 k += 1                                          # Increment k to point to next position for non-val element
-        return k                                                # Return k, the count of non-val elements
+        return k                                                # Return k, the count of non-val elements 
 
 sol = Solution()
 nums = [0,1,2,2,3,0,4,2]
