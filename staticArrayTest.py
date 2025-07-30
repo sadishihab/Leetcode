@@ -1,19 +1,22 @@
 from staticArray import removeEnd, insertEnd, insertMiddle, removeMiddle, printArr
 
 arr = [1, 2, 3, 4, 0, 0]
-#printArr(arr, 6)
-print(arr)
-length = removeEnd(arr, 4)
-print(arr)
-print(length)
+print("Original array\n", arr)
 
-insertEnd(arr, 5, length, 6)
+length = insertEnd(arr, 5, 4, 6)
+print("Inserting 5 at the end\n", arr)
+print("Current length of non-zero elements", length)
+
+length = removeEnd(arr, length)
+print("Removing the last non-zero element\n", arr)
+print("Current length of non-zero elements", length)
+
 length = insertMiddle(arr, 2, 99, length)
-print(arr)
-print(length)
+print("Inserting 99 in second index\n", arr)
+print("Current length of non-zero elements", length)
 
 length = removeMiddle(arr, 2, length)
-print(arr)
-print(length)
+print("Remove element from the secod index\n", arr)
+print("Current length of non-zero elements", length)
 
 printArr(arr, 6)

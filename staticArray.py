@@ -17,9 +17,7 @@ def removeEnd(arr, length):
     if length > 0:
         # Overwrite last element with some default value.
         arr[length - 1] = 0
-        # We would also the length to decreased by 1.
-        length -= 1
-        return length
+        return length - 1
 
 
 # Insert n into index i after shifting elements to the right.
@@ -49,3 +47,4 @@ def removeMiddle(arr, i, length):
 def printArr(arr, capacity):
     for i in range(capacity):
         print(arr[i])
+
