@@ -1,5 +1,5 @@
 # Remove element which matches with the val from an array
-#Approach: Two-Pointer Technique
+#Approach: Two-Pointer Technique 
 
 class Solution(object):
     def removeElement(self, nums, val):
