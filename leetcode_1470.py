@@ -1,5 +1,5 @@
 #Shuffle the array
-#Just take a new array, fill it with desired output, then copy the array to nums and return.
+#To shuffle the elements of an array in a specific order, Just take a new array, fill it with desired output, then copy the array to nums and return.
 class Solution(object):
     def shuffle(self, nums, n):
         result = []
