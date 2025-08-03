@@ -1,5 +1,8 @@
 # Remove element which matches with the val from an array
-#Approach: Two-Pointer Technique 
+#Approach: Two-Pointer Technique. this technique is used to:
+    #Modify the array in-place: The problem requires you to rearrange nums without using additional space (e.g., no new array).
+    #Efficiently track valid elements: One pointer (k) keeps track of where to place the next non-val element, while the other pointer (i) iterates through the array to find non-val elements.
+    #Minimize operations: By only copying non-val elements to the correct position, the algorithm avoids unnecessary swaps or movements, achieving O(n) time complexity with O(1) space complexity.
 
 class Solution(object):
     def removeElement(self, nums, val):
