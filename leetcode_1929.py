@@ -13,7 +13,6 @@ class Solution(object):
         return nums + nums
 
 
-
 sol = Solution()
 ans = sol.getConcatenation(nums)
 print(ans)
