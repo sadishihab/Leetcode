@@ -1,4 +1,4 @@
-from staticArray import removeEnd, insertEnd, insertMiddle, removeMiddle, printArr
+from static_array import removeEnd, insertEnd, insertMiddle, removeMiddle, printArr
 
 arr = [1, 2, 3, 4, 0, 0]
 print("Original array\n", arr)
