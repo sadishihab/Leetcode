@@ -20,27 +20,31 @@ print(k)
 print(nums[:k])
 
 # 📝 Flashcard Version (for revision)
-# “Use pointer k. Loop array: if num ≠ val → put at nums[k], move k. End: return k (count of kept elements).”
+# “Two pointers. Use k to place non-val. For each num: if ≠ val → nums[k] = num, move k. Return k.”
+# 👉 This way you’ll remember:
+# Iterate all → skip val → write valid at k → return k.
 
 # 🔑 Full Approach – Remove Element
-# Problem Restatement:
-# You’re given an array nums and a value val.
-# Remove all instances of val in-place and return the count of remaining elements (k).
-# The order of non-val elements can be changed, but not required.
+# Observation:
+# We need to remove all elements equal to val in-place.
+# The new length (count of non-val elements) should be returned.
+# The order of remaining elements can be preserved (this solution does preserve order).
+# Two-pointer method:
+# One pointer i → scans every element.
+# Another pointer k → tracks the next position to place a valid element (not equal to val).
 
-# Two-pointer technique:
-# Use a pointer k to track the next position to place a non-val element.
 # Algorithm:
 # Initialize k = 0.
-# Loop through each index i in nums:
+# Traverse through nums:
 # If nums[i] != val:
-# Copy nums[i] to nums[k].
-# Increment k (to prepare for next placement).
-# At the end, k represents the number of elements not equal to val.
-# Return:
-# Return k.
+# Write nums[i] to nums[k].
+# Increment k.
+# If nums[i] == val, skip it.
+# After the loop, all non-val elements are placed in the first k positions.
 
-# The first k elements of nums now contain the desired result.
+# Return:
+# Return k, the count of valid (non-val) elements.
+
 # ⏱️ Complexity
-# Time: O(n) → single scan through array
-# Space: O(1) → in-place modification
+# Time: O(n) → one scan of the array.
+# Space: O(1) → done in-place.
