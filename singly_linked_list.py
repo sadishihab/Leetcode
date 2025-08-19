@@ -4,7 +4,6 @@ class ListNode:
         self.val = val       # Value stored in the node
         self.next = None     # Pointer to the next node (None by default)
 
-
 # Singly linked list implementation
 class LinkedList:
     def __init__(self):
