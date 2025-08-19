@@ -1,7 +1,6 @@
 # Implementing a stack is trivial using a dynamic array
 #The stack follows LIFO
 
-
 class Stack:
     def __init__(self):
         self.stack = []
