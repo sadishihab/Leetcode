@@ -1,3 +1,5 @@
+#Testing the static array
+
 from static_array import removeEnd, insertEnd, insertMiddle, removeMiddle, printArr
 
 arr = [1, 2, 3, 4, 0, 0]
