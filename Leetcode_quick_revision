@@ -1,0 +1,135 @@
+LeetCode Quick Revision Flashcards
+1️⃣ Two Sum (LeetCode 1)
+
+Full Approach:
+
+Use a hash map to store numbers we’ve seen (key = number, value = index).
+
+Iterate through the array:
+
+Compute complement = target - num.
+
+If complement exists in the map → return [index_of_complement, current_index].
+
+Otherwise, store num:index in the map.
+
+Return the pair of indices when found.
+
+Flashcard:
+“While looping, check if target–num exists in map. If yes → return indices. If no → save num:index.”
+
+2️⃣ Reverse Linked List (LeetCode 206)
+
+Full Approach:
+
+Use three pointers: prev = None, curr = head, next_node.
+
+Iterate through the list:
+
+Save curr.next in next_node.
+
+Reverse curr.next to point to prev.
+
+Move prev and curr forward.
+
+Return prev as the new head.
+
+Flashcard:
+“Iterate list. Reverse pointer at each node. Move prev & curr forward. Return prev.”
+
+3️⃣ Valid Parentheses (LeetCode 20)
+
+Full Approach:
+
+Use a stack to keep track of opening brackets.
+
+Create mapping: ')':'(', ']':'[', '}':'{'.
+
+Iterate string:
+
+Push opening brackets.
+
+For closing brackets: check if stack top matches. If not or empty → invalid.
+
+At the end, stack must be empty → valid.
+
+Flashcard:
+“Push opens to stack. For closes, check top matches. If mismatch/empty → invalid. End: valid if stack empty.”
+
+4️⃣ Remove Duplicates from Sorted Array (LeetCode 26)
+
+Full Approach:
+
+Use two pointers:
+
+i to scan array.
+
+k to track next position for unique element.
+
+Iterate from index 1:
+
+If nums[i] != nums[i-1], place nums[i] at nums[k], increment k.
+
+Return k (count of unique elements).
+
+Flashcard:
+“Sorted array → two pointers. For each new num ≠ prev, place at k, move k. Return k.”
+
+5️⃣ Remove Element (LeetCode 27)
+
+Full Approach:
+
+Use two pointers: i scans array, k tracks next position for non-val elements.
+
+Iterate array:
+
+If nums[i] != val, place at nums[k], increment k.
+
+Skip elements equal to val.
+
+Return k (count of non-val elements).
+
+Flashcard:
+“Two pointers. For each num ≠ val → nums[k] = num, move k. Return k.”
+
+6️⃣ Min Stack (LeetCode 155)
+
+Full Approach:
+
+Use two stacks: stack for all values, minStack for current minimums.
+
+On push(val):
+
+Push val to stack.
+
+Push min(val, minStack[-1]) to minStack.
+
+On pop(): pop both stacks.
+
+top(): return top of stack.
+
+getMin(): return top of minStack.
+
+Flashcard:
+“Two stacks: stack for values, minStack for mins. push → push val & min(val,last). pop → pop both. getMin = top of minStack.”
+
+7️⃣ Baseball Game (LeetCode 682)
+
+Full Approach:
+
+Use a stack to track valid scores.
+
+Iterate operations:
+
+'+': sum of last two → push.
+
+'D': double last → push.
+
+'C': pop last.
+
+Number: push as int.
+
+Return sum of stack after all operations.
+
+Flashcard:
+“Stack for scores. '+': sum last 2, 'D': double last, 'C': pop last, number: push. Return sum of stack.”
