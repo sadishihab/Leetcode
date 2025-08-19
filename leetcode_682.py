@@ -1,3 +1,8 @@
+# Baseball Game
+# Split array in half. Interleave: nums[i], nums[i+n]. Replace original array. Return result.
+# Time: O(n) — the loop runs n times, and each append is O(1)
+# Space: O(n) — result stores 2n elements before copying back to nums
+
 class Solution(object):
     def calPoints(self, operations):
         stack = []
@@ -16,25 +21,5 @@ class Solution(object):
 sol = Solution()
 ops = ["5","2","C","D","+"]
 print(sol.calPoints(ops))
-
-# 📝 Flashcard Version
-# “Use stack for scores. '+': sum last 2, 'D': double last, 'C': pop last, number: push. Return sum of stack.”
-
-# 🔑 Full Approach – Baseball Game
-
-# Initialize a stack to keep track of valid scores.
-# Iterate through each operation in operations:
-# If the operation is '+':
-# Take the sum of the last two scores in the stack and push it.
-# If the operation is 'D':
-# Double the last score in the stack and push it.
-# If the operation is 'C':
-# Remove (pop) the last score from the stack.
-# Otherwise (a number as a string):
-# Convert it to an integer and push it onto the stack.
-# Return the sum of all values in the stack after processing all operations.
-
-# Key Insight:
-# Use the stack to dynamically keep track of valid scores, handling each operation according to its rule.
 
 
