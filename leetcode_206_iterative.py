@@ -18,15 +18,13 @@ class Solution:
 
         # Traverse the list
         while current is not None:
-            # Store the next node
-            next_node = current.next
-            # Reverse the link: point current's next to previous
-            current.next = prev
-            # Move prev and current one step forward
-            prev = current
+
+            next_node = current.next            # Store the next node
+            current.next = prev                 # Reverse the link: point current's next to previous
+            prev = current                      # Move prev and current one step forward
             current = next_node
-# prev is the new head
-        return prev
+
+        return prev                             # prev is the new head
 
 # Create a sample list: 1 -> 2 -> 3
 head = ListNode(1)
