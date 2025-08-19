@@ -1,13 +1,13 @@
-LeetCode Quick Revision Flashcards
+LeetCode Quick Revision Flashcards:
 
 👉 Problem type: Static Arrays
 
 1. Remove Duplicates from Sorted Array (LeetCode 26)
 
-📝 Flashcard:
+✨ Flashcard:
 “Sorted array → two pointers. For each new num ≠ prev, place at k, move k. Return k.”
 
-🔑 Full Approach:
+⚡ Full Approach:
 
 Use two pointers:
 i to scan array.
@@ -29,10 +29,10 @@ Space: O(1) → in-place, no extra memory
 
 2. Remove Element (LeetCode 27)
 
-📝 Flashcard:
+✨ Flashcard:
 “Two pointers. For each num ≠ val → nums[k] = num, move k. Return k.”
 
-🔑 Full Approach:
+⚡ Full Approach:
 
 Use two pointers: i scans array, k tracks next position for non-val elements.
 Iterate array:
@@ -51,13 +51,13 @@ Space: O(1) → in-place, no extra memory
 
 3. Shuffle the array (LeetCode 1470)
 
-📝 Flashcard:
+✨ Flashcard:
 
 “Split array in half. Interleave: nums[i], nums[i+n]. Replace original array. Return result.”
 
 Notes: To shuffle the elements of an array in a specific order, Just take a new array, fill it with desired output, then copy the array to nums and return.
 
-🔑 Full Approach:
+⚡ Full Approach:
 Split the array into two halves: first half (nums[0:n]) and second half (nums[n:2n]).
 Initialize an empty result array.
 Iterate i from 0 to n-1:
@@ -72,10 +72,10 @@ Space: O(n) — result stores 2n elements before copying back to nums
 
 4. Two Sum (LeetCode 1)
 
-📝 Flashcard:
+✨ Flashcard:
 “While looping, check if target–num exists in map. If yes → return indices. If no → save num:index.”
 
-🔑 Full Approach:
+⚡ Full Approach:
 
 Use a hash map to store numbers we’ve seen (key = number, value = index).
 Iterate through the array:
@@ -92,10 +92,10 @@ Space: O(n) (for hash map)
 
 1. Concatenation of Array (LeetCode 1929)
 
-📝 Flashcard:
+✨ Flashcard:
 “Concatenate the array with itself using nums + nums. Return the result.”
 
-🔑 Full Approach:
+⚡ Full Approach:
 
 Concatenate the array:
 Use Python's list concatenation operator (+) to append the array to itself.
@@ -117,10 +117,10 @@ Space: O(n) — a new list of size 2n is created
 
 1. Baseball Game (LeetCode 682)
 
-📝 Flashcard:
+✨ Flashcard:
 “Stack for scores. '+': sum last 2, 'D': double last, 'C': pop last, number: push. Return sum of stack.”
 
-🔑 Full Approach:
+⚡ Full Approach:
 
 Use a stack to track valid scores.
 Iterate operations:
@@ -136,10 +136,10 @@ Space: O(n) — for the stack storing the valid scores
 
 2. Valid Parentheses (LeetCode 20)
 
-📝 Flashcard:
+✨ Flashcard:
 “Push opens to stack. For closes, check top matches. If mismatch/empty → invalid. End: valid if stack empty.”
 
-🔑 Full Approach:
+⚡ Full Approach:
 
 Use a stack to keep track of opening brackets.
 Create mapping: ')':'(', ']':'[', '}':'{'.
@@ -154,10 +154,10 @@ Space: O(n) (in worst case, all characters are opens)
 
 3. Min Stack (LeetCode 155)
 
-📝 Flashcard:
+✨ Flashcard:
 “Two stacks: stack for values, minStack for mins. push → push val & min(val,last). pop → pop both. getMin = top of minStack.”
 
-🔑 Full Approach:
+⚡ Full Approach:
 
 Use two stacks: stack for all values, minStack for current minimums.
 On push(val):
@@ -175,10 +175,10 @@ Space: O(n) for the two stacks.
 
 1. Reverse Linked List (LeetCode 206) - iterative approach
 
-📝 Flashcard:
+✨ Flashcard:
 “Iterate list. Reverse pointer at each node. Move prev & curr forward. Return prev.”
 
-🔑 Full Approach:
+⚡ Full Approach:
 
 Use three pointers: prev = None, curr = head, next_node.
 Iterate through the list:
