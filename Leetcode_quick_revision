@@ -190,3 +190,25 @@ Return prev as the new head.
 ⏱️ Complexity
 Time: O(n) — we traverse each node of the linked list exactly once
 Space: O(1) — only a few pointers (prev, current, next_node) are used regardless of list size
+
+🔄 Recursive approach:
+
+✨ Flashcard:
+“Use recursion: reverse the rest of the list, then flip the current node’s pointer. Return the new head.”
+
+Notes: Base case: empty list or single node → return head. Otherwise, recurse, fix pointers (head.next.next = head, head.next = None), and return new head.
+
+⚡ Full Approach:
+
+Base case: If head is None or has only one node, return head.
+Recursive call: Reverse the list starting from head.next.
+
+Fix pointers:
+head.next.next = head (make next node point back to current).
+head.next = None (break the old link).
+Return the new_head from recursive calls (this will be the last node of the original list).
+
+⏱️ Complexity
+
+Time: O(n) → every node is visited once.
+Space: O(n) → recursion stack stores n calls.
