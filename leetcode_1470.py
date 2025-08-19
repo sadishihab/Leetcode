@@ -1,5 +1,8 @@
-#Shuffle the array
-#To shuffle the elements of an array in a specific order, Just take a new array, fill it with desired output, then copy the array to nums and return.
+# Shuffle the array
+# To shuffle the elements of an array in a specific order, Just take a new array, fill it with desired output, then copy the array to nums and return.
+# Split array in half. Interleave: nums[i], nums[i+n]. Replace original array. Return result.
+# Time: O(n) — the loop runs n times, and each append is O(1)
+# Space: O(n) — result stores 2n elements before copying back to nums
 
 class Solution(object):
     def shuffle(self, nums, n):
