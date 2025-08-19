@@ -12,7 +12,7 @@ LeetCode Quick Revision Flashcards:
 Use two pointers:
 i to scan array.
 k to track next position for unique element.
-Iterate from index 1:
+Iterate from index 1:   Because index 0, means the first element will always be unique.
 If nums[i] != nums[i-1], place nums[i] at nums[k], increment k.
 Return k (count of unique elements).
 
