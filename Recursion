@@ -1,0 +1,30 @@
+
+🔹 What is Recursion?
+
+Recursion is when a function calls itself to solve a smaller version of the same problem.
+It’s like a mirror reflecting another mirror—repeating until it reaches a base case (a stopping condition).
+
+🔹 Key Parts of Recursion
+
+⚡ Base Case → the condition where recursion stops (prevents infinite loop).
+
+⚡ Recursive Case → the part where the function calls itself with a smaller problem.
+
+Example 1: Factorial Function (factorial)
+
+Mathematically:  n! = n × (n−1) × (n−2) ×...× 1  And 0!=1
+
+
+Example 2: Fibonacci Sequence
+
+The Fibonacci series: 0, 1, 1, 2, 3, 5, 8, ...
+Rule: F(n) = F(n−1) + F(n−2)
+with base cases: F(0) = 0, F(1) = 1
+
+🔹 Things to Remember:
+
+- Base case is crucial (otherwise infinite recursion → RecursionError).
+
+- Recursive functions can be less efficient if they recompute values (like naive Fibonacci).
+
+- Python has a recursion limit (default ~1000 calls deep).
