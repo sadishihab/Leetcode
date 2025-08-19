@@ -1,135 +1,192 @@
 LeetCode Quick Revision Flashcards
-1️⃣ Two Sum (LeetCode 1)
 
-Full Approach:
+👉 Problem type: Static Arrays
 
-Use a hash map to store numbers we’ve seen (key = number, value = index).
+1. Remove Duplicates from Sorted Array (LeetCode 26)
 
-Iterate through the array:
-
-Compute complement = target - num.
-
-If complement exists in the map → return [index_of_complement, current_index].
-
-Otherwise, store num:index in the map.
-
-Return the pair of indices when found.
-
-Flashcard:
-“While looping, check if target–num exists in map. If yes → return indices. If no → save num:index.”
-
-2️⃣ Reverse Linked List (LeetCode 206)
-
-Full Approach:
-
-Use three pointers: prev = None, curr = head, next_node.
-
-Iterate through the list:
-
-Save curr.next in next_node.
-
-Reverse curr.next to point to prev.
-
-Move prev and curr forward.
-
-Return prev as the new head.
-
-Flashcard:
-“Iterate list. Reverse pointer at each node. Move prev & curr forward. Return prev.”
-
-3️⃣ Valid Parentheses (LeetCode 20)
-
-Full Approach:
-
-Use a stack to keep track of opening brackets.
-
-Create mapping: ')':'(', ']':'[', '}':'{'.
-
-Iterate string:
-
-Push opening brackets.
-
-For closing brackets: check if stack top matches. If not or empty → invalid.
-
-At the end, stack must be empty → valid.
-
-Flashcard:
-“Push opens to stack. For closes, check top matches. If mismatch/empty → invalid. End: valid if stack empty.”
-
-4️⃣ Remove Duplicates from Sorted Array (LeetCode 26)
-
-Full Approach:
-
-Use two pointers:
-
-i to scan array.
-
-k to track next position for unique element.
-
-Iterate from index 1:
-
-If nums[i] != nums[i-1], place nums[i] at nums[k], increment k.
-
-Return k (count of unique elements).
-
-Flashcard:
+📝 Flashcard:
 “Sorted array → two pointers. For each new num ≠ prev, place at k, move k. Return k.”
 
-5️⃣ Remove Element (LeetCode 27)
+🔑 Full Approach:
 
-Full Approach:
+Use two pointers:
+i to scan array.
+k to track next position for unique element.
+Iterate from index 1:
+If nums[i] != nums[i-1], place nums[i] at nums[k], increment k.
+Return k (count of unique elements).
 
-Use two pointers: i scans array, k tracks next position for non-val elements.
+Notes: The problem can be solved efficiently using a two-pointer technique since the array is already sorted. it is used because:
+        #In-Place Modification: The problem requires modifying the array in-place without using extra space. The two-pointer method allows us to overwrite duplicate elements with unique ones.
+        #Efficient Traversal: Since the array is sorted, duplicates are adjacent. By comparing adjacent elements, we can identify unique elements in a single pass (O(n) time).
+        #Track Unique Elements: One pointer (k) tracks the position where the next unique element should be placed, while the other (i) iterates through the array to find unique elements.
+        #Simplicity and Order Preservation: The approach ensures unique elements are placed in the correct order (as they appear in the sorted array) with minimal operations.
 
-Iterate array:
 
-If nums[i] != val, place at nums[k], increment k.
+⏱️ Complexity
+Time: O(n) → one pass through the array
+Space: O(1) → in-place, no extra memory
 
-Skip elements equal to val.
+2. Remove Element (LeetCode 27)
 
-Return k (count of non-val elements).
-
-Flashcard:
+📝 Flashcard:
 “Two pointers. For each num ≠ val → nums[k] = num, move k. Return k.”
 
-6️⃣ Min Stack (LeetCode 155)
+🔑 Full Approach:
 
-Full Approach:
+Use two pointers: i scans array, k tracks next position for non-val elements.
+Iterate array:
+If nums[i] != val, place at nums[k], increment k.
+Skip elements equal to val.
+Return k (count of non-val elements).
 
-Use two stacks: stack for all values, minStack for current minimums.
+#Notes: Two-Pointer Technique. this technique is used to:
+    #Modify the array in-place: The problem requires you to rearrange nums without using additional space (e.g., no new array).
+    #Efficiently track valid elements: One pointer (k) keeps track of where to place the next non-val element, while the other pointer (i) iterates through the array to find non-val elements.
+    #Minimize operations: By only copying non-val elements to the correct position, the algorithm avoids unnecessary swaps or movements, achieving O(n) time complexity with O(1) space complexity.
 
-On push(val):
+⏱️ Complexity
+Time: O(n) → one pass through the array
+Space: O(1) → in-place, no extra memory
 
-Push val to stack.
+3. Shuffle the array (LeetCode 1470)
 
-Push min(val, minStack[-1]) to minStack.
+📝 Flashcard:
 
-On pop(): pop both stacks.
+“Split array in half. Interleave: nums[i], nums[i+n]. Replace original array. Return result.”
 
-top(): return top of stack.
+Notes: To shuffle the elements of an array in a specific order, Just take a new array, fill it with desired output, then copy the array to nums and return.
 
-getMin(): return top of minStack.
+🔑 Full Approach:
+Split the array into two halves: first half (nums[0:n]) and second half (nums[n:2n]).
+Initialize an empty result array.
+Iterate i from 0 to n-1:
+Append nums[i] (element from first half).
+Append nums[i + n] (element from second half).
+Replace original array with result (nums[:] = result).
+Return nums.
 
-Flashcard:
-“Two stacks: stack for values, minStack for mins. push → push val & min(val,last). pop → pop both. getMin = top of minStack.”
+⏱️ Complexity
+Time: O(n) — the loop runs n times, and each append is O(1)
+Space: O(n) — result stores 2n elements before copying back to nums
 
-7️⃣ Baseball Game (LeetCode 682)
+4. Two Sum (LeetCode 1)
 
-Full Approach:
+📝 Flashcard:
+“While looping, check if target–num exists in map. If yes → return indices. If no → save num:index.”
+
+🔑 Full Approach:
+
+Use a hash map to store numbers we’ve seen (key = number, value = index).
+Iterate through the array:
+Compute complement = target - num.
+If complement exists in the map → return [index_of_complement, current_index].
+Otherwise, store num:index in the map.
+Return the pair of indices when found.
+
+⏱️ Complexity
+Time: O(n) (one pass)
+Space: O(n) (for hash map)
+
+👉 Problem type: Dynamic Arrays
+
+1. Concatenation of Array (LeetCode 1929)
+
+📝 Flashcard:
+“Concatenate the array with itself using nums + nums. Return the result.”
+
+🔑 Full Approach:
+
+Concatenate the array:
+Use Python's list concatenation operator (+) to append the array to itself.
+This creates a new list where the original array appears twice consecutively.
+
+Return the result:
+Return the concatenated list as the output.
+
+Notes:
+As the final output is duplication of the same array, i can just add it with itself in python. and the commented part is the normal solution. but just adding it reduce the runtime.
+While both solutions are O(n), the concatenation approach avoids the overhead of initializing an array with zeros and manually assigning values in a loop. Python's list concatenation is highly optimized at the C level, potentially reducing constant factors in runtime.
+
+
+Time: O(n) — concatenating two lists of length n requires iterating over all elements
+Space: O(n) — a new list of size 2n is created
+
+
+👉 Problem type: Stacks
+
+1. Baseball Game (LeetCode 682)
+
+📝 Flashcard:
+“Stack for scores. '+': sum last 2, 'D': double last, 'C': pop last, number: push. Return sum of stack.”
+
+🔑 Full Approach:
 
 Use a stack to track valid scores.
-
 Iterate operations:
-
 '+': sum of last two → push.
-
 'D': double last → push.
-
 'C': pop last.
-
 Number: push as int.
-
 Return sum of stack after all operations.
 
-Flashcard:
-“Stack for scores. '+': sum last 2, 'D': double last, 'C': pop last, number: push. Return sum of stack.”
+⏱️ Complexity
+Time: O(n) — each operation takes O(1), but summing the stack at the end takes O(n)
+Space: O(n) — for the stack storing the valid scores
+
+2. Valid Parentheses (LeetCode 20)
+
+📝 Flashcard:
+“Push opens to stack. For closes, check top matches. If mismatch/empty → invalid. End: valid if stack empty.”
+
+🔑 Full Approach:
+
+Use a stack to keep track of opening brackets.
+Create mapping: ')':'(', ']':'[', '}':'{'.
+Iterate string:
+Push opening brackets.
+For closing brackets: check if stack top matches. If not or empty → invalid.
+At the end, stack must be empty → valid.
+
+⏱️ Complexity
+Time: O(n) (each character processed once)
+Space: O(n) (in worst case, all characters are opens)
+
+3. Min Stack (LeetCode 155)
+
+📝 Flashcard:
+“Two stacks: stack for values, minStack for mins. push → push val & min(val,last). pop → pop both. getMin = top of minStack.”
+
+🔑 Full Approach:
+
+Use two stacks: stack for all values, minStack for current minimums.
+On push(val):
+Push val to stack.
+Push min(val, minStack[-1]) to minStack.
+On pop(): pop both stacks.
+top(): return top of stack.
+getMin(): return top of minStack.
+
+⏱️ Complexity
+Time: O(1) for all operations.
+Space: O(n) for the two stacks.
+
+👉 Problem type: Singly linked lists
+
+1. Reverse Linked List (LeetCode 206) - iterative approach
+
+📝 Flashcard:
+“Iterate list. Reverse pointer at each node. Move prev & curr forward. Return prev.”
+
+🔑 Full Approach:
+
+Use three pointers: prev = None, curr = head, next_node.
+Iterate through the list:
+Save curr.next in next_node.
+Reverse curr.next to point to prev.
+Move prev and curr forward.
+Return prev as the new head.
+
+⏱️ Complexity
+Time: O(n) — we traverse each node of the linked list exactly once
+Space: O(1) — only a few pointers (prev, current, next_node) are used regardless of list size
