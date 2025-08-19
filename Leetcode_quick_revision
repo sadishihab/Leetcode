@@ -5,7 +5,7 @@ LeetCode Quick Revision Flashcards:
 1. Remove Duplicates from Sorted Array (LeetCode 26)
 
 ✨ Flashcard:
-“Sorted array → two pointers. For each new num ≠ prev, place at k, move k. Return k.”
+“Sorted array → two pointers. For each new num ≠ prev, place at k, increment k. Return k.”
 
 ⚡ Full Approach:
 
