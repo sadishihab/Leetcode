@@ -1,5 +1,5 @@
 # Remove element
-# Two pointers technique
+# Two pointers. i to scan, k to track for the position of non-val elements.
 # Time: O(n) → one scan of the array.
 # Space: O(1) → done in-place.
 
