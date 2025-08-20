@@ -7,7 +7,7 @@ class MinStack(object):
 
     def __init__(self):
         self.stack = []
-        self.minStack = [float('inf')]
+        self.minStack = [float('inf')]      # A baseline value in minStack so that the very first push has something to compare against
 
     def push(self, val):
         self.stack.append(val)
