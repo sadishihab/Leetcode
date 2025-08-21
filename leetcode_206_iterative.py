@@ -21,8 +21,8 @@ class Solution:
 
             next_node = current.next            # Store the next node
             current.next = prev                 # Reverse the link: point current's next to previous
-            prev = current                      # Move prev and current one step forward
-            current = next_node
+            prev = current                      # Move prev one step forward
+            current = next_node                 #Move current one step forward
 
         return prev                             # prev is the new head
 
@@ -37,6 +37,6 @@ new_head = solution.reverseList(head)
 
 # Print result
 while new_head:
-    print(new_head.val, end=" -> ")
+    print(new_head.val, end =" -> ")
     new_head = new_head.next
-print("None")  # Output: 3 -> 2 -> 1 -> None
+print("None")                                           # Output: 3 -> 2 -> 1 -> None
