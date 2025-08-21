@@ -5,7 +5,7 @@ LeetCode Quick Revision Flashcards:
 1. Remove Duplicates from Sorted Array (LeetCode 26)
 
 ✨ Flashcard:
-“Sorted array → two pointers. For each new num ≠ prev, place at k, move k. Return k.”
+“Sorted array → two pointers. i to scan, k to track for unique."
 
 ⚡ Full Approach:
 
@@ -30,7 +30,7 @@ Space: O(1) → in-place, no extra memory
 2. Remove Element (LeetCode 27)
 
 ✨ Flashcard:
-“Two pointers. For each num ≠ val → nums[k] = num, move k. Return k.”
+“Two pointers. i to scan, k to track for the position of non-val elements.”
 
 ⚡ Full Approach:
 
@@ -53,12 +53,11 @@ Space: O(1) → in-place, no extra memory
 
 ✨ Flashcard:
 
-“Split array in half. Interleave: nums[i], nums[i+n]. Replace original array. Return result.”
-
-Notes: To shuffle the elements of an array in a specific order, Just take a new array, fill it with desired output, then copy the array to nums and return.
+"To shuffle the elements of an array in a specific order, Just take a new array, fill it with desired output,
+then copy the array to nums and return."
 
 ⚡ Full Approach:
-Split the array into two halves: first half (nums[0:n]) and second half (nums[n:2n]).
+
 Initialize an empty result array.
 Iterate i from 0 to n-1:
 Append nums[i] (element from first half).
@@ -70,6 +69,7 @@ Return nums.
 Time: O(n) — the loop runs n times, and each append is O(1)
 Space: O(n) — result stores 2n elements before copying back to nums
 
+💎 Array & Hash-map
 4. Two Sum (LeetCode 1)
 
 ✨ Flashcard:
@@ -87,6 +87,7 @@ Return the pair of indices when found.
 ⏱️ Complexity
 Time: O(n) (one pass)
 Space: O(n) (for hash map)
+
 
 👉 Problem type: Dynamic Arrays
 
@@ -134,6 +135,7 @@ Return sum of stack after all operations.
 Time: O(n) — each operation takes O(1), but summing the stack at the end takes O(n)
 Space: O(n) — for the stack storing the valid scores
 
+💎 Stack & Hash-map
 2. Valid Parentheses (LeetCode 20)
 
 ✨ Flashcard:
