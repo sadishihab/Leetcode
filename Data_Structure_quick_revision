@@ -1,0 +1,164 @@
+👉 Type: Static Array
+
+1. Insert at End
+
+✨ Flashcard
+"Place at arr[length] → increment length."
+
+⚡ Full Approach
+Steps:
+
+Check if there’s capacity (length < capacity).
+Insert the new value at arr[length].
+Return updated length (length + 1).
+
+⏱️ Complexity
+
+Time: O(1) → Direct insertion.
+Space: O(1) → No extra memory.
+
+2. Remove from End
+
+✨ Flashcard
+"Clear arr[length-1] → decrement length."
+
+⚡ Full Approach
+Steps:
+
+Check if the array is non-empty (length > 0).
+Reset last element (arr[length-1] = 0).
+Return updated length (length - 1).
+
+⏱️ Complexity
+
+Time: O(1) → Direct removal.
+Space: O(1) → No extra memory.
+
+3. Insert in Middle
+
+✨ Flashcard
+"Shift right → place value → increment length."
+
+⚡ Full Approach
+Steps:
+
+Start from the last real element (length - 1) down to i.
+Shift each element one step to the right (arr[index + 1] = arr[index]).
+Insert the value at position i.
+Return updated length (length + 1).
+
+⏱️ Complexity
+
+Time: O(n) → Shifting elements.
+Space: O(1) → No extra memory.
+
+4. Remove from Middle
+
+✨ Flashcard
+"Shift left → clear last slot → decrement length."
+
+⚡ Full Approach
+Steps:
+
+Start from i+1 to the end (length - 1).
+Shift elements one step to the left (arr[index-1] = arr[index]).
+Reset last slot (arr[length-1] = 0).
+Return updated length (length - 1).
+
+⏱️ Complexity
+
+Time: O(n) → Shifting elements.
+Space: O(1) → No extra memory.
+
+5. Print Array
+
+✨ Flashcard
+"Loop from 0 → capacity → print each value."
+
+⚡ Full Approach
+Steps:
+
+Loop through 0 to capacity-1.
+Print each arr[i].
+
+⏱️ Complexity
+
+Time: O(n) → Iterate through array.
+
+Space: O(1) → No extra memory.
+
+👉 Type: Stack (Dynamic Array)
+
+1. Push (Insert at Top)
+
+✨ Flashcard
+"Append to list → top grows upward."
+
+⚡ Full Approach
+Steps:
+
+Call append(n) to add element at the end of the list.
+The new element becomes the top of the stack.
+
+⏱️ Complexity
+
+Time: O(1) → Direct append.
+Space: O(1) → No extra memory (except element storage).
+
+2. Pop (Remove from Top)
+
+✨ Flashcard
+"Pop last → return top element."
+
+⚡ Full Approach
+Steps:
+
+Call pop() to remove the last element.
+Return the removed element (the previous top).
+
+⏱️ Complexity
+
+Time: O(1) → Direct pop from end.
+Space: O(1) → No extra memory.
+
+👉 Type: Singly Linked List
+
+1. Insert Node at End
+
+✨ Flashcard
+"Create new_node → link tail.next → move tail."
+
+⚡ Full Approach
+Steps:
+
+Create a new node (new_node = ListNode(val)).
+Link the current tail node to the new node (self.tail.next = new_node).
+Move self.tail to point to the new node (self.tail = new_node).
+
+⏱️ Complexity
+
+Time: O(1) → Direct tail reference.
+Space: O(1) → No extra memory.
+
+2. Remove Node at Given Index
+
+✨ Flashcard
+"Traverse to node before target → skip target → update tail if last node removed."
+
+⚡ Full Approach
+Steps:
+
+Start from the dummy head node (curr = self.head).
+Use a for loop to move curr forward index times.
+If curr.next is None, index is out of range → exit function.
+
+Once at the node before the target, update link:
+curr.next = curr.next.next
+
+If we removed the last node, update:
+self.tail = curr
+
+⏱️ Complexity
+
+Time: O(n) → Traverses up to index.
+Space: O(1) → In-place modification.
