@@ -214,3 +214,27 @@ Return the new_head from recursive calls (this will be the last node of the orig
 
 Time: O(n) → every node is visited once.
 Space: O(n) → recursion stack stores n calls.
+
+
+2. Merge Two Sorted Lists (LeetCode 21) – Iterative Approach
+
+list1: 1 -> 2 -> 4    list2: 1 -> 3 -> 4    merged_list: 1 -> 1 -> 2 -> 3 -> 4 -> 4
+
+✨ Flashcard:
+"Use a dummy node. Compare heads, link smaller node, move pointer. Finally, return dummy.next."
+
+⚡ Full Approach:
+
+Create a dummy node and a curr pointer (to build the merged list).
+Loop while both list1 and list2 are not empty:
+Compare list1.val and list2.val.
+Link curr.next to the smaller node.
+Move the pointer (list1 or list2) forward.
+Move curr forward to keep building the list.
+Attach the remaining part of the non-empty list (if any).
+Return dummy.next as the head of the merged sorted list.
+
+⏱️ Complexity
+
+Time: O(n + m) — each node of both lists is visited exactly once.
+Space: O(1) — only a few pointers (dummy, curr, list1, list2) are used.
