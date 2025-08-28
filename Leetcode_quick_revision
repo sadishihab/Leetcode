@@ -238,3 +238,27 @@ Return dummy.next as the head of the merged sorted list.
 
 Time: O(n + m) — each node of both lists is visited exactly once.
 Space: O(1) — only a few pointers (dummy, curr, list1, list2) are used.
+
+🔄 Recursive approach:
+
+✨ Flashcard:
+“Compare heads recursively. Smaller node points to merged of the rest. Return the smaller node as head.”
+
+⚡ Full Approach:
+
+Base case:
+
+If list1 is None, return list2.
+If list2 is None, return list1.
+
+Recursive case:
+
+Compare list1.val and list2.val.
+The smaller node becomes the current head.
+Recursively merge the rest of the lists and assign it to head.next.
+Return the current head as the merged list.
+
+⏱️ Complexity
+
+Time: O(n + m) — each node is visited exactly once.
+Space: O(n + m) — due to recursion stack (one call per node).
