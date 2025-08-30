@@ -262,3 +262,117 @@ Return the current head as the merged list.
 
 Time: O(n + m) — each node is visited exactly once.
 Space: O(n + m) — due to recursion stack (one call per node).
+
+👉 Problem type: Doubly Linked List
+1. Design Linked List (LeetCode 707)
+
+1️⃣ Insert at Head (addAtHead)
+
+✨ Flashcard
+“Create a new node. Link between head and first real node. Increment size.”
+
+⚡ Full Approach
+
+Create new_node with value val.
+Set new_node.prev = head.
+Set new_node.next = head.next (old first node).
+Update old first node’s prev = new_node.
+Update head.next = new_node.
+Increment size.
+
+⏱️ Complexity
+
+Time: O(1) — constant pointer updates
+Space: O(1) — no extra memory
+
+2️⃣ Insert at Tail (addAtTail)
+
+✨ Flashcard
+“Create a new node. Link between last real node and tail. Increment size.”
+
+⚡ Full Approach
+
+Create new_node with value val.
+Set new_node.next = tail.
+Set new_node.prev = tail.prev (old last node).
+Update old last node’s next = new_node.
+Update tail.prev = new_node.
+Increment size.
+
+⏱️ Complexity
+
+Time: O(1)
+Space: O(1)
+
+3️⃣ Get Value at Index (get)
+
+✨ Flashcard
+“Use _getNode to find node. Return its value. If invalid index, return -1.”
+
+⚡ Full Approach
+
+If index < 0 or index >= size, return -1.
+Call _getNode(index) → traverse from head or tail depending on index.
+Return curr.val.
+
+⏱️ Complexity
+
+Time: O(n/2) average → optimized bidirectional traversal
+Space: O(1)
+
+4️⃣ Insert at Index (addAtIndex)
+
+✨ Flashcard
+“Use _getNode to find node at index. Link new node between prev and curr. Increment size.”
+
+⚡ Full Approach
+
+If index < 0 or index > size, return.
+If index == size, call addAtTail(val).
+Get curr = _getNode(index).
+Create new_node with value val.
+Set new_node.next = curr.
+Set new_node.prev = curr.prev.
+Update curr.prev.next = new_node.
+Update curr.prev = new_node.
+Increment size.
+
+⏱️ Complexity
+
+Time: O(n/2) average
+Space: O(1)
+
+5️⃣ Delete at Index (deleteAtIndex)
+
+✨ Flashcard
+“Use _getNode → bypass node to remove it. Decrement size.”
+
+⚡ Full Approach
+
+If index < 0 or index >= size, return.
+Get curr = _getNode(index).
+Update curr.prev.next = curr.next.
+Update curr.next.prev = curr.prev.
+Decrement size.
+
+⏱️ Complexity
+
+Time: O(n/2) average
+Space: O(1)
+
+6️⃣ Get Node (_getNode)
+
+✨ Flashcard
+“If index < size//2 → traverse from head, else from tail.”
+
+⚡ Full Approach
+
+If index < size // 2, start from head.next and move index steps forward.
+Else, start from tail.prev and move size - index - 1 steps backward.
+Return the node.
+
+⏱️ Complexity
+
+Time: O(n/2) average
+Space: O(1)
+
