@@ -376,3 +376,38 @@ Return the node.
 Time: O(n/2) average
 Space: O(1)
 
+2. Design Browser History (LeetCode 1472)
+
+✨ Flashcard:
+“Use doubly linked list. visit clears forward nodes, back & forward iterate limited steps.”
+
+⚡ Full Approach:
+
+Node Structure: Each page is a ListNode with val, prev, and next.
+Initialization: curr points to the homepage node.
+
+Visit(url):
+Clear forward history by setting curr.next = None.
+Create a new node with url.
+Link new_node.prev = curr and curr.next = new_node.
+Move curr to the new node.
+
+Back(steps):
+While steps > 0 and curr.prev exists: move curr = curr.prev, decrement steps.
+Return curr.val.
+
+Forward(steps):
+While steps > 0 and curr.next exists: move curr = curr.next, decrement steps.
+Return curr.val.
+
+⏱️ Complexity:
+
+visit: O(1) → direct pointer update
+back: O(steps) → iterate at most steps nodes
+forward: O(steps) → iterate at most steps nodes
+
+Space: O(n) → one node per visited page
+
+Optimized Note:
+For instant back/forward, you can store history in a list instead of a linked list → O(1) for back and forward
+
