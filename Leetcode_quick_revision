@@ -411,3 +411,28 @@ Space: O(n) → one node per visited page
 Optimized Note:
 For instant back/forward, you can store history in a list instead of a linked list → O(1) for back and forward
 
+👉 Problem type: Queue
+
+1. Number of Students Unable to Eat Lunch (LeetCode 1700)
+
+The core idea of the algorithm:
+At each step, the top sandwich must be taken for the process to continue.
+If no student in the queue wants that sandwich, it will stay there forever.
+As a result, the queue will just keep rotating endlessly, and no more sandwiches can be served.
+
+✨ Flashcard:
+“Count preferences → process stack until stuck → remaining count = unable students.”
+
+⚡ Full Approach:
+
+Count how many students want 0 and 1.
+Loop through the sandwich stack:
+If top sandwich matches a preference, decrement that count.
+If no one wants that sandwich, break — queue is stuck.
+Return the sum of remaining 0s and 1s as students unable to eat.
+
+⏱️ Complexity
+
+Time: O(n) → one pass to count, one pass to process stack
+Space: O(1) → only counters used, in-place calculation
+
