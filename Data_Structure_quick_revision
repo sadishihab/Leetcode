@@ -268,3 +268,43 @@ Print each node’s value until reaching tail.
 
 Time: O(n) → Must traverse all nodes.
 Space: O(1) → No extra memory.
+
+🔹 When to use deque vs list?
+Use deque when you need fast appends/pops from both ends (O(1) time).
+Use list when you need fast random access (indexing, slicing).
+👉 Type: Queue (Linked List with Dummy Node)
+
+1. Enqueue (Insert at Tail)
+
+✨ Flashcard
+"Create a new node → attach to tail.next → move tail pointer."
+
+⚡ Full Approach
+Steps:
+Create a new node with the given value.
+Link the current tail.next to this new node.
+Update tail to point to the new node.
+
+⏱️ Complexity
+
+Time: O(1) → Constant-time insertion at the end.
+Space: O(1) → No extra memory besides the new node.
+
+2. Dequeue (Remove from Head)
+
+✨ Flashcard
+"Take value from head.next → move head.next forward → reset tail if empty."
+
+⚡ Full Approach
+
+Steps:
+If head.next is None, the queue is empty → return None.
+Store the value from head.next.val.
+Update head.next to skip the removed node (head.next.next).
+If the queue is now empty, reset tail = head.
+Return the stored value.
+
+⏱️ Complexity
+
+Time: O(1) → Constant-time removal from the front.
+Space: O(1) → No extra memory.

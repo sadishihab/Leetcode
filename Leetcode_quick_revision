@@ -436,3 +436,42 @@ Return the sum of remaining 0s and 1s as students unable to eat.
 Time: O(n) → one pass to count, one pass to process stack
 Space: O(1) → only counters used, in-place calculation
 
+2. Implement Stack Using Two Queues (LIFO) (LeetCode 225)
+
+The core idea of the algorithm:
+We simulate a stack (LIFO) using two queues (FIFO).
+Always keep the newest element at the front of q1.
+To do this, during push, we insert the new element into q2 and move all elements from q1 to q2, then swap queues.
+pop and top then simply operate on the front of q1.
+
+✨ Flashcard:
+“Push to q2 → move q1 to q2 → swap → pop/top from q1 front.”
+
+⚡ Full Approach:
+Initialize:
+q1 = main queue holding stack elements.
+q2 = temporary queue.
+
+Push(x):
+Append x to q2.
+Move all elements from q1 → q2 (so newest is at front).
+Swap q1 and q2 (q1 now has correct order).
+
+Pop():
+Remove and return q1.popleft() (top of stack).
+
+Top():
+Return q1[0] (peek front).
+
+Empty():
+Return not q1 (True if empty, else False).
+
+⏱️ Complexity:
+
+Push: O(n) → move all elements to maintain LIFO order
+Pop: O(1) → remove front
+Top: O(1) → peek front
+Empty: O(1)
+
+
+
