@@ -473,5 +473,33 @@ Pop: O(1) → remove front
 Top: O(1) → peek front
 Empty: O(1)
 
+2-a. Implement Stack Using Single Queue (LeetCode 225):
+
+✨ Flashcard:
+“Append to right → pop from right → peek right → check if empty.”
+
+⚡ Full Approach:
+Initialize:
+q1 = deque() → holds all stack elements.
+
+Push(x):
+Append x to the right end of q1.  → Top of stack is always at the right.
+
+Pop():
+Remove and return the rightmost element (q1.pop()) → top of stack.
+
+Top():
+Peek the rightmost element (q1[-1]) without removing it.
+
+Empty():
+Return not q1 → True if deque is empty, else False
+
+⏱️ Complexity:
+
+Push: O(1) → append to right
+Pop: O(1) → remove rightmost element
+Top: O(1) → peek rightmost element
+Empty: O(1) → check if deque is empty
+
 
 
