@@ -501,5 +501,64 @@ Pop: O(1) → remove rightmost element
 Top: O(1) → peek rightmost element
 Empty: O(1) → check if deque is empty
 
+👉 Problem type: Recursion with memorization
 
+Climbing Stairs (LeetCode 70)
+
+✨ Flashcard:
+“Ways(n) = Ways(n-1) + Ways(n-2) → use memo to avoid recomputation.”
+
+⚡ Full Approach:
+Recurrence Idea:
+To reach step n, you can come from:
+Step n-1 (1 step jump)
+Step n-2 (2 steps jump)
+
+So:
+f(n)=f(n−1)+f(n−2)
+
+Base Cases:
+f(1) = 1 (only one way → single step)
+f(2) = 2 (two ways → 1+1 or 2)
+
+Memoization:
+Store computed results in self.memo dictionary.
+If n already solved, return it directly → avoids repeated recursion.
+
+⏱️ Complexity:
+
+Time: O(n) → each subproblem (n) solved once.
+Space: O(n) → recursion stack + memo dictionary.
+
+🔹 Climbing Stairs (Bottom-Up DP, Iterative)
+
+✨ Flashcard:
+“Use Fibonacci relation → track last two results → shift forward until n.”
+
+⚡ Full Approach:
+Core Idea:
+From the recurrence:
+f(n)=f(n−1)+f(n−2)
+
+We only ever need the last two values (f(n-1) and f(n-2)) to compute the next.
+Instead of recursion, use a loop to build results from bottom up.
+
+Steps:
+
+Handle small cases:
+If n = 1, return 1.
+If n = 2, return 2.
+
+Initialize two variables:
+a = f(1) = 1
+b = f(2) = 2
+
+For each step i from 3 → n:
+Compute new value = a + b (ways for step i).
+Update a = b (shift forward), b = new (latest result).
+After the loop, b holds the number of ways for n
+
+⏱️ Complexity:
+Time: O(n) → single pass loop.
+Space: O(1) → only two variables (a, b).
 

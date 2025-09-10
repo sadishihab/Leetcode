@@ -1,4 +1,4 @@
-#Recursion implementation for factorial
+# Recursion implementation for factorial
 
 def factorial(n):
     if n == 0:                  # Base case
