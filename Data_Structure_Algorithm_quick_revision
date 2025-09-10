@@ -272,6 +272,7 @@ Space: O(1) → No extra memory.
 🔹 When to use deque vs list?
 Use deque when you need fast appends/pops from both ends (O(1) time).
 Use list when you need fast random access (indexing, slicing).
+
 👉 Type: Queue (Linked List with Dummy Node)
 
 1. Enqueue (Insert at Tail)
@@ -308,3 +309,32 @@ Return the stored value.
 
 Time: O(1) → Constant-time removal from the front.
 Space: O(1) → No extra memory.
+
+👉 Type: Sorting Algorithm
+
+1. Insertion Sort
+
+✨ Flashcard:
+"Pick next element → compare with sorted part → shift bigger elements → insert at correct position."
+
+⚡ Full Approach
+Steps:
+Start from the second element (i = 1).
+Compare it with elements before it (j = i-1) in the sorted portion.
+
+While the element at j is greater than current element, shift elements to the right:
+tmp = arr[j+1]
+arr[j+1] = arr[j]
+arr[j] = tmp
+Decrement j until you find the correct position.
+
+Repeat for all elements (i = 1 → len(arr)-1).
+
+Return the sorted array.
+⏱️ Complexity
+
+Time:
+Best: O(n) → already sorted
+Worst: O(n²) → reverse sorted
+Space: O(1) → sorts in place
+Stable: Yes → preserves relative order of equal elements
