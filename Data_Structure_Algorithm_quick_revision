@@ -338,3 +338,101 @@ Best: O(n) → already sorted
 Worst: O(n²) → reverse sorted
 Space: O(1) → sorts in place
 Stable: Yes → preserves relative order of equal elements
+
+👉 Type: In-Place Sorting (Heapsort)
+
+✨ Flashcard:
+"Build max-heap → swap root with end → heapify reduced heap → repeat."
+
+⚡ Full Approach
+Steps:
+Build a max-heap from the array.
+Swap the root (max element) with the last element.
+Reduce heap size by 1 and heapify the root.
+Repeat until the heap size is 1.
+Array becomes sorted in ascending order.
+
+Heapify:
+For a node i, compare with left and right children.
+Swap with the largest child if necessary.
+Continue heapifying down the subtree.
+
+⏱️ Complexity
+
+Time: O(n log n) → building heap + extracting all elements
+Space: O(1) extra → in-place sorting
+Stable: ❌ Heapsort is not stable
+
+👉 Type: In-Place Sorting (QuickSort)
+
+✨ Flashcard:
+"Pick pivot → partition array → recursively sort left and right → done."
+
+⚡ Full Approach
+Steps:
+
+Partition:
+Pick the last element as pivot.
+Rearrange elements so that all smaller elements are on the left, larger on the right.
+Return the pivot index after partitioning.
+
+Recursive Sort:
+Recursively apply QuickSort to left of pivot and right of pivot.
+Base case: if start ≥ end, return.
+
+In-place:
+No extra array needed → minimal space
+Recursion stack uses O(log n) on average.
+
+⏱️ Complexity
+Time: O(n log n)
+Average: O(n log n)
+Worst (already sorted pivot): O(n²)
+
+Space: O(log n) → recursion stack
+Worst-case stack: O(n) → Occurs in worst case pivot choices (highly unbalanced splits).
+Stable: ❌ QuickSort is not stable
+
+👉 Type: Divide & Conquer (MergeSort)
+
+✅ Key Idea
+Divide: split array into smaller halves recursively.
+Conquer: sort the tiny arrays (length 1 is already sorted).
+Combine: merge sorted halves back together.
+
+✨ Flashcard:
+"Divide array → recursively sort halves → merge sorted halves → done."
+
+⚡ Full Approach
+Steps:
+
+Divide:
+Split the array into two halves (midpoint).
+
+Recursive Sort:
+Recursively apply MergeSort on the left half.
+Recursively apply MergeSort on the right half.
+
+Merge:
+Merge two sorted halves into one sorted array.
+Use two pointers to compare elements from each half and build the sorted result.
+
+Base Case:
+If array has 0 or 1 element, return as already sorted.
+
+In-place:
+Standard MergeSort is not in-place because merging requires extra space O(n).
+There are advanced in-place variants, but usually not used due to complexity.
+
+⏱️ Complexity
+Time:
+    Best: O(n log n)
+    Average: O(n log n)
+    Worst: O(n log n)
+Space: O(n) (extra arrays for merging)
+Stable: ✅ MergeSort is stable
+
+✅ Notes:
+Preferred for linked lists (easy to split & merge).
+Consistent O(n log n) time regardless of input order.
+Heavier on memory compared to QuickSort.
