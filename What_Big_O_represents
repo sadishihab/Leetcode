@@ -1,0 +1,81 @@
+👉 What Big-O Represents
+
+Big-O notation describes how an algorithm scales as the input size n grows very large.
+It focuses on the dominant term that grows fastest.
+Constant factors don’t change the growth rate, they only scale the work up or down.
+
+🔹 Example 1: Linear time
+def f1(n):
+    for i in range(n):
+        print(i)
+
+This does n operations → O(n)
+
+def f2(n):
+    for i in range(100*n):
+        print(i)
+
+This does 100*n operations → still O(n)
+
+✅ The 100 is just a constant factor → doesn’t change the growth rate as n → ∞
+
+🔹 Example 2: Quadratic vs Linear
+
+O(n²) vs O(100n) → Even if n is small, O(n²) eventually grows much faster than O(100n).
+That’s why Big-O ignores constants and focuses on the fastest-growing term.
+
+🔹 Intuition
+
+Big-O = “how the runtime grows as n grows very large”
+Constant multipliers only stretch or shrink the runtime, but the shape of growth stays the same.
+
+📌 Analogy:
+
+Think of a race track:
+
+O(n) = straight path
+O(n²) = big hill
+
+Multiplying by 10 is like adding a small slope → doesn’t change that the hill is still steeper than the straight path.
+
+✅ Summary:
+
+Big-O ignores constants because we care about how the algorithm grows with n, not the exact number of operations.
+
+
+👉 Why base of a logarithm does not change the asymptotic complexity
+
+🔹 The Formula:
+
+log_a n = (log_b n) / (log_b a)
+
+a = old base
+b = new base
+n = the number we are taking log of
+
+Meaning: you can convert a logarithm from one base to another by dividing by a constant log_b a.
+
+Step by Step
+
+Suppose we have log base 2 of n (log_2 n).
+Using the formula:
+
+log_2 n = log_10 n / log_10 2
+log_10 2 ≈ 0.301  # constant
+
+So:
+log_2 n ≈ 3.32 * log_10 n                   # just a constant factor
+
+🔹 Why in Big-O it doesn’t matter
+
+Big-O notation ignores constant factors.
+O(3.32 * log_10 n) = O(log n)
+
+Similarly: O(log_2 n) = O(log_10 n) = O(ln n)
+
+✅ So the base of a logarithm does not change the asymptotic complexity.
+
+Intuition
+Whether you halve a list (log_2 n), divide by 10 (log_10 n), or divide by e (ln n), the number of steps grows very slowly compared to n.
+
+The base only changes the scale by a constant, which Big-O ignores.
