@@ -436,3 +436,54 @@ Stable: ✅ MergeSort is stable
 Preferred for linked lists (easy to split & merge).
 Consistent O(n log n) time regardless of input order.
 Heavier on memory compared to QuickSort.
+
+👉 Type: Divide & Conquer (QuickSort)
+
+✅ Key Idea
+
+Divide: pick a pivot and partition array into two groups: smaller than pivot & larger than pivot.
+
+Conquer: recursively sort left and right groups.
+
+Combine: pivot ends up in the right place automatically; nothing to merge.
+
+✨ Flashcard:
+"Pick a pivot → put smaller left, bigger right → recursively sort sides → done."
+
+⚡ Full Approach
+
+Steps:
+Choose Pivot:
+Commonly the last element (arr[end]).
+
+Partition:
+Move all elements < pivot to the left.
+Track index (partition_index) where pivot should finally sit.
+Swap pivot into correct position.
+
+Recursive Sort:
+Recursively call QuickSort on the left side (start to partition_index - 1).
+Recursively call QuickSort on the right side (partition_index + 1 to end).
+
+Base Case:
+If subarray length is 0 or 1, it’s already sorted → stop recursion.
+
+In-place:
+
+✅ QuickSort sorts the array in place (O(1) extra space for swaps, aside from recursion stack).
+
+⚠️ But recursion uses O(log n) space in the average case, O(n) in the worst case.
+
+⏱️ Complexity
+
+Time:
+Best: O(n log n) (perfectly balanced partitions).
+Average: O(n log n).
+Worst: O(n²) (bad pivots, e.g., already sorted array with naive pivot choice).
+Space: O(log n) (recursion stack).
+Stable: ❌ Not stable (relative order of equal elements may change).
+
+✅ Notes:
+Very fast in practice due to good cache behavior & in-place sorting.
+Widely used in standard libraries (with optimizations).
+Picking a good pivot (e.g., random pivot or median-of-three) avoids worst-case.
