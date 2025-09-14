@@ -556,3 +556,46 @@ Stable: ❌ Not stable (equal elements may change order)
 Handles many duplicates efficiently (no TLE).
 Random pivot ensures good average performance.
 In-place sorting → memory-efficient.
+
+👉 Type: Comparison-Based (Bubble Sort)
+
+✅ Key Idea
+Repeatedly compare adjacent elements and swap them if they are in the wrong order.
+With each pass, the largest element bubbles up to the end of the list.
+
+✨ Flashcard:
+"Compare neighbors → swap if out of order → largest element moves to the end each pass → repeat until sorted."
+
+⚡ Full Approach
+
+Steps:
+Outer Loop (i):
+Runs n passes at most.
+After each pass, the last element(s) are in correct position.
+
+Inner Loop (j):
+for j in range(0, n-i-1)
+Compares each pair arr[j] and arr[j+1].
+If arr[j] > arr[j+1], swap them.
+
+Swapped Flag:
+If no swaps occur in a full pass, the array is already sorted → stop early.
+
+Base Case:
+If array length is 0 or 1, it’s already sorted.
+
+⏱️ Complexity
+Time:
+Best: O(n) (already sorted, only one pass).
+Average: O(n²).
+Worst: O(n²).
+
+Space:
+O(1) → in-place sorting.
+
+Stable: ✅ Yes (equal elements keep original order).
+
+✅ Notes:
+Very simple, but inefficient for large arrays.
+Good for teaching, not for production.
+Useful when the array is almost sorted (best case O(n)).
