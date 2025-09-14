@@ -562,3 +562,58 @@ After the loop, b holds the number of ways for n
 Time: O(n) → single pass loop.
 Space: O(1) → only two variables (a, b).
 
+👉 Problem type: Divide & Conquer
+
+Sort an Array (LeetCode 912)
+
+The core idea of the algorithm:
+Pick a random pivot and partition the array into three groups:
+Smaller than pivot
+Equal to pivot
+Larger than pivot
+
+Recursively sort only the smaller and larger groups.
+The middle (equal) group is already in the right position, so no extra merging is needed.
+
+✨ Flashcard:
+“Pick random pivot → smaller left, equal middle, larger right → recursively sort sides → done.”
+
+⚡ Full Approach:
+
+Random Pivot:
+Pick a random index in the current subarray.
+Swap it with the last element for convenience.
+
+3-Way Partitioning:
+
+Use three pointers:
+
+lt → boundary of elements < pivot
+i → current element being checked
+gt → boundary of elements > pivot
+
+Loop while i <= gt:
+
+If nums[i] < pivot → swap with lt, move both lt and i forward.
+If nums[i] > pivot → swap with gt, move gt backward (check new element at i).
+If nums[i] == pivot → just move i forward.
+
+Recursive Sort:
+
+Recursively sort left (start to lt - 1)
+Recursively sort right (gt + 1 to end)
+
+Base Case:
+
+Stop recursion if subarray has 0 or 1 element.
+
+⏱️ Complexity:
+
+Time:
+Average: O(n log n)
+Worst-case: O(n²) (very rare due to random pivot)
+
+Space: O(log n) recursion stack
+
+Stable: ❌ Not stable (equal elements may change order)
+
