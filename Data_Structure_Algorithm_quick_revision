@@ -487,3 +487,72 @@ Stable: ❌ Not stable (relative order of equal elements may change).
 Very fast in practice due to good cache behavior & in-place sorting.
 Widely used in standard libraries (with optimizations).
 Picking a good pivot (e.g., random pivot or median-of-three) avoids worst-case.
+
+👉 Type: Divide & Conquer (3-way QuickSort / Dutch National Flag)
+
+✅ Key Idea
+
+Divide: pick a random pivot and partition array into three groups:
+
+Smaller than pivot
+Equal to pivot
+Larger than pivot
+
+Conquer: recursively sort only the smaller and larger groups.
+
+Combine: the equal-to-pivot block is already in the right place; nothing to merge.
+
+✨ Flashcard:
+"Pick random pivot → smaller left, equal middle, larger right → recursively sort sides → done."
+
+⚡ Full Approach
+
+Steps:
+
+Choose Pivot:
+Pick a random element from the current subarray.
+Swap it with the last element for convenience.
+
+3-Way Partition:
+
+Use three pointers:
+
+lt → boundary of elements < pivot
+i → current element
+gt → boundary of elements > pivot
+
+Scan the array:
+
+If nums[i] < pivot → swap with lt, move both lt and i forward.
+If nums[i] > pivot → swap with gt, move gt backward (check new element at i).
+If nums[i] == pivot → just move i forward.
+
+Recursive Sort:
+
+Recursively sort left section (start to lt-1)
+Recursively sort right section (gt+1 to end)
+
+Base Case:
+
+Stop recursion if subarray has 0 or 1 element.
+
+In-place:
+Sorting happens inside the original array.
+Extra space: O(log n) for recursion stack.
+
+⏱️ Complexity
+
+Time:
+Best: O(n log n) (balanced partitions)
+Average: O(n log n)
+Worst: O(n²) (extremely rare with random pivot)
+
+Space: O(log n) recursion stack
+
+Stable: ❌ Not stable (equal elements may change order)
+
+✅ Notes:
+
+Handles many duplicates efficiently (no TLE).
+Random pivot ensures good average performance.
+In-place sorting → memory-efficient.
