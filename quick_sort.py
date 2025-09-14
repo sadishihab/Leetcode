@@ -1,6 +1,13 @@
+import random
+
+
 def quick_sort(arr, start, end):
     if end - start + 1 <= 1:  # base case
         return
+
+    # pick random pivot, swap it with end
+    pivot_index = random.randint(start, end)
+    arr[pivot_index], arr[end] = arr[end], arr[pivot_index]
 
     pivot = arr[end]
     partition_index = start  # index where pivot will finally go
