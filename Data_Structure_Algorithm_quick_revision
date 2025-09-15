@@ -600,7 +600,7 @@ Very simple, but inefficient for large arrays.
 Good for teaching, not for production.
 Useful when the array is almost sorted (best case O(n)).
 
-👉 Type: Counting-Based (Special Case of Counting Sort)
+👉 Type: Counting-Based (Bucket sort)
 
 ✅ Key Idea
 Count how many times each number appears (0, 1, or 2).
