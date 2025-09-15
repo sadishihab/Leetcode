@@ -599,3 +599,46 @@ Stable: ✅ Yes (equal elements keep original order).
 Very simple, but inefficient for large arrays.
 Good for teaching, not for production.
 Useful when the array is almost sorted (best case O(n)).
+
+👉 Type: Counting-Based (Special Case of Counting Sort)
+
+✅ Key Idea
+Count how many times each number appears (0, 1, or 2).
+Then overwrite the original array by filling in 0s, then 1s, then 2s, according to their counts.
+
+✨ Flashcard:
+"Count frequencies → rewrite array with 0s, then 1s, then 2s → sorted!"
+
+⚡ Full Approach
+
+Steps:
+
+Initialize Counts:
+Create a counter list with three slots for 0, 1, and 2.
+
+Count Elements:
+Traverse the array and record how many times each number occurs.
+
+Example:
+Input → [2, 0, 2, 1, 1, 0]
+Counts → [2, 2, 2] (2 zeros, 2 ones, 2 twos).
+
+Refill Array In-Place:
+Use the counts to rewrite the array: first all 0s, then all 1s, then all 2s.
+
+Return Sorted Array:
+Final result → [0, 0, 1, 1, 2, 2].
+
+⏱️ Complexity
+
+Time: O(n) → one pass to count, one pass to rebuild.
+
+Space: O(1) → only 3 extra counters.
+
+Stable: ✅ Yes (relative order of equal elements doesn’t change because we just group them).
+
+✅ Notes:
+
+More efficient than comparison-based sorts for this restricted case.
+Works only when the array contains 0, 1, and 2.
+A generalized version is Counting Sort, which works for any integer range.
