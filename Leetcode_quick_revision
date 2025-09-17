@@ -617,3 +617,100 @@ Space: O(log n) recursion stack
 
 Stable: ❌ Not stable (equal elements may change order)
 
+👉 Problem type: Divide & Conquer
+ Merge k Sorted Lists (LeetCode 23)
+
+✨ Core Idea
+Use divide & conquer (merge sort style):
+Split the k lists into halves.
+Recursively solve each half.
+Merge the two halves with a helper function that merges two sorted lists.
+
+✨ Flashcard
+
+“Split k lists into halves → recursively solve → merge two sorted lists → repeat until one list remains.”
+
+⚡ Full Approach
+
+1. Base Case:
+If there’s only one list, just return it.
+
+2. Divide:
+Pick the middle index.
+Split the lists into two halves: left and right.
+
+3. Conquer:
+Recursively merge the left half into a single sorted list.
+Recursively merge the right half into a single sorted list.
+
+4. Combine:
+Merge the two sorted linked lists (l1 and l2) into one final sorted list.
+Use a helper (mergeTwoLists) that walks through both lists, attaching the smaller node each time.
+
+5. Finish:
+Continue merging until only one fully sorted list remains.
+
+⏱️ Complexity
+
+Time:
+Each merge of two lists costs O(n) where n = total nodes.
+Divide & conquer merges lists in O(log k) levels.
+Total = O(N log k) (optimal), where N = total number of nodes.
+
+Space:
+Only recursion stack depth → O(log k).
+
+Stable: ✅ Yes (nodes with equal values keep their relative order).
+
+
+👉 Problem type: Divide & Conquer
+Kth Largest Element in an Array (LeetCode 215)
+
+✨ Core Idea
+Use in-place 3-way Quickselect (like quicksort partitioning) to find the kth largest element:
+
+Pick a random pivot.
+Partition the array into three parts: < pivot, = pivot, > pivot.
+Decide which partition contains the kth largest element and recurse only into that part.
+
+✨ Flashcard
+“Pick pivot → partition into <, =, > → recurse into correct partition → repeat until pivot is kth largest.”
+
+⚡ Full Approach
+
+Base Case:
+If the partition has only one element, return it.
+
+Divide:
+Randomly pick a pivot from the current subarray.
+Swap pivot with the last element for convenience.
+
+Conquer (Partition):
+Walk through the subarray with three pointers:
+
+lt → end of < pivot region
+i → current element
+gt → start of > pivot region
+Move elements into < pivot, = pivot, > pivot regions.
+
+Combine (Select the partition):
+Count elements strictly greater than pivot: num_greater = end - gt
+Count elements greater or equal: num_greater_equal = end - lt + 1
+If k <= num_greater, recurse into > pivot region.
+If k <= num_greater_equal, pivot is the answer.
+Otherwise, recurse into < pivot region adjusting k accordingly.
+
+Finish:
+Continue recursively until the kth largest element is found.
+
+⏱️ Complexity
+
+Time:
+
+Average: O(n) → each partition step scans the subarray once.
+Worst-case: O(n²) → occurs if pivot selections are extremely unbalanced.
+
+Space:
+
+Only recursion stack → O(log n) on average.
+Stable: ❌ (partitioning swaps elements, so relative order may change).
