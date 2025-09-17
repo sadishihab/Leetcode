@@ -664,7 +664,7 @@ Stable: ✅ Yes (nodes with equal values keep their relative order).
 
 
 👉 Problem type: Divide & Conquer
-Kth Largest Element in an Array (LeetCode 215)
+Kth Largest Element in an Array (LeetCode 215) using "Quick-Select"
 
 ✨ Core Idea
 Use in-place 3-way Quickselect (like quicksort partitioning) to find the kth largest element:
@@ -714,3 +714,35 @@ Space:
 
 Only recursion stack → O(log n) on average.
 Stable: ❌ (partitioning swaps elements, so relative order may change).
+
+
+👉 Problem type: Heap / Priority Queue
+Kth Largest Element in an Array (LeetCode 215) using Min-Heap
+
+✨ Core Idea
+Maintain a min-heap of size k. Push elements one by one, and whenever the heap exceeds size k, remove the smallest. After processing all elements, the heap contains the k largest elements, and the smallest in the heap is the kth largest.
+
+✨ Flashcard
+“Maintain a min-heap of size k → push elements → pop if heap exceeds k → kth largest = root of heap.”
+
+⚡ Full Approach
+
+Initialize:
+Start with an empty min-heap.
+Iterate through the array:
+Push each number into the heap.
+If heap size > k → pop the smallest element.
+
+Finish:
+After all numbers are processed, the heap has exactly k largest elements.
+Return the root of the heap → min_heap[0] → kth largest element.
+
+⏱️ Complexity
+
+Time:
+O(n log k) → each push/pop is log k, done n times.
+
+Space:
+O(k) → heap stores k elements only.
+
+Stable: ❌ (heap does not maintain relative order).
