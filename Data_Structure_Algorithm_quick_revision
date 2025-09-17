@@ -741,3 +741,52 @@ Space:
 O(n) → stores all elements
 
 Stable: ❌ (heap order is not stable, only heap property is guaranteed)
+
+👉 Type: Divide & Conquer (Binary Search)
+
+✅ Key Idea
+Keep halving the search range until the target is found (or range becomes empty).
+
+At each step, check the middle element:
+If target == middle → found.
+If target < middle → discard right half.
+If target > middle → discard left half.
+
+✨ Flashcard:
+"Look at the middle → equal? done. smaller? go left. larger? go right → repeat until found or empty."
+
+⚡ Full Approach
+
+Steps:
+Initialize:
+left = 0, right = len(arr) - 1 (full range).
+While left <= right:
+Compute middle: mid = (left + right) // 2.
+Compare arr[mid] with target:
+If target > arr[mid] → search right half (left = mid + 1).
+If target < arr[mid] → search left half (right = mid - 1).
+Else return mid (found).
+If loop ends without finding, return -1.
+
+Base Case:
+If array length is 0 → return -1 immediately.
+
+⏱️ Complexity
+
+Time:
+
+Best: O(1) (target is at the middle on first check).
+Average: O(log n).
+Worst: O(log n).
+
+Space:
+O(1) → iterative implementation.
+
+Stable:
+Not applicable (search algorithm, not sorting).
+
+✅ Notes:
+
+Works only on sorted arrays.
+Extremely efficient compared to linear search.
+Commonly used in interviews and competitive programming.
