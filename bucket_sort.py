@@ -1,23 +1,28 @@
-def bucketSort(arr):
-    # Assuming arr only contains 0, 1 or 2
-    counts = [0, 0, 0]
+#implementation using less code, more pythonic
 
-    # Count the quantity of each val in arr
-    for n in arr:
-        counts[n] += 1
+def bucket_sort(arr):
 
-    # Fill each bucket in the original array
-    i = 0
-    for n in range(len(counts)):
-        for j in range(counts[n]):
-            arr[i] = n
-            i += 1
-    return arr
+    counts = [arr.count(0), arr.count(1), arr.count(2)]                      # Count 0s, 1s, and 2s
+    return [0] * counts[0] + [1] * counts[1] + [2] * counts[2]               # Build sorted array directly
 
-# implementation using less code, more pythonic
-# def bucket_sort(arr):
-#     # Count 0s, 1s, and 2s
-#     counts = [arr.count(0), arr.count(1), arr.count(2)]
+
+
+
+
+# detail Code:
+  
+# def bucketSort(arr):
+#     counts = [0, 0, 0]                                              # Assuming arr only contains 0, 1 or 2
+#     for n in arr:                                                   # Count the quantity of each val in arr
+#         counts[n] += 1
+#     i = 0                                                           # Fill each bucket in the original array
+#     for n in range(len(counts)):
+#         for _ in range(counts[n]):
+#             arr[i] = n
+#             i += 1
+#     return arr
 #
-#     # Build sorted array directly
-#     return [0] * counts[0] + [1] * counts[1] + [2] * counts[2]
+# arr = [2,0,2,1,1,0]
+# print(bucketSort(arr))
+
+
