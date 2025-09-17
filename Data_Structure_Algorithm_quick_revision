@@ -692,3 +692,52 @@ Stable: ❌ No (relative order of equal elements may change due to swaps).
 Works on any data range, not just limited integers.
 Useful when in-place sorting with guaranteed O(n log n) is needed.
 Not as cache-friendly as merge sort or quicksort in practice, but great for worst-case guarantees.
+
+👉 type: Min-Heap python
+Understanding Python Min-Heap with heapq
+
+✨ Core Idea
+Python’s heapq module implements a min-heap, where the smallest element is always at the root.
+
+heappush → inserts an element while maintaining heap property. After each push, the heap rearranges itself so the smallest element is at the root.
+heappop → removes the smallest element (root). Heap automatically reorders → new root = next smallest
+Accessing heap[0] → always gives the smallest element.
+
+Check root:
+h[0] → smallest element in the heap.
+
+⏱️ Complexity
+
+Time:
+heappush → O(log n)
+heappop → O(log n)
+
+Space:
+O(n) → stores all elements
+
+Stable: ❌ (heap order is not stable, only heap property is guaranteed)
+
+👉 type: Max-Heap python
+Understanding Python Max-Heap with heapq (using negation)
+
+✨ Core Idea
+Python’s heapq module only provides a min-heap, but we can simulate a max-heap by pushing negative values:
+
+heappush → inserts an element while maintaining heap property. Push negative values so the largest original number becomes the smallest in the heap.
+heappop → removes the smallest element (which corresponds to the largest original number).
+Accessing heap[0] → gives the largest original element when negated.
+
+Check root:
+-x[0]  # largest element
+
+⏱️ Complexity
+
+Time:
+
+heappush → O(log n)
+heappop → O(log n)
+
+Space:
+O(n) → stores all elements
+
+Stable: ❌ (heap order is not stable, only heap property is guaranteed)
