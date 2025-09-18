@@ -749,3 +749,46 @@ Stable: ❌ (heap does not maintain relative order).
 
 👉 Problem: Leet code 704 - binary search
 This is simple binary search
+
+👉 Problem: (Leetcode 74, Binary Search in 2D Matrix)
+
+✅ Key Idea
+The given matrix is “flattened sorted”:
+
+Each row is sorted.
+First element of a row > last element of the previous row.
+
+So if you read the matrix row by row, it’s equivalent to a 1D sorted array of length m * n.
+That means we can apply binary search directly on this “virtual” 1D array.
+
+✨ Flashcard
+"Flatten 2D → pretend it’s 1D → binary search with index mapping (row = mid // n, col = mid % n)."
+
+⚡ Full Approach
+
+Matrix size:
+Rows = m
+Cols = n
+Total elements = m * n.
+
+Binary Search:
+Search range: left = 0, right = m * n - 1.
+
+Midpoint: mid = (left + right) // 2.
+
+Index Mapping:
+Convert 1D mid index to 2D (row, col) using:
+row = mid // n
+col = mid % n
+
+Check:
+
+If matrix[row][col] == target → return True.
+If matrix[row][col] < target → search right half.
+Else → search left half.
+If loop ends, return False.
+
+⏱️ Complexity
+
+Time: O(log(m * n)) (binary search on all elements).
+Space: O(1) (only a few variables).
