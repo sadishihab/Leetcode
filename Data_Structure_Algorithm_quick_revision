@@ -875,3 +875,49 @@ Space: O(1) → iterative
 Useful when you don’t know the exact target but have a monotonic condition (is_correct(n) increases/decreases).
 Very common in search problems in interviews (e.g., min/max problems, thresholds, or finding boundaries).
 
+👉 Type: Divide & Conquer (Binary Search on Tree)
+
+✅ Key Idea
+Use the BST property (left < root < right) to decide where to search.
+At each step:
+If target > root.val → move right.
+If target < root.val → move left.
+If target == root.val → found, return True.
+If root is None → reached an empty subtree, return False.
+
+✨ Flashcard
+"Check node → target bigger? go right → target smaller? go left → equal? found → None? not found."
+
+⚡ Full Approach
+
+Initialize:
+Start from the root node.
+
+Recursive Steps:
+If root is None → return False (empty tree).
+
+Compare target with root.val:
+If target > root.val → search in right subtree.
+If target < root.val → search in left subtree.
+If target == root.val → return True.
+
+Finish:
+If recursion hits a None node → return False.
+Otherwise, return True when found.
+
+⏱️ Complexity
+
+Time: O(h) → where h = height of the tree.
+Worst case (unbalanced tree): O(n).
+Best case (balanced tree): O(log n).
+
+Space: O(h) → due to recursion stack (same worst/best cases).
+
+✅ Notes:
+
+This is the tree-version of binary search.
+
+Can also be implemented iteratively to save recursion stack space.
+
+Works only because it’s a Binary Search Tree (BST), not just any binary tree.
+
