@@ -746,3 +746,6 @@ Space:
 O(k) → heap stores k elements only.
 
 Stable: ❌ (heap does not maintain relative order).
+
+👉 Problem: Leet code 704 - binary search
+This is simple binary search
