@@ -830,8 +830,48 @@ Worst: O(log n).
 Space:
 O(log n) (recursion stack).
 
-
 ✅ Notes:
-
 Works only on sorted arrays.
 Recursive approach is clean & elegant, but iterative version is more memory-efficient.
+
+👉 Type: Divide & Conquer (Binary Search on Condition)
+
+✅ Key Idea
+Instead of searching for an exact value in an array, we search for a number in a range that satisfies a given condition (is_correct(n) == 0).
+At each step:
+
+If is_correct(mid) > 0 → current mid is too big, move left.
+If is_correct(mid) < 0 → current mid is too small, move right.
+If is_correct(mid) == 0 → condition satisfied → return mid.
+
+✨ Flashcard
+"Check middle → condition >0? go left → condition <0? go right → condition ==0? done → repeat until found or range empty."
+
+⚡ Full Approach
+
+Initialize:
+left = start of range
+right = end of range
+Loop:
+While left <= right:
+Compute middle: mid = (left + right) // 2
+Evaluate condition: result = is_correct(mid)
+
+Move range based on result:
+
+result > 0 → too big → right = mid - 1
+result < 0 → too small → left = mid + 1
+result == 0 → target found → return mid
+
+Finish:
+
+If no value satisfies the condition → return -1
+
+⏱️ Complexity
+Time: O(log(range)) → range halves each step
+Space: O(1) → iterative
+
+✅ Notes:
+Useful when you don’t know the exact target but have a monotonic condition (is_correct(n) increases/decreases).
+Very common in search problems in interviews (e.g., min/max problems, thresholds, or finding boundaries).
+
