@@ -790,3 +790,48 @@ Not applicable (search algorithm, not sorting).
 Works only on sorted arrays.
 Extremely efficient compared to linear search.
 Commonly used in interviews and competitive programming.
+
+👉 (Binary Search – Recursive)
+
+✅ Key Idea
+Recursively halve the search range until the target is found (or range becomes empty).
+
+At each step:
+If target == middle → found.
+If target < middle → search left half.
+If target > middle → search right half.
+
+✨ Flashcard:
+"Check the middle → equal? return index. smaller? search left. larger? search right → recurse until found or empty."
+
+⚡ Full Approach
+
+Steps:
+Initialize: call recursive function with full range left=0, right=len(arr)-1.
+
+Base Case:
+If left > right, the search range is invalid → return -1.
+
+Recursive Step:
+Compute mid = (left + right) // 2.
+If arr[mid] == target → return mid.
+If target > arr[mid] → recurse into right half: binary_search_recursive(arr, target, mid+1, right).
+If target < arr[mid] → recurse into left half: binary_search_recursive(arr, target, left, mid-1).
+
+Finish: When recursion finds the element, it bubbles back with the index, else ends with -1.
+
+⏱️ Complexity
+
+Time:
+Best: O(1) → target at middle initially.
+Average: O(log n).
+Worst: O(log n).
+
+Space:
+O(log n) (recursion stack).
+
+
+✅ Notes:
+
+Works only on sorted arrays.
+Recursive approach is clean & elegant, but iterative version is more memory-efficient.
