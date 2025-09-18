@@ -7,7 +7,7 @@ class Solution(object):
 
          while left <= right:
              mid = (left + right) // 2
-             row, col = mid // n, mid % n
+             row, col = mid // n, mid % n           # getting the row and column number of the element
              mid_val = matrix[row][col]
              if target == mid_val:
                  return True
