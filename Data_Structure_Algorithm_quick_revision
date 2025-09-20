@@ -916,8 +916,74 @@ Space: O(h) → due to recursion stack (same worst/best cases).
 ✅ Notes:
 
 This is the tree-version of binary search.
-
 Can also be implemented iteratively to save recursion stack space.
-
 Works only because it’s a Binary Search Tree (BST), not just any binary tree.
 
+
+👉 Type: Divide & Conquer (Binary Search on Tree + Node Replacement)
+
+✅ Key Idea
+Use the BST property (left < root < right) to guide insertion, search, and deletion.
+For removal, handle 3 cases:
+
+Node has no child → just remove.
+Node has one child → replace node with that child.
+Node has two children → replace node with inorder successor (smallest value in right subtree), then remove successor.
+Inorder traversal ensures values come out sorted.
+
+✨ Flashcard
+"Insert → left if smaller, right if bigger.
+Remove → leaf? cut it. one child? link child. two children? swap with inorder successor → delete successor."
+
+⚡ Full Approach
+
+Insert:
+If tree is empty → create new node.
+If val < root.val → insert left.
+If val > root.val → insert right.
+Return updated root.
+
+Remove:
+If tree is empty → return None.
+Search for node (go left or right using BST property).
+
+When found:
+No child → return None.
+One child → return that child.
+
+Two children →
+Find min node in right subtree (min_value_node).
+Replace current node value with it.
+Recursively delete that min node from right subtree.
+
+Inorder Traversal:
+Traverse left subtree.
+Visit root.
+Traverse right subtree.
+➡️ Produces sorted order of BST values.
+
+⏱️ Complexity
+
+Insert:
+Time → O(h)
+Space → O(h) recursion stack
+
+Remove:
+Time → O(h) (finding node + possible inorder successor)
+Space → O(h) recursion stack
+
+Inorder Traversal:
+Time → O(n) (visits every node once)
+Space → O(h) recursion depth
+
+h = height of tree
+
+Worst case (unbalanced, like a linked list): O(n)
+
+Best case (balanced): O(log n)
+
+✅ Notes
+
+This is the classic BST delete algorithm.
+inorder_traversal is a good test: after every insertion/deletion, it prints nodes in sorted order.
+For balanced performance, a self-balancing BST (AVL, Red-Black Tree) is preferred.
