@@ -987,3 +987,63 @@ Best case (balanced): O(log n)
 This is the classic BST delete algorithm.
 inorder_traversal is a good test: after every insertion/deletion, it prints nodes in sorted order.
 For balanced performance, a self-balancing BST (AVL, Red-Black Tree) is preferred.
+
+👉 Type: Divide & Conquer (Tree Traversals - DFS)
+
+✅ Key Idea
+Traversal means visiting all nodes in a specific order.
+
+Inorder (L → Root → R): Sorted order in BST.
+Preorder (Root → L → R): Root first → useful for copying/serializing tree.
+Postorder (L → R → Root): Root last → useful for deleting/freeing tree.
+Reverse Inorder (R → Root → L): Largest first → descending order in BST.
+
+✨ Flashcard
+"Inorder = Sorted BST.
+Preorder = Root first.
+Postorder = Root last.
+Reverse Inorder = Largest first."
+
+⚡ Full Approach
+
+1. Inorder Traversal
+
+Traverse left subtree.
+Visit root.
+Traverse right subtree.
+➡️ Gives ascending order in BST.
+
+2. Preorder Traversal
+
+Visit root.
+Traverse left subtree.
+Traverse right subtree.
+➡️ Root comes first (good for building/serializing).
+
+3. Postorder Traversal
+
+Traverse left subtree.
+Traverse right subtree.
+Visit root.
+➡️ Root comes last (good for deletion).
+
+4. Reverse Inorder Traversal
+
+Traverse right subtree.
+Visit root.
+Traverse left subtree.
+➡️ Gives descending order in BST.
+
+⏱️ Complexity (for all 4 traversals)
+
+Time: O(n) → Each node visited once.
+Space: O(h) recursion depth (stack).
+Worst case (unbalanced): O(n).
+Best case (balanced): O(log n).
+
+✅ Notes
+
+Inorder = useful for sorted output.
+Preorder = useful for building/serializing trees.
+Postorder = useful for freeing/deleting trees.
+Reverse Inorder = useful for descending order or finding largest k elements.
