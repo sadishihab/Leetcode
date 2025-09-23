@@ -829,3 +829,6 @@ Space: O(1) (iterative, no recursion stack).
 
 A recursive version works identically but uses O(h) space.
 This only works for BSTs, not for arbitrary binary trees.
+
+👉 Problem: (Leetcode 701)
+Simple insertion in a binary search tree
