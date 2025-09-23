@@ -832,3 +832,6 @@ This only works for BSTs, not for arbitrary binary trees.
 
 👉 Problem: (Leetcode 701)
 Simple insertion in a binary search tree
+
+👉 Problem: (Leetcode 450)
+Simple deletion in a binary search tree
