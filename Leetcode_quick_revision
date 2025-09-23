@@ -792,3 +792,6 @@ If loop ends, return False.
 
 Time: O(log(m * n)) (binary search on all elements).
 Space: O(1) (only a few variables).
+
+👉 Problem: (Leetcode 700)
+Simple implementation of binary search tree. 
