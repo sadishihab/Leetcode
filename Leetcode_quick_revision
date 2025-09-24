@@ -841,3 +841,108 @@ Simple inorder traversal
 
 👉 Problem: Kth Smallest Element in a BST (Leetcode 230)
 Simple inorder traversal to sort, then return kth element
+
+👉 Why can we rebuild the original tree?
+
+Because preorder and inorder together give us two key things:
+
+1️⃣ Preorder → tells us who the root is
+In preorder traversal, the very first element is always the root.
+
+Example:
+preorder = [3, 9, 20, 15, 7]
+→ Root = 3
+
+2️⃣ Inorder → tells us where the root splits left vs right
+
+In inorder traversal, everything before the root is the left subtree, and everything after the root is the right subtree.
+
+Example:
+inorder = [9, 3, 15, 20, 7]
+             ↑
+           root = 3
+
+Left subtree = [9]
+Right subtree = [15, 20, 7]
+
+3️⃣ Repeat this process (recursion)
+
+Take next root from preorder.
+Use inorder to split it into left and right.
+Keep repeating until you’ve placed all nodes.
+
+Easy Analogy 🌳
+
+Think of preorder as:
+“Which node to build first, second, third…”
+
+And inorder as:
+“Where to attach nodes: left or right of the parent.”
+
+🔑 Example Quick Build
+Preorder: [3, 9, 20, 15, 7]
+Inorder:  [9, 3, 15, 20, 7]
+
+
+Root = 3 (from preorder).
+Split inorder → left = [9], right = [15,20,7].
+
+Next root = 9 (from preorder).
+In inorder [9] → left and right are empty → just a leaf.
+
+Next root = 20.
+In inorder [15,20,7] → left = [15], right = [7].
+
+Next root = 15 → leaf.
+
+Next root = 7 → leaf.
+
+✅ That’s why we can exactly reconstruct the tree.
+
+
+👉 Problem: Build Binary Tree from Preorder and Inorder (Leetcode 105)
+
+✅ Key Idea
+
+Preorder gives the root first.
+Inorder tells us how to split the tree into left and right subtrees.
+Recursively apply the same idea to build subtrees.
+
+✨ Flashcard
+"Preorder → pick root. Inorder → split left/right. Recurse."
+
+⚡ Full Approach
+
+Base Case:
+
+If preorder or inorder is empty → return None.
+
+Pick Root:
+
+root_val = preorder[0] → first element in preorder is the root.
+Create root = TreeNode(root_val).
+
+Find Root Index in Inorder:
+mid = inorder.index(root_val)
+
+Everything before mid → left subtree.
+Everything after mid → right subtree.
+Build Subtrees Recursively:
+
+Left: preorder[1:mid+1], inorder[:mid]
+Right: preorder[mid+1:], inorder[mid+1:]
+
+Return Root:
+
+root now has left and right children attached.
+
+⏱️ Complexity
+
+Time: O(n²) → index() search at each recursive call.
+Space: O(n) → recursion stack and new slices.
+
+✅ Notes
+
+Using a hashmap to store inorder indices can reduce time to O(n).
+Works only if all node values are unique.
+This approach reconstructs the original tree exactly.
