@@ -1047,3 +1047,102 @@ Inorder = useful for sorted output.
 Preorder = useful for building/serializing trees.
 Postorder = useful for freeing/deleting trees.
 Reverse Inorder = useful for descending order or finding largest k elements.
+
+👉 Type: Tree Traversal – BFS (Level Order Traversal)
+
+✅ Key Idea
+BFS visits nodes level by level from top to bottom, left to right.
+It uses a queue to keep track of nodes at the current level while adding their children for the next level.
+
+✨ Flashcard
+"BFS = Level Order.
+Use queue.
+Process all nodes at one level before moving to the next."
+
+⚡ Full Approach
+
+Start with the root.
+If root exists, push it into the queue.
+
+While the queue is not empty:
+Count current queue size → this represents all nodes at the current level.
+
+Process each node (pop from queue, print value).
+Push children (left first, then right) into the queue.
+
+After finishing one level, increase the level counter.
+
+➡️ This ensures nodes are printed level by level.
+
+⏱️ Complexity
+
+Time: O(n) → Every node is visited once.
+Space: O(w) → where w = max width of tree (worst case O(n) if tree is very wide).
+
+✅ Notes
+
+BFS is best when you want the shortest path, or to process nodes level by level.
+DFS (inorder, preorder, postorder) goes deep before wide, but BFS goes wide before deep.
+Commonly used in shortest path algorithms, network spread problems, or level order printing of trees.
+
+✅ Example Tree
+        1
+       / \
+      2   3
+     / \   \
+    4   5   6
+
+🔎 BFS Execution
+
+Step 1: Start with root → queue = [1]
+
+level = 0
+Process node 1
+Print 1
+
+Add 2 and 3 → queue = [2, 3]
+
+👉 Output:
+level: 0
+1
+
+Step 2: queue = [2, 3]
+level = 1
+Process nodes 2, 3
+Print 2 3
+
+Add children: 2 → (4, 5) and 3 → (6)
+
+queue = [4, 5, 6]
+
+👉 Output:
+
+level: 1
+2
+3
+
+Step 3: queue = [4, 5, 6]
+
+level = 2
+Process nodes 4, 5, 6
+Print 4 5 6
+
+None of them has children → queue becomes empty.
+
+👉 Output:
+
+level: 2
+4
+5
+6
+
+✅ Final Output
+level: 0
+1
+level: 1
+2
+3
+level: 2
+4
+5
+6
