@@ -838,3 +838,6 @@ Simple deletion in a binary search tree
 
 👉 Problem: (Leetcode 94)
 Simple inorder traversal
+
+👉 Problem: Kth Smallest Element in a BST (Leetcode 230)
+Simple inorder traversal to sort, then return kth element
