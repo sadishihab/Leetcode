@@ -1146,3 +1146,50 @@ level: 2
 4
 5
 6
+
+👉 Type: Tree Traversal – DFS with Backtracking
+
+✅ Key Idea
+
+Use DFS to explore all root-to-leaf paths, but backtrack whenever a path is invalid (e.g., encounters a node with val = 0).
+Keep a path list to track the current traversal.
+If the path reaches a valid leaf → return True.
+If blocked → remove the node from path (backtracking).
+
+✨ Flashcard
+
+"DFS + backtracking → go deep, record path, undo if blocked, stop at valid leaf."
+
+⚡ Full Approach
+
+Base Case:
+If root is None or root.val == 0 → cannot proceed → return False.
+
+Include current node in path:
+path.append(root.val)
+
+Leaf Check:
+If root.left is None and root.right is None → valid leaf → return True.
+
+Recursive DFS:
+Explore root.left → if it returns True → path is valid, propagate True.
+Explore root.right → same logic.
+
+Backtracking:
+
+If neither left nor right returns True, remove current node from path → path.pop()
+Return False to indicate no valid leaf along this path.
+
+➡️ This ensures only valid paths are stored and blocked paths are discarded.
+
+⏱️ Complexity
+
+Time: O(n) → every node is visited once.
+Space: O(h) → recursion stack + path list (h = tree height).
+
+✅ Notes
+
+Backtracking is useful for path-finding problems in trees, graphs, or grids.
+DFS goes deep first, and backtracking undoes steps if a path fails.
+canReachLeaf is a simpler version: checks existence without storing path.
+leafPath stores one valid path using backtracking.
