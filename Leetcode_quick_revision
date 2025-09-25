@@ -952,3 +952,35 @@ simple BFS implementation
 
 👉 Problem: Binary Tree Right Side View (Leetcode 199)
 simple BFS implementation. Only add the last node of each level to the result.
+
+
+👉 Problem: Path Sum (Leetcode 112)
+
+✅ Key Idea
+
+We want to check if there exists a root-to-leaf path in the binary tree such that the sum of node values equals targetSum.
+At each node, subtract the node’s value from targetSum.
+If we reach a leaf and the remaining sum equals the leaf’s value → return True.
+Otherwise, recursively check left and right subtrees.
+
+✨ Flashcard
+"At a leaf: check if targetSum == node.val.
+Otherwise: check left OR right with updated sum."
+
+⚡ Full Approach
+
+Base Case:
+If root is None → no path → return False.
+
+Leaf Case:
+If root is a leaf (not root.left and not root.right) → check if targetSum == root.val.
+
+Recursive Step:
+Recurse on left and right children with targetSum - root.val.
+
+If either side returns True, the whole function returns True.
+
+⏱️ Complexity
+
+Time: O(n) → visit each node once.
+Space: O(h) → recursion stack, where h = height of the tree.
