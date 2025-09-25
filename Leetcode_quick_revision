@@ -946,3 +946,6 @@ Space: O(n) → recursion stack and new slices.
 Using a hashmap to store inorder indices can reduce time to O(n).
 Works only if all node values are unique.
 This approach reconstructs the original tree exactly.
+
+👉 Problem: Binary Tree Level Order Traversal (Leetcode 102)
+simple BFS implementation
