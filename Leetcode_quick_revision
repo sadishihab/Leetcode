@@ -949,3 +949,6 @@ This approach reconstructs the original tree exactly.
 
 👉 Problem: Binary Tree Level Order Traversal (Leetcode 102)
 simple BFS implementation
+
+👉 Problem: Binary Tree Right Side View (Leetcode 199)
+simple BFS implementation. Only add the last node of each level to the result.
