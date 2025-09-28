@@ -17,7 +17,7 @@ def canReachLeaf(root):
         return True
     return False
 
-# backtracking and returning the path also if the tree has a it.
+# backtracking and returning the path
 def leafPath(root, path):
     if not root or root.val == 0:
         return False
