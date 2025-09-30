@@ -12,12 +12,12 @@ class MinHeap:
     def push(self, val):
         """ Insert a new value into the heap and maintain min-heap property."""
         self.heap.append(val)
-        i = len(self.heap) - 1                      # index of newly added value
+        idx = len(self.heap) - 1                      # index of newly added value
 
         # Bubble up until parent <= current
-        while self.heap[i] < self.heap[i // 2]:
-            self.heap[i], self.heap[i // 2] = self.heap[i // 2], self.heap[i]
-            i = i // 2
+        while idx > 1 and self.heap[idx] < self.heap[idx // 2]:
+            self.heap[idx], self.heap[idx // 2] = self.heap[idx // 2], self.heap[idx]
+            idx = idx // 2
 
     def pop(self):
         """ Remove and return the smallest element from the heap. Returns None if heap is empty. """
@@ -46,10 +46,10 @@ class MinHeap:
         for i in range((len(self.heap) - 1) // 2, 0, -1):
             self._percolate_down(i)
 
-    def _percolate_down(self, i):
-        while 2 * i < len(self.heap):               # while at least left child exists
-            left = 2 * i
-            right = 2 * i + 1
+    def _percolate_down(self, idx):
+        while 2 * idx < len(self.heap):               # while at least left child exists
+            left = 2 * idx
+            right = 2 * idx + 1
             smallest = left                          # assume left child is smallest
 
             # If right child exists and is smaller, update smallest
@@ -57,9 +57,9 @@ class MinHeap:
                 smallest = right
 
             # If current node > smallest child, swap
-            if self.heap[i] > self.heap[smallest]:
-                self.heap[i], self.heap[smallest] = self.heap[smallest], self.heap[i]
-                i = smallest  # move down
+            if self.heap[idx] > self.heap[smallest]:
+                self.heap[idx], self.heap[smallest] = self.heap[smallest], self.heap[idx]
+                idx = smallest  # move down
             else:
                 break  # heap property satisfied
 

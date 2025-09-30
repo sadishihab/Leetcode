@@ -1225,7 +1225,6 @@ Bubble up while parent > child.
 Pop (Extract Min)
 Save root (min).
 Move last element to root.
-
 Percolate down: swap with smaller child until heap property is restored.
 
 Heapify (Build Heap)
@@ -1235,7 +1234,7 @@ Runs in O(n).
 Peek
 Return root (min) without removing.
 
-Helper: _percolate_down(i)
+Helper: _percolate_down(idx)
 While left child exists:
 Pick smaller of left/right child.
 If child < current, swap and continue.
@@ -1256,3 +1255,64 @@ Space: O(n)
 The dummy -inf at index 0 makes parent/child indexing simpler.
 Good for priority queues, scheduling, graph algorithms (Dijkstra, Prim).
 This is a min-heap. A max-heap just flips the comparison signs.
+
+👉 Type: Heap Data Structure – Max-Heap Implementation
+
+✅ Key Idea
+
+A binary heap stored in an array where parent ≥ children.
+Parent at i → left child 2*i, right child 2*i+1.
+Max-heap property: every parent ≥ its children.
+
+Operations:
+
+push(val): Insert new value → bubble it up until parent is larger.
+pop(): Remove root (largest) → move last element to root → percolate down.
+heapify(arr): Build heap in O(n) by percolating down from last parent.
+
+✨ Flashcard
+
+"Max-heap → array-based tree where parent ≥ children. Push = bubble up. Pop = percolate down."
+
+⚡ Full Approach
+
+Heap Representation
+Use an array with a dummy -inf at index 0 to simplify math.
+Real elements start at index 1.
+
+Push (Insert)
+Append new value at the end.
+Bubble up while parent < child.
+
+Pop (Extract Max)
+Save root (max).
+Move last element to root.
+Percolate down: swap with larger child until heap property is restored.
+
+Heapify (Build Heap)
+Start from last parent → percolate down each node.
+Runs in O(n).
+
+Peek
+Return root (max) without removing.
+
+Helper: _percolate_down(idx)
+While left child exists:
+Pick larger of left/right child.
+If child > current, swap and continue.
+Else stop (heap property satisfied).
+
+➡️ This ensures insertions and deletions maintain O(log n) time complexity.
+
+⏱️ Complexity
+
+Push: O(log n)
+Pop: O(log n)
+Peek: O(1)
+Heapify: O(n)
+Space: O(n)
+
+✅ Notes
+
+Same structure as MinHeap, only comparison signs are flipped.
+Useful when the largest element should be extracted quickly (priority queue, scheduling).
