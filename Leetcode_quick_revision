@@ -1218,3 +1218,56 @@ kth largest = 8
 
 null → corresponds to the constructor call (no return value)
 Rest → results of add() calls
+
+
+👉 Problem: Last Stone Weight (LeetCode 1046)
+
+✅ Key Idea
+
+We always smash the two heaviest stones together.
+After each smash:
+If equal → both destroyed
+If not equal → remaining stone = y - x (heavier minus lighter)
+To efficiently find the two largest stones each turn → use a max-heap.
+
+✨ Flashcard
+"Use a max-heap to always get the two largest stones. Smash them. Push the result if non-zero."
+
+⚡ Full Approach
+
+Convert all stones to a max-heap.
+Python heapq is min-heap, so store -stone to simulate max-heap.
+
+While more than one stone remains:
+Pop the two largest stones (x and y)
+
+If x != y → push back the difference (y - x)
+If x == y → both are destroyed (do nothing)
+
+Return the remaining stone (or 0 if heap is empty).
+
+⏱️ Complexity
+
+Heapify: O(n)
+
+Each smash operation: O(log n) per push/pop
+Max total operations ≈ n → O(n log n)
+Space: O(n) (heap storage)
+
+✅ Example 1
+
+stones = [2,7,4,1,8,1]
+
+Heap evolution:
+Heap → [8,7,4,2,1,1]
+Smash 8 & 7 → new stone 1 → [4,2,1,1,1]
+Smash 4 & 2 → new stone 2 → [2,1,1,1]
+Smash 2 & 1 → new stone 1 → [1,1,1]
+Smash 1 & 1 → both destroyed → [1]
+
+✅ Last stone weight = 1
+
+✅ Example 2
+
+stones = [1]
+Only one stone → return 1
