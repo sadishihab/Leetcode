@@ -1102,3 +1102,119 @@ Recursion tree:
 ✅ Result
 
 [[2,2,3], [7]]
+
+
+👉 Problem: Kth Largest Element in a Stream (LeetCode 703)
+
+✅ Key Idea
+
+We want to maintain the kth largest element in a dynamic stream of numbers.
+Use a min-heap of size k to keep track of the top k largest elements.
+The smallest element in this heap is always the kth largest overall.
+For each new number added:
+Push it into the heap.
+
+If heap size > k → pop the smallest.
+
+Return the root of the heap → kth largest.
+
+✨ Flashcard
+"Keep a min-heap of size k → smallest element is kth largest → push new numbers → pop if heap exceeds k."
+
+⚡ Full Approach
+
+Constructor (__init__)
+Store k in self.k.
+Convert nums into a min-heap using heapq.heapify.
+Remove extra elements if nums has more than k elements:
+
+while len(self.min_heap) > k:
+    heapq.heappop(self.min_heap)
+
+
+Add method (add)
+Push the new value into the heap.
+If heap size > k → pop the smallest element.
+Return self.min_heap[0] → the kth largest number.
+
+Why this works:
+The heap always contains the k largest numbers seen so far.
+The root of the min-heap is the smallest among these k numbers, i.e., the kth largest in the whole stream.
+
+⏱️ Complexity
+__init__:
+Heapify → O(n)
+Trim heap to size k → O(n log n) in worst case
+add(val) → O(log k) per insertion
+Space → O(k) (only store k largest numbers)
+
+✅ Example (k=3, nums=[4,5,8,2])
+
+kthLargest = KthLargest(3, [4,5,8,2])
+kthLargest.add(3)   # return 4
+kthLargest.add(5)   # return 5
+kthLargest.add(10)  # return 5
+kthLargest.add(9)   # return 8
+kthLargest.add(4)   # return 8
+
+
+Heap evolution (min-heap shown as tree):
+
+Initial heap (size 3):
+
+        4
+       / \
+      5   8
+
+
+Add 3 → ignored (heap size > k):
+
+        4
+       / \
+      5   8
+
+
+kth largest = 4
+
+Add 5 → pop 4:
+
+        5
+       / \
+      5   8
+
+
+kth largest = 5
+
+Add 10 → pop 5:
+
+        5
+       / \
+      10  8
+
+
+kth largest = 5
+
+Add 9 → pop 5:
+
+        8
+       / \
+      10  9
+
+
+kth largest = 8
+
+Add 4 → ignored (heap size > k):
+
+        8
+       / \
+      10  9
+
+
+kth largest = 8
+
+✅ Result
+
+[null, 4, 5, 5, 8, 8]
+
+null → corresponds to the constructor call (no return value)
+Rest → results of add() calls
