@@ -1335,3 +1335,71 @@ Remaining heap → [(-20, -2, 4), (-18, 3, 3)]
 👉 Problem: Contains Duplicate (LeetCode 217)
 
 simple hashmap or set
+
+👉 Problem: LRU Cache (LeetCode 146)
+
+✅ Key Idea
+
+An LRU (Least Recently Used) Cache evicts the least recently accessed item when capacity is exceeded.
+We need O(1) average time for both get and put.
+
+To achieve this efficiently:
+Use a hash map (dictionary) for fast key → node lookup.
+
+Use a doubly linked list to track recently used order:
+Head → most recently used
+Tail → least recently used
+
+On access or insertion, move the node to the head.
+If capacity is exceeded, remove the tail node.
+
+✨ Flashcard
+"LRU cache → hash map for O(1) lookup, doubly linked list for O(1) eviction and ordering."
+
+⚡ Full Approach
+
+1️⃣ Node Structure:
+
+Each node stores key, value, prev, and next.
+
+2️⃣ Doubly Linked List:
+
+Maintain dummy head and tail to simplify insertions/removals.
+New or recently accessed nodes are moved to head.
+The tail’s previous node is the least recently used.
+
+3️⃣ Hash Map:
+
+Maps key → node for O(1) lookup.
+
+4️⃣ Get Operation:
+
+If key exists → move node to head → return value.
+Else → return -1.
+
+5️⃣ Put Operation:
+
+If key exists → update value → move node to head.
+Else → create new node → insert at head.
+
+If capacity exceeded → remove tail node and delete from hash map.
+
+⏱️ Complexity
+
+Get: O(1) time, O(capacity) space
+Put: O(1) time, O(capacity) space
+Overall space: O(capacity) for storing the doubly linked list nodes and the hash map
+
+✅ Example Walkthrough
+
+Capacity = 2
+Operations:
+put(1,1) → cache: {1=1}
+put(2,2) → cache: {1=1, 2=2}
+get(1)    → returns 1, cache order updated: 1 is MRU
+put(3,3) → LRU key 2 removed, cache: {1=1, 3=3}
+get(2)    → -1 (not found)
+put(4,4) → LRU key 1 removed, cache: {4=4, 3=3}
+get(1)    → -1 (not found)
+get(3)    → 3
+get(4)    → 4
