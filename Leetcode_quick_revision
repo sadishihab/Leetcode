@@ -1331,3 +1331,7 @@ Push (-20, -2, 4) → size > 2 → pop (-26, 5, -1)
 
 Remaining heap → [(-20, -2, 4), (-18, 3, 3)]
 ✅ Closest points = [[-2, 4], [3, 3]]
+
+👉 Problem: Contains Duplicate (LeetCode 217)
+
+simple hashmap or set
