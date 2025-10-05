@@ -1271,3 +1271,63 @@ Smash 1 & 1 → both destroyed → [1]
 
 stones = [1]
 Only one stone → return 1
+
+
+👉 Problem: K Closest Points to Origin (LeetCode 973)
+
+✅ Key Idea
+
+We need to find the k closest points to the origin (0, 0).
+The distance formula is √(x² + y²), but we can skip the square root since it doesn’t affect ordering.
+
+To efficiently track the k smallest distances, we use a max-heap of size k.
+This way, the farthest point among the current k is always on top — if we find a closer point, we remove the farthest.
+
+✨ Flashcard
+"Use a max-heap of size k to keep the closest k points — push negative distance since Python’s heapq is a min-heap."
+
+⚡ Full Approach
+
+1️⃣ Initialize an empty heap max_heap.
+2️⃣ For each point (x, y):
+
+Compute the squared distance dist = x*x + y*y.
+
+Push (-dist, x, y) into the heap (negative for max-heap behavior).
+3️⃣ If heap size > k: remove one element using heapq.heappop(max_heap) — this ensures only k closest points remain.
+4️⃣ Return the coordinates from the heap, ignoring the distance values.
+
+⏱️ Complexity
+
+Time: O(n log k) → each push/pop takes O(log k), and we process n points.
+
+Space: O(k) → heap stores only k elements.
+
+✅ Example 1
+
+points = [[1,3], [-2,2]]
+k = 1
+
+Steps:
+
+dist(1,3) = 10 → push (-10, 1, 3)
+
+dist(-2,2) = 8 → push (-8, -2, 2)
+→ heap has size 2 > 1 → pop (-10, 1, 3)
+
+Remaining heap → [(-8, -2, 2)]
+✅ Closest point = [[-2, 2]]
+
+✅ Example 2
+
+points = [[3,3], [5,-1], [-2,4]]
+k = 2
+
+Heap evolution:
+
+Push (-18, 3, 3)
+Push (-26, 5, -1)
+Push (-20, -2, 4) → size > 2 → pop (-26, 5, -1)
+
+Remaining heap → [(-20, -2, 4), (-18, 3, 3)]
+✅ Closest points = [[-2, 4], [3, 3]]
