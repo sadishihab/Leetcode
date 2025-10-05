@@ -1316,3 +1316,47 @@ Space: O(n)
 
 Same structure as MinHeap, only comparison signs are flipped.
 Useful when the largest element should be extracted quickly (priority queue, scheduling).
+
+👉 Type: Hash Map (Dictionary) – Basic Implementation
+
+✅ Key Idea
+
+A hash map (called a dictionary in Python) stores data as key–value pairs, allowing instant access, insertion, and updates.
+It uses a hash function to map each key to an index in memory, making lookups extremely fast — on average O(1).
+
+In this example, we track the frequency of names in a list using a hash map.
+
+✨ Flashcard
+"Hash map → key–value store with O(1) average lookup. Perfect for counting, mapping, and caching."
+
+⚡ Full Approach
+
+1️⃣ Initialize an empty dictionary to store counts.
+2️⃣ Iterate through the list of names.
+3️⃣ Check if the current name is already a key in the dictionary.
+
+If not, add it with an initial count of 1.
+If yes, increment its existing count by 1.
+
+4️⃣ After processing all names, the dictionary contains each name as a key and its frequency as the corresponding value.
+
+✅ Result: Each key represents a unique name, and its value represents how many times it appeared in the list.
+
+🧠 Why It Works
+
+Key existence checks, insertions, and updates all happen in O(1) average time due to hashing.
+The dictionary efficiently maps each name to its frequency without needing explicit searching.
+
+⏱️ Complexity
+
+Operation	Time	        Explanation
+Insert	    O(1) avg	    Hash function calculates index quickly
+Lookup	    O(1) avg	    Direct access by key
+Update	    O(1) avg	    Increment value directly
+Space	    O(n)	        Stores all key–value pairs
+
+✅ Notes
+
+Keys must be immutable (e.g., strings, numbers, tuples).
+Very useful for counting, caching, grouping, and frequency maps.
+Can be simplified with collections.Counter for counting tasks.
