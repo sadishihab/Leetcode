@@ -1360,3 +1360,99 @@ Space	    O(n)	        Stores all key–value pairs
 Keys must be immutable (e.g., strings, numbers, tuples).
 Very useful for counting, caching, grouping, and frequency maps.
 Can be simplified with collections.Counter for counting tasks.
+
+👉 Type: Hash Map (Dictionary) – Open Addressing with DELETED Marker
+
+✅ Key Idea
+A hash map stores key–value pairs and uses a hash function to map each key to an index in memory.
+Using open addressing with linear probing, collisions are resolved by checking subsequent slots.
+Deleted slots use a special DELETED marker to maintain the probing chain and prevent search failures.
+
+✨ Flashcard
+"Hash map → key–value store with O(1) average lookup. Open addressing requires DELETED markers to safely remove elements."
+
+⚡ Full Approach
+
+1️⃣ Initialization
+
+Start with a small array (capacity = 2) and size = 0.
+Each slot can hold a Pair(key, value) object, None, or the DELETED marker.
+
+2️⃣ Hash Function
+
+Convert key to ASCII numbers and sum them.
+Use modulo with capacity: index = sum(ord(c) for c in key) % capacity.
+
+3️⃣ Insertion / put(key, val)
+
+Compute index = hash(key).
+If the slot is empty or marked DELETED → insert the new pair.
+If the slot contains the same key → update value.
+If the slot is occupied → move to next slot (linear probing).
+If load factor ≥ 0.5 → rehash (double capacity and reinsert existing keys).
+
+4️⃣ Search / get(key)
+
+Compute index = hash(key).
+
+Check the slot:
+
+If it contains the key → return value.
+If it’s DELETED → skip and continue probing.
+If it’s None → stop searching (key not found).
+If we loop around back to the start → key does not exist.
+
+5️⃣ Deletion / remove(key)
+
+Find the key using probing.
+Replace it with DELETED instead of None to avoid breaking probing chains.
+Decrease size.
+
+6️⃣ Rehash / rehash()
+
+Double capacity.
+Create a new empty array.
+Reinsert all non-DELETED pairs into the new array.
+
+7️⃣ Printing
+
+Skip DELETED and None slots.
+
+Print all key–value pairs.
+
+✅ Result
+
+Each key maps to its value with O(1) average time for insert, get, and update.
+
+Deletion is safe without breaking search chains.
+
+The array dynamically grows when needed.
+
+🧠 Why It Works
+
+Hashing maps keys to indexes for direct access.
+
+Linear probing ensures that collisions don’t overwrite existing keys.
+
+DELETED markers maintain the probing chain, so searches remain correct even after deletions.
+
+Rehashing prevents performance degradation by maintaining a low load factor.
+
+⏱️ Complexity
+
+Operation	Time	Explanation
+Insert	O(1) avg	Direct access and linear probe
+Lookup	O(1) avg	Probing chain traversal
+Update	O(1) avg	Find key and modify value
+Remove	O(1) avg	Mark DELETED and skip during search
+Space	O(n)	Stores all key–value pairs
+
+✅ Notes
+
+Keys must be immutable (strings, numbers, tuples).
+
+DELETED marker prevents broken probing chains after removal.
+
+Rehashing keeps load factor ≤ 0.5 for efficient operations.
+
+Very useful for counting, caching, mapping, and implementing dictionaries manually.
