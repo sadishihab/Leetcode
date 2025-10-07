@@ -1403,3 +1403,69 @@ put(4,4) → LRU key 1 removed, cache: {4=4, 3=3}
 get(1)    → -1 (not found)
 get(3)    → 3
 get(4)    → 4
+
+
+👉 Problem: Design HashSet (LeetCode 705)
+
+✅ Key Idea
+
+A HashSet stores unique keys and supports three main operations efficiently:
+Add → insert a key
+Remove → delete a key
+Contains → check if a key exists
+
+To achieve this efficiently, we use:
+Hash function → maps a key to a bucket (an index in a list of buckets)
+Buckets → each bucket is a small list storing keys that share the same hash
+Separate chaining → handles collisions by storing multiple keys in the same bucket
+
+✨ Flashcard
+"HashSet → stores unique keys with O(1) average operations using hashing and separate chaining."
+
+⚡ Full Approach
+
+1️⃣ Initialization
+
+Create a fixed number of buckets (empty lists).
+Each bucket will store keys that hash to its index.
+
+2️⃣ Hash Function
+
+Converts any key into a bucket index using modulo (key % number_of_buckets).
+Ensures the key is placed in a valid bucket.
+
+3️⃣ Add Operation
+
+Compute the bucket index for the key using the hash function.
+Go to that bucket.
+If the key is not already in the bucket, add it.
+This ensures all keys in the set are unique.
+
+4️⃣ Remove Operation
+
+Compute the bucket index for the key.
+Go to that bucket.
+If the key exists, remove it.
+If not, do nothing.
+
+5️⃣ Contains Operation
+
+Compute the bucket index for the key.
+Go to the corresponding bucket.
+Return True if the key exists, otherwise False.
+
+⏱️ Complexity
+
+Add / Remove / Contains: O(1) average time
+Space: O(n), where n is the number of keys stored
+Worst case: O(n) if all keys collide into a single bucket, but rare for a good hash function
+
+✅ Example Walkthrough
+
+Add 1 → stored in bucket based on its hash → set = [1]
+Add 2 → stored in its bucket → set = [1, 2]
+Check if 1 exists → found → True
+Check if 3 exists → not found → False
+Add 2 again → ignored, because it’s already present
+Remove 2 → deleted → set = [1]
+Check if 2 exists → False
