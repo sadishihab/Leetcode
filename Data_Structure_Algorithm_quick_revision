@@ -1362,10 +1362,13 @@ Very useful for counting, caching, grouping, and frequency maps.
 Can be simplified with collections.Counter for counting tasks.
 
 
-👉 Type: Hash Map (Dictionary) – Basic implementaion
+👉 Type: Hash Map (Dictionary):
+For best implementation which will be used for problem solving, see leetcode 706 and that explanation
+
+hash_map_implementation_basic.py – Basic implementaion (done this for understaning, not the best approach for problem solving)
 A basic implementation without DELETED Marker. This creates hole. To solve this problem, use open addressing with DELETED Marker.
 
-👉 Type: Hash Map (Dictionary) – Open Addressing with DELETED Marker
+hash_map_implementation.py – Open Addressing with DELETED Marker (done this for understaning, not the best approach for problem solving)
 
 ✅ Key Idea
 A hash map stores key–value pairs and uses a hash function to map each key to an index in memory.
