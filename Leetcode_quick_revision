@@ -1469,3 +1469,77 @@ Check if 3 exists → not found → False
 Add 2 again → ignored, because it’s already present
 Remove 2 → deleted → set = [1]
 Check if 2 exists → False
+
+
+👉 Problem: Design HashMap (LeetCode 706)
+
+✅ Key Idea
+
+A HashMap stores key-value pairs and supports three main operations efficiently:
+
+Put → insert or update a key-value pair
+Get → retrieve the value for a key
+Remove → delete a key and its value
+
+To achieve this efficiently, we use:
+
+Hash function → maps a key to a bucket (an index in a list of buckets)
+Buckets → each bucket is a small list storing key-value pairs that share the same hash
+Separate chaining → handles collisions by storing multiple key-value pairs in the same bucket
+
+✨ Flashcard
+"HashMap → stores key-value pairs with O(1) average operations using hashing and separate chaining."
+
+⚡ Full Approach
+
+1️⃣ Initialization
+
+Create a fixed number of buckets (empty lists).
+Each bucket will store key-value pairs that hash to its index.
+
+2️⃣ Hash Function
+
+Converts any key into a bucket index using modulo (key % number_of_buckets).
+Ensures the key is placed in a valid bucket.
+
+3️⃣ Put Operation
+
+Compute the bucket index for the key using the hash function.
+Go to that bucket.
+If the key already exists in the bucket, update its value.
+Otherwise, append a new [key, value] pair.
+
+4️⃣ Get Operation
+
+Compute the bucket index for the key.
+Go to the corresponding bucket.
+Search for the key in the bucket.
+Return its value if found, otherwise return -1.
+
+5️⃣ Remove Operation
+
+Compute the bucket index for the key.
+Go to the corresponding bucket.
+Search for the key.
+If found, remove the key-value pair.
+If not found, do nothing.
+
+⏱️ Complexity
+
+Put Operation: O(1) average – hash function maps key to bucket, and bucket size is small.
+Get Operation: O(1) average – locate bucket and search within it.
+Remove Operation: O(1) average – locate bucket and remove key-value pair if exists.
+Space Complexity: O(n) – stores all key-value pairs in buckets.
+Worst-case: O(n) – if all keys hash to the same bucket, operations degrade to linear time.
+
+✅ Example Walkthrough
+
+Put (1, 100) → stored in bucket based on hash → map = {1:100}
+Put (2, 200) → stored in its bucket → map = {1:100, 2:200}
+Get 1 → found → returns 100
+Get 3 → not found → returns -1
+Put (2, 250) → updates existing key → map = {1:100, 2:250}
+Remove 2 → deletes key 2 → map = {1:100}
+Get 2 → not found → returns -1
+
+This approach ensures all operations are efficient and handles collisions safely using separate chaining.
