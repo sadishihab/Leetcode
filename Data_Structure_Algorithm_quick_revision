@@ -1317,7 +1317,7 @@ Space: O(n)
 Same structure as MinHeap, only comparison signs are flipped.
 Useful when the largest element should be extracted quickly (priority queue, scheduling).
 
-👉 Type: Hash Map (Dictionary) – Basic Implementation
+👉 Type: Hash Map (Dictionary)
 
 ✅ Key Idea
 
@@ -1360,6 +1360,10 @@ Space	    O(n)	        Stores all key–value pairs
 Keys must be immutable (e.g., strings, numbers, tuples).
 Very useful for counting, caching, grouping, and frequency maps.
 Can be simplified with collections.Counter for counting tasks.
+
+
+👉 Type: Hash Map (Dictionary) – Basic implementaion
+A basic implementation without DELETED Marker. This creates hole. To solve this problem, use open addressing with DELETED Marker.
 
 👉 Type: Hash Map (Dictionary) – Open Addressing with DELETED Marker
 
