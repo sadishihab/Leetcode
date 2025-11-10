@@ -1463,3 +1463,99 @@ DELETED marker prevents broken probing chains after removal.
 Rehashing keeps load factor ≤ 0.5 for efficient operations.
 
 Very useful for counting, caching, mapping, and implementing dictionaries manually.
+
+
+👉 Type: Backtracking (Depth-First Search on 2D Grid) (matrix_dfs.py)
+
+✅ Key Idea
+Use recursive DFS with backtracking to explore all possible routes from the starting cell (0, 0) to the target cell (n-1, m-1).
+Each step can move in four directions (up, down, left, right), but only through open cells (0) and never through walls (1) or already visited cells.
+
+✨ Flashcard
+"DFS Backtracking → recursively explore all possible moves, mark current cell as visited, and backtrack after exploring all paths from it."
+
+⚡ Full Approach
+
+1️⃣ Define the Goal
+
+The grid is a small matrix with 0s (free) and 1s (blocked).
+
+Start at the top-left cell (0, 0).
+
+The goal is the bottom-right cell (n-1, m-1).
+
+You must count how many distinct valid paths exist between them.
+
+2️⃣ Constraints to Consider
+
+You can move only inside the grid bounds.
+
+You can move in four directions: up, down, left, right.
+
+You cannot step into a blocked cell (1).
+
+You cannot revisit any cell already visited in the current path (to avoid loops).
+
+3️⃣ Recursive Exploration Logic
+
+Start at the current cell (r, c).
+
+Check boundary conditions:
+
+If you go outside the grid or hit a blocked cell → stop that path (return 0).
+
+Check goal condition:
+
+If you reach the destination (n-1, m-1) → that’s a valid path (return 1).
+
+Mark the current cell as visited so it’s not reused in this path.
+
+Recursively explore all four possible directions.
+
+After exploring, unmark the current cell (backtrack) so it can be used in other possible paths.
+
+Sum all the counts returned from the recursive calls.
+
+4️⃣ Backtracking — the Core Insight
+
+Backtracking means: “try → explore deeper → undo and try something else.”
+
+It allows the algorithm to exhaustively explore every possible route while still reusing the same grid for different paths.
+
+Without unmarking, once a cell is visited, it would stay blocked for all future paths — leading to an incomplete count.
+
+5️⃣ Termination and Return
+
+Each base case (wall, out-of-bounds, already visited) returns 0.
+
+Each successful reach to the goal returns 1.
+
+The recursive sum of all branches gives the total number of unique valid paths.
+
+🧠 Why It Works
+DFS ensures a full exploration of every possible move sequence.
+By marking visited cells, it prevents cycles.
+By removing the mark afterward, it allows the algorithm to explore different route combinations.
+This “mark → explore → unmark” pattern is what defines backtracking.
+
+⏱️ Complexity
+
+Operation	Time	Explanation
+DFS traversal	O(4^(m×n)) worst	Each cell can branch up to 4 ways
+Space	O(m×n)	For recursion depth + visited tracking
+
+✅ Result
+
+Returns the exact number of valid paths from start to end.
+
+Guarantees correctness through exhaustive search.
+
+Serves as a foundation for grid problems involving path finding, island counting, and maze traversal.
+
+✅ Notes
+
+Works well for small or medium grids (since exponential growth).
+
+For larger grids or restricted movements (e.g., only right + down), switch to Dynamic Programming (LeetCode 62 / 63).
+
+The same idea underpins maze solvers, word-search problems, and robot pathfinding challenges.
