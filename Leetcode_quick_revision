@@ -1543,3 +1543,188 @@ Remove 2 → deletes key 2 → map = {1:100}
 Get 2 → not found → returns -1
 
 This approach ensures all operations are efficient and handles collisions safely using separate chaining.
+
+
+👉 Problem: Number of Islands (LeetCode 200)
+✅ Key Idea
+
+You are given a grid of '1's (land) and '0's (water).
+An island is a group of '1's connected vertically or horizontally.
+You need to count how many distinct islands exist in the grid.
+
+To solve this, we use Depth-First Search (DFS) to explore each island completely and mark its cells as visited.
+
+✨ Flashcard:
+“Use DFS or BFS to explore connected land cells and count how many times you start a new exploration — that’s your number of islands.”
+
+⚡ Full Approach
+1️⃣ Initialization
+
+Find grid dimensions: ROWS, COLS.
+
+Create a visit set to track visited cells.
+
+Initialize islands = 0.
+
+2️⃣ DFS Traversal
+
+We define a helper function dfs(r, c) that:
+
+Stops if the cell is out of bounds, already visited, or water ('0').
+
+Otherwise, marks the current cell as visited and recursively explores its 4 neighbors:
+
+Up → dfs(r-1, c)
+
+Down → dfs(r+1, c)
+
+Left → dfs(r, c-1)
+
+Right → dfs(r, c+1)
+
+3️⃣ Counting Islands
+
+Traverse every cell (r, c) in the grid.
+
+When you find a '1' that hasn’t been visited:
+
+It means a new island has been found.
+
+Call dfs(r, c) to mark the whole island.
+
+Increment the islands counter by 1.
+
+4️⃣ Return the Result
+
+After the loop ends, return islands.
+
+⏱️ Complexity
+Operation	Time Complexity	Space Complexity
+DFS on all cells	O(ROWS × COLS)	O(ROWS × COLS) (recursive stack + visited set)
+
+Even though DFS is recursive, each cell is visited exactly once, making it linear in total cells.
+
+✅ Example Walkthrough
+
+Input Grid:
+
+1 1 0 0 0
+1 1 0 0 0
+0 0 1 0 0
+0 0 0 1 1
+
+
+Step-by-step:
+
+Start at (0,0): new island → mark all connected land → island count = 1
+
+(0,1), (1,0), (1,1) already visited.
+
+Move to (2,2): new island → count = 2
+
+Move to (3,3): new island → count = 3
+
+✅ Output: 3
+
+🧠 Summary
+
+DFS (or BFS) is ideal for exploring connected components.
+
+Every new unvisited '1' cell starts a DFS → represents a new island.
+
+Time complexity stays linear with respect to the grid size.
+
+👉 Problem: Max Area of Island (LeetCode 695)
+
+✅ Key Idea
+
+You are given a binary grid representing water (0) and land (1).
+An island is a group of connected 1s (land) connected vertically or horizontally.
+The area of an island is the number of connected land cells.
+Your task is to find the maximum area among all islands.
+
+To solve this, we use Depth-First Search (DFS) to explore each island and calculate its area.
+
+✨ Flashcard:
+“Use DFS to explore every island and calculate its size — track the largest one to find the maximum area.”
+
+⚡ Full Approach
+
+1️⃣ Initialization
+
+Compute grid dimensions → ROWS, COLS.
+
+Create a visit set to track which cells have been visited.
+
+Initialize max_area = 0 to store the largest island area.
+
+2️⃣ DFS Traversal
+Define a recursive helper function dfs(r, c) that:
+
+Returns 0 if the cell is out of bounds, already visited, or water (0).
+
+Otherwise:
+
+Marks the cell as visited.
+
+Initializes area = 1 for the current land cell.
+
+Recursively explores the 4 directions (up, down, left, right).
+
+Returns the total accumulated area for that island.
+
+3️⃣ Main Loop
+
+Iterate through every cell (r, c) in the grid.
+
+When a land cell (1) is found that’s not visited:
+
+Call dfs(r, c) to compute its area.
+
+Update max_area = max(max_area, returned_area).
+
+4️⃣ Return the Result
+After exploring all cells, return max_area — the largest island area found.
+
+⏱️ Complexity Analysis
+
+Operation	Time Complexity	Space Complexity
+DFS on all cells	O(ROWS × COLS)	O(ROWS × COLS) (due to recursion + visited set)
+
+Each cell is processed once, so the solution is linear in the number of grid cells.
+
+✅ Example Walkthrough
+
+Input Grid:
+
+[
+ [0,0,1,0,0,0,0,1,0,0,0,0,0],
+ [0,0,0,0,0,0,0,1,1,1,0,0,0],
+ [0,1,1,0,1,0,0,0,0,0,0,0,0],
+ [0,1,0,0,1,1,0,0,1,0,1,0,0],
+ [0,1,0,0,1,1,0,0,1,1,1,0,0],
+ [0,0,0,0,0,0,0,0,0,0,1,0,0],
+ [0,0,0,0,0,0,0,1,1,1,0,0,0],
+ [0,0,0,0,0,0,0,1,1,0,0,0,0]
+]
+
+
+Step-by-step:
+
+Find land at (0,2): DFS explores → area = 1
+
+Find land at (0,7): DFS explores → area = 6
+
+Continue exploring all islands
+
+Largest island area = 6
+
+✅ Output: 6
+
+🧠 Summary
+
+Each DFS call explores one island and returns its area.
+
+Keep track of the largest area found.
+
+Same DFS idea as Number of Islands, but instead of counting islands, we measure their size.
