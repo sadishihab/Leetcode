@@ -1815,3 +1815,97 @@ BFS guarantees shortest path in an unweighted grid.
 Track path length by BFS levels.
 Visited set prevents revisiting cells.
 Include all 8-directional moves to explore diagonals.
+
+👉 Problem: Rotting Oranges (LeetCode 994)
+
+✅ Key Idea
+
+You are given an m x n grid where:
+
+0 represents an empty cell,
+
+1 represents a fresh orange,
+
+2 represents a rotten orange.
+
+Every minute, any fresh orange adjacent (4-directionally) to a rotten orange becomes rotten.
+The task is to return the minimum number of minutes until all oranges are rotten, or -1 if impossible.
+
+We use Breadth-First Search (BFS) to simulate the rotting process level by level, where each level corresponds to one minute.
+
+✨ Flashcard:
+“BFS in a grid → process rotten oranges level by level, rot adjacent fresh oranges, count minutes per BFS level. Returns -1 if unreachable fresh oranges remain.”
+
+⚡ Full Approach
+
+1️⃣ Initialization
+
+Compute grid dimensions → ROWS = len(grid), COLS = len(grid[0]).
+
+Initialize a queue for BFS.
+
+Count total fresh oranges.
+
+Add all initial rotten oranges to the queue.
+
+2️⃣ BFS Traversal
+
+Define 4 directions for movement: up, down, left, right.
+
+Initialize minutes = 0.
+
+While the queue is not empty and fresh oranges remain:
+
+For each orange in the current level (current minute):
+
+Pop (r, c) from the queue.
+
+For each neighbor (nr, nc):
+
+Skip if out of bounds or not a fresh orange.
+
+Otherwise, mark the orange as rotten, decrease fresh count, and add (nr, nc) to the queue.
+
+Increment minutes after processing the current level.
+
+3️⃣ Termination
+
+If all fresh oranges are rotten, return minutes.
+
+Otherwise, return -1.
+
+⏱️ Complexity Analysis
+
+Operation	Time Complexity	Space Complexity
+BFS traversal	O(m × n)	O(m × n) (queue)
+
+✅ Example Walkthrough
+
+Input Grid:
+
+[[2,1,1],
+ [1,1,0],
+ [0,1,1]]
+
+
+Step-by-step:
+
+Minute 0 → rotten oranges at (0,0).
+
+Minute 1 → rot neighbors: (0,1), (1,0).
+
+Minute 2 → rot neighbors: (0,2), (1,1).
+
+Minute 3 → rot neighbors: (2,1).
+
+Minute 4 → rot neighbors: (2,2).
+
+All oranges rotten → return 4.
+
+✅ Output: 4
+
+🧠 Summary
+
+BFS guarantees level-by-level rotting.
+Track fresh oranges to determine if all can rot.
+Each BFS level corresponds to 1 minute.
