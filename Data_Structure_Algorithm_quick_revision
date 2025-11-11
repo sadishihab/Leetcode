@@ -1559,3 +1559,124 @@ Works well for small or medium grids (since exponential growth).
 For larger grids or restricted movements (e.g., only right + down), switch to Dynamic Programming (LeetCode 62 / 63).
 
 The same idea underpins maze solvers, word-search problems, and robot pathfinding challenges.
+
+
+👉 Type: Breadth-First Search (BFS on 2D Grid) (matrix_bfs.py)
+
+✅ Key Idea
+Use level-order traversal (BFS) to explore the grid step by step, starting from the top-left cell (0, 0).
+Each step explores all reachable cells at the current "distance" before moving deeper.
+This guarantees that the first time you reach the destination, you’ve found the shortest path.
+
+✨ Flashcard
+“BFS → explore all neighbors level by level using a queue, marking visited cells to prevent revisits — ensures the shortest path in unweighted grids.”
+
+⚡ Full Approach
+
+1️⃣ Define the Goal
+
+We have a 2D grid where:
+
+0 = free/open cell
+
+1 = blocked/wall
+
+Start from (0, 0) and try to reach the bottom-right cell (ROWS-1, COLS-1).
+
+We need to find the shortest distance (minimum number of steps) between them.
+
+2️⃣ Constraints to Consider
+
+Must stay within grid bounds.
+
+Can move up, down, left, right (4-directional).
+
+Cannot enter a blocked cell (1).
+
+Cannot visit the same cell twice (to prevent loops).
+
+3️⃣ Core BFS Logic
+
+Initialize:
+
+queue → holds cells to explore next.
+
+visit → a set to track already visited cells.
+
+length → path length counter.
+
+Start BFS:
+
+Enqueue the starting cell (0, 0) and mark it visited.
+
+For each iteration:
+
+Process all cells currently in the queue → this represents one level (or one step distance).
+
+For each cell (r, c):
+
+If it’s the destination, return length (we found the shortest path).
+
+Explore all four neighbors → right, left, down, up.
+
+For each neighbor (r+dr, c+dc):
+
+Skip if it’s out of bounds, blocked, or already visited.
+
+Otherwise, enqueue it and mark as visited.
+
+After processing the current level, increment length by 1.
+
+If the queue empties without reaching the goal → no valid path exists.
+
+4️⃣ Why BFS Works Here
+
+BFS explores cells in waves — all positions reachable in 1 step, then 2 steps, and so on.
+
+Because every move has equal cost (1 step), the first time you reach the target must be the shortest path.
+
+Visited cells prevent revisiting, ensuring efficiency and correctness.
+
+5️⃣ Termination and Return
+
+If the target (ROWS-1, COLS-1) is reached → return current path length.
+
+If all possible cells are explored and goal is not reached → return 0 or -1 (no path).
+
+🧠 Why It Works
+
+BFS guarantees shortest path in unweighted grids.
+
+The use of a queue preserves the "first in, first out" (FIFO) order — ensuring level-by-level expansion.
+
+The visited set ensures no redundant exploration or infinite loops.
+
+⏱️ Complexity
+
+Operation	Time	Explanation
+BFS traversal	O(m × n)	Each cell is visited at most once
+Space	O(m × n)	Queue + visited set
+
+✅ Result
+
+Returns the minimum number of steps from (0, 0) to (ROWS−1, COLS−1).
+
+Ensures correctness by exhaustive yet efficient level-order search.
+
+Foundation for problems like:
+
+Shortest Path in Binary Matrix (LeetCode 1091)
+
+Rotting Oranges (LeetCode 994)
+
+Number of Islands (LeetCode 200, BFS version)
+
+✅ Notes
+
+Ideal for shortest-path problems on grids with equal movement cost.
+
+BFS is faster and safer than DFS for shortest paths.
+
+If diagonal moves are allowed → expand neighbor list to include 8 directions.
+
+For weighted grids → switch to Dijkstra’s Algorithm.
