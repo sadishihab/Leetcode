@@ -1728,3 +1728,90 @@ Each DFS call explores one island and returns its area.
 Keep track of the largest area found.
 
 Same DFS idea as Number of Islands, but instead of counting islands, we measure their size.
+
+
+👉 Problem: Shortest Path in Binary Matrix (LeetCode 1091)
+
+✅ Key Idea
+
+You are given an n x n binary grid where 0 represents an empty cell and 1 represents a blocked cell.
+A clear path is a path from the top-left cell (0, 0) to the bottom-right cell (n-1, n-1) moving 8-directionally (horizontal, vertical, or diagonal).
+The task is to return the length of the shortest clear path or -1 if no path exists.
+
+We use Breadth-First Search (BFS) because it explores the nearest cells first, ensuring the first time we reach the target is the shortest path.
+
+✨ Flashcard:
+“BFS in a grid → explore level by level, track path length by levels, mark visited to avoid revisits. Guarantees shortest path in unweighted grids.”
+
+⚡ Full Approach
+
+1️⃣ Initialization
+
+Compute grid size → n = len(grid).
+
+Check start or end cell: if grid[0][0] == 1 or grid[n-1][n-1] == 1, return -1.
+
+Initialize queue with the starting cell (0, 0).
+
+Initialize visited set to track visited cells.
+
+Set length = 1 to count the starting cell.
+
+2️⃣ BFS Traversal
+
+Define 8 directions for movement: up, down, left, right, and 4 diagonals.
+
+While queue is not empty:
+
+For each cell in the current level:
+
+Pop cell (r, c) from queue.
+
+If (r, c) is the destination (n-1, n-1), return length.
+
+Explore all 8 neighbors (nr, nc):
+
+Skip if out of bounds, blocked, or visited.
+
+Otherwise, append (nr, nc) to the queue and mark visited.
+
+Increment length after processing all cells at the current level.
+
+3️⃣ Termination
+
+If the queue empties without reaching the target, return -1 — no path exists.
+
+⏱️ Complexity Analysis
+
+Operation	Time Complexity	Space Complexity
+BFS traversal	O(n²)	O(n²) (queue + visited set)
+
+✅ Example Walkthrough
+
+Input Grid:
+
+[
+ [0,0,0],
+ [1,1,0],
+ [1,1,0]
+]
+
+
+Step-by-step:
+
+Start at (0,0) → enqueue neighbors (0,1), (1,1), (1,0) if valid.
+
+Level 1 → move to (0,1) and (1,2) etc.
+
+Continue BFS level by level.
+
+Reach (2,2) after 4 steps → shortest path = 4.
+
+✅ Output: 4
+
+🧠 Summary
+
+BFS guarantees shortest path in an unweighted grid.
+Track path length by BFS levels.
+Visited set prevents revisiting cells.
+Include all 8-directional moves to explore diagonals.
