@@ -1680,3 +1680,126 @@ BFS is faster and safer than DFS for shortest paths.
 If diagonal moves are allowed → expand neighbor list to include 8 directions.
 
 For weighted grids → switch to Dijkstra’s Algorithm.
+
+👉 Type: Graph Traversal — DFS (Count Paths) & BFS (Shortest Path) (adjacency_list.py)
+
+✅ Key Idea
+
+This code demonstrates two fundamental graph traversal strategies on a directed graph:
+
+DFS (Depth-First Search) → counts all possible paths between two nodes using recursion and backtracking.
+
+BFS (Breadth-First Search) → finds the shortest path length between two nodes using a queue and level-order traversal.
+
+It first builds an adjacency list from a list of directed edges, then applies DFS and BFS for two complementary purposes: path counting and shortest distance.
+
+✨ Flashcard
+
+“DFS → go deep, explore all routes (backtracking).
+BFS → go broad, explore shortest route (level by level).”
+
+⚡ Full Approach
+
+1️⃣ Graph Construction (Adjacency List)
+
+Input:
+
+edges = [["A", "B"], ["B", "C"], ["B", "E"], ["C", "E"], ["E", "D"]]
+
+
+Build a dictionary where each node maps to its outgoing neighbors.
+
+Ensures all nodes (even isolated ones) appear as keys.
+
+Example output:
+
+{
+  "A": ["B"],
+  "B": ["C", "E"],
+  "C": ["E"],
+  "E": ["D"],
+  "D": []
+}
+
+
+Complexity: O(V + E)
+
+2️⃣ DFS — Count All Paths (Recursive Backtracking)
+
+Goal: Count all distinct paths from a start node to a target node.
+
+Thinking Approach:
+
+Start at node.
+
+If it equals the target, one path is found → return 1.
+
+Otherwise:
+
+Mark it as visited to avoid cycles.
+
+Recursively visit all unvisited neighbors.
+
+After exploring, remove it from the visited set (backtrack).
+
+Sum all recursive results → total path count.
+
+Key Insight:
+DFS explores every possible route from start to finish, ensuring all valid paths are counted.
+Visited set prevents infinite recursion in cyclic graphs.
+
+3️⃣ BFS — Shortest Path Length (Level-Order Traversal)
+
+Goal: Find the minimum number of edges from a start node to a target node.
+
+Thinking Approach:
+
+Use a queue to explore the graph level by level.
+
+Each level represents one additional edge distance.
+
+At each step:
+
+Dequeue all nodes of the current level.
+
+For each neighbor:
+
+If unvisited → mark visited and enqueue.
+
+If the target is found → current level = shortest path length.
+
+If queue empties without reaching target → no path exists.
+
+Key Insight:
+BFS guarantees the first time we reach the target is through the shortest path, since all edges have equal weight.
+
+4️⃣ Algorithm Roles
+Algorithm	Role	Ensures
+DFS	Counts all possible paths between nodes	Complete route exploration
+BFS	Finds shortest path (minimum edges)	Minimum distance guarantee
+5️⃣ Core Concepts
+Concept	DFS	BFS
+Strategy	Recursive (deep)	Iterative (level by level)
+Data Structure	Call stack + visited set	Queue + visited set
+Goal	Count all possible routes	Find shortest route
+Behavior	Explores every branch	Expands evenly outward
+Use Case	Path counting, reachability	Shortest path, minimal steps
+
+⏱️ Complexity
+
+Operation	Time	Space	Description
+Build adjacency list	O(V + E)	O(V + E)	Process each edge once
+DFS	O(V + E)	O(V)	Explore all paths recursively
+BFS	O(V + E)	O(V)	Visit each node once via queue
+
+✅ Notes
+
+DFS → best for counting or enumerating all paths.
+
+BFS → best for finding shortest path in unweighted graphs.
+
+The visited set in both ensures correctness and prevents infinite loops.
+
+For weighted graphs, replace BFS with Dijkstra’s Algorithm.
+
+For cycle detection, enhance DFS with a recursion stack check.
