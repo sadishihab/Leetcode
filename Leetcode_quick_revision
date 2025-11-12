@@ -1909,3 +1909,67 @@ All oranges rotten → return 4.
 BFS guarantees level-by-level rotting.
 Track fresh oranges to determine if all can rot.
 Each BFS level corresponds to 1 minute.
+
+👉 Problem: Clone Graph (LeetCode 133)
+
+✅ Key Idea
+Use BFS to traverse the given graph node by node.
+For each node, create its clone and connect cloned neighbors accordingly.
+Maintain a clone_map to link each original node to its cloned copy.
+
+✨ Flashcard
+“Clone Graph → Traverse original using BFS/DFS.
+For each node: create clone, store mapping, and connect neighbors.”
+
+⚡ Full Approach
+
+1️⃣ Check Base Case
+If the input node is None, return None (empty graph).
+
+2️⃣ Create Mapping Dictionary
+Use a clone_map to store the mapping between original and cloned nodes.
+clone_map[orig_node] = cloned_node
+
+3️⃣ Traverse the Graph (BFS)
+
+Use a queue initialized with the starting node.
+
+For each node dequeued:
+
+Traverse all its neighbors.
+
+If a neighbor isn’t cloned yet:
+
+Create a new clone.
+
+Add the neighbor to the queue for future processing.
+
+Append the cloned neighbor to the cloned node’s neighbor list.
+
+4️⃣ Return the Cloned Start Node
+After BFS finishes, return the clone corresponding to the original start node.
+
+🧠 Why It Works
+
+The BFS ensures we visit every node exactly once (since the graph is connected).
+
+The mapping ensures:
+
+No duplicate nodes are created.
+
+Proper neighbor references are established.
+
+⏱️ Complexity
+
+Operation	Time	Space
+Clone traversal	O(V + E)	O(V)
+—	—	—
+V = number of nodes	E = number of edges
+
+✅ Notes
+
+Works for connected undirected graphs.
+
+Can be easily rewritten using DFS recursion by replacing BFS with recursive traversal.
+
+BFS avoids recursion depth issues for larger graphs.
