@@ -1,6 +1,6 @@
 from collections import deque
 
-
+'''
 # GraphNode used for adjacency list
 class GraphNode:
     def __init__(self, val):
@@ -9,6 +9,8 @@ class GraphNode:
 
 # Or use a HashMap
 adjList = {"A": [], "B": []}
+
+'''
 
 # Given directed edges, build an adjacency list
 edges = [["A", "B"], ["B", "C"], ["B", "E"], ["C", "E"], ["E", "D"]]
