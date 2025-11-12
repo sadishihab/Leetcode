@@ -1803,3 +1803,157 @@ The visited set in both ensures correctness and prevents infinite loops.
 For weighted graphs, replace BFS with Dijkstra’s Algorithm.
 
 For cycle detection, enhance DFS with a recursion stack check.
+
+Excellent — this is one of the best examples to understand how problem-solving evolves from brute force → memoization → dynamic programming.
+
+Let’s unpack the thinking process step by step 👇
+
+
+👉 Type: One dimentional Dynamic Programming (1_dimention_dp.py)
+
+We’re solving for the n-th Fibonacci number:
+
+F(0) = 0
+F(1) = 1
+F(n) = F(n-1) + F(n-2)
+
+
+It’s a classic recurrence relation — perfect for demonstrating algorithmic optimization.
+
+🚶 Step 1: Brute Force (Naive Recursion)
+💡 Thought Process
+
+The Fibonacci formula is recursive, so we can directly translate it into a recursive function.
+
+“To compute F(n), just compute F(n-1) and F(n-2) and add them.”
+
+def bruteForce(n):
+    if n <= 1:
+        return n
+    return bruteForce(n - 1) + bruteForce(n - 2)
+
+🧠 What’s happening
+
+Each call to bruteForce(n) spawns two more recursive calls.
+
+The recursion tree recomputes the same subproblems many times.
+Example:
+
+F(5)
+├─ F(4)
+│  ├─ F(3)
+│  │  ├─ F(2)
+│  │  └─ F(1)
+│  └─ F(2)
+└─ F(3)
+
+
+F(3) and F(2) are recalculated multiple times.
+
+⏱️ Complexity
+Metric	Cost	Reason
+Time	O(2ⁿ)	Recomputes same subproblems exponentially
+Space	O(n)	Recursion stack depth
+⚠️ Problem
+
+Too slow for larger n because of overlapping subproblems.
+
+⚡ Step 2: Memoization (Top-Down DP)
+💡 Thought Process
+
+Recognize overlapping subproblems — the same Fibonacci values are recomputed.
+
+Store (or memoize) previously computed results in a dictionary.
+
+Before computing F(n), check if it’s already in the cache.
+
+def memoization(n, cache):
+    if n <= 1:
+        return n
+    if n in cache:
+        return cache[n]
+    cache[n] = memoization(n - 1, cache) + memoization(n - 2, cache)
+    return cache[n]
+
+🧠 What’s happening
+
+The recursion still happens, but now each unique n is solved once.
+
+When a value is computed, it’s saved in cache, and reused later.
+
+Example for n = 5:
+
+memoization(5)
+ ├─ memoization(4)
+ │   ├─ memoization(3)
+ │   │   ├─ memoization(2)
+ │   │   ├─ memoization(1)
+ │   └─ memoization(2)  (from cache)
+ └─ memoization(3)  (from cache)
+
+⏱️ Complexity
+Metric	Cost	Reason
+Time	O(n)	Each Fibonacci number computed once
+Space	O(n)	Cache + recursion stack
+✅ Benefit
+
+Much faster.
+
+Still intuitive (recursive), but avoids redundant work.
+
+🧱 Step 3: Dynamic Programming (Bottom-Up)
+💡 Thought Process
+
+We can avoid recursion altogether by building results iteratively.
+
+Compute from the smallest subproblems upward:
+
+F(0) → F(1) → F(2) → ... → F(n)
+
+Only the last two values are needed at any time, so we can optimize space.
+
+def dp(n):
+    if n < 2:
+        return n
+
+    dp = [0, 1]
+    i = 2
+    while i <= n:
+        tmp = dp[1]
+        dp[1] = dp[0] + dp[1]
+        dp[0] = tmp
+        i += 1
+    return dp[1]
+
+🧠 What’s happening
+
+Start from the base values 0, 1.
+
+Iteratively update the next Fibonacci number.
+
+Only two variables needed → O(1) space.
+
+⏱️ Complexity
+Metric	Cost	Reason
+Time	O(n)	Linear iteration
+Space	O(1)	Two variables only
+✅ Benefit
+
+Most efficient.
+
+No recursion.
+
+Ideal for large n.
+
+✨ Flashcard Summary
+Approach	Style	Key Idea	Time	Space
+Brute Force	Pure recursion	Recompute everything	O(2ⁿ)	O(n)
+Memoization	Top-down DP	Cache computed results	O(n)	O(n)
+Dynamic Programming	Bottom-up DP	Build from base cases iteratively	O(n)	O(1)
+🧠 Mental Model
+
+Brute Force: “Recompute everything from scratch.”
+
+Memoization: “Remember what I’ve already solved.”
+
+DP: “Let’s build answers from the ground up, no recursion needed.”
