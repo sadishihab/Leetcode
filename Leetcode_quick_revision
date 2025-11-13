@@ -2081,3 +2081,63 @@ Number of paths = C(m + n - 2, m - 1).
 
 But DP solution is preferred when grid constraints are moderate or for learning recursion-to-DP conversion.
 
+👉 Problem: Unique Paths II (LeetCode 63)
+✅ Key Idea
+This problem is an extension of Unique Paths (LeetCode 62) — but now, some cells contain obstacles (marked as 1), which the robot cannot pass through.
+We still move only right or down, but must skip paths that lead into obstacles.
+We use Dynamic Programming (DP) — each cell (r, c) represents the number of ways to reach the destination without stepping on obstacles.
+
+✨ Flashcard
+DP Transition:
+If grid[r][c] == 1 → obstacle → dp[r][c] = 0
+Else → dp[r][c] = dp[r+1][c] + dp[r][c+1]
+We build the solution from bottom-right to top-left, skipping blocked cells.
+⚡ Step-by-Step Thinking Approach
+
+
+Base Case:
+
+If the destination (m-1, n-1) has an obstacle → return 0 immediately (no path possible).
+
+Otherwise, set dp[m-1][n-1] = 1 (one way to reach itself).
+
+Iterate from bottom-right upward:
+
+For each cell (r, c):
+If it’s an obstacle → dp[r][c] = 0.
+Else, dp[r][c] = dp[r+1][c] + dp[r][c+1] (if those exist).
+
+
+Space Optimization:
+
+Use 1D DP array (prevRow + curRow) instead of a full grid.
+Start from the last row, process cells backward.
+
+Final Answer:
+The number of unique paths from top-left is dp[0][0].
+
+🧩 Example
+Grid:
+[0,0,0]
+[0,1,0]
+[0,0,0]
+
+→ Start at (0,0), obstacle at (1,1)
+
+DP Table (paths count):
+[2, 2, 1]
+[1, 0, 1]
+[1, 1, 1]
+Answer = 2
+
+⏱️ Complexity
+OperationTimeSpaceDP traversalO(m × n)O(n)
+
+✅ Notes
+Handle edge cases carefully:
+If start or end is blocked → return 0.
+Works efficiently for m, n ≤ 100.
+Conceptually identical to LeetCode 62, except we skip blocked cells.
+
+
+
