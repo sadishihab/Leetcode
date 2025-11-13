@@ -2024,3 +2024,60 @@ Where V = numCourses, E = len(prerequisites).
 Alternative DFS approach: detect cycles using recursion and a visiting set.
 BFS (Kahn’s algorithm) is often cleaner and more intuitive for this problem.
 
+
+👉 Problem: Unique Paths (LeetCode 62)
+
+✅ Key Idea
+We need to count the number of unique paths from the top-left corner of an m x n grid to the bottom-right corner, moving only right or down at each step.
+
+This can be modeled as a Dynamic Programming (DP) problem where each cell (r, c) represents the number of ways to reach the destination from that cell.
+
+Each cell’s value = number of ways right + number of ways down.
+
+Formally:
+dp[r][c] = dp[r + 1][c] + dp[r][c + 1]
+
+✨ Flashcard
+
+Dynamic Programming (Bottom-Up)
+Start from the destination (bottom-right), move backward to the start (top-left).
+The last cell = 1 way (already at destination).
+Each cell depends on the cell to its right and the cell below.
+
+⚡ Step-by-Step Thinking Approach
+
+We initialize from the bottom-right of the grid since that’s our goal cell — only one way from there.
+
+For each cell, the number of unique paths =
+→ paths to the right cell + paths to the cell below.
+
+We use 1D DP optimization:
+
+Instead of a full grid, we keep only the current row and the row below it (prevRow).
+
+Iterating backward ensures dependencies (right and below) are already computed.
+
+Example (m = 3, n = 3):
+
+Start → (0,0)
+↓ ↓ ↓
+Each cell counts possible paths:
+[6, 3, 1]
+[3, 2, 1]
+[1, 1, 1]
+
+
+Answer = 6
+
+⏱️ Complexity
+
+Operation	Time	Space
+Build paths	O(m × n)	O(n)
+
+✅ Notes
+
+This is a combinatorial problem at heart:
+Number of paths = C(m + n - 2, m - 1).
+
+But DP solution is preferred when grid constraints are moderate or for learning recursion-to-DP conversion.
+
