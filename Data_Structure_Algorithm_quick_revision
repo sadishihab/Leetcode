@@ -1957,3 +1957,91 @@ Brute Force: “Recompute everything from scratch.”
 Memoization: “Remember what I’ve already solved.”
 
 DP: “Let’s build answers from the ground up, no recursion needed.”
+
+👉 Type: Two-Dimensional Dynamic Programming (2D Grid Paths)
+
+We’re solving for the number of unique paths in a grid of size rows × cols,
+where you can only move right or down — from (0, 0) to (rows-1, cols-1).
+This is a classic grid traversal problem, often called “Unique Paths.”
+The recurrence relation is:
+ways(r, c) = ways(r + 1, c) + ways(r, c + 1)
+
+with base case:
+ways(rows - 1, cols - 1) = 1
+
+
+🚶 Step 1: Brute Force (Naive Recursion)
+
+✨ Flashcard Summary
+ApproachStyleKey IdeaTimeSpaceBrute ForcePure recursionExplore all pathsO(2^(n+m))O(n+m)MemoizationTop-down DPCache computed pathsO(n×m)O(n×m)Dynamic ProgrammingBottom-up DPBuild iterativelyO(n×m)O(m)
+
+💡 Thought Process
+At every cell (r, c), you have two choices:
+
+Move down to (r + 1, c)
+
+Move right to (r, c + 1)
+
+You recursively explore both until you either:
+
+Reach the destination cell → count it as 1 path
+
+Go out of bounds → count it as 0
+
+
+🧠 What’s happening
+Each recursive call splits into two — one for “right,” one for “down.”
+This builds a binary recursion tree exploring all possible paths.
+Many subproblems like (1,1) or (2,1) are recomputed multiple times,
+which leads to exponential growth in calls.
+
+⏱️ Complexity
+MetricCostReasonTimeO(2^(n + m))Each cell leads to two recursive branchesSpaceO(n + m)Recursion stack depth
+
+⚠️ Problem
+Extremely inefficient for larger grids due to repeated subproblems.
+
+⚡ Step 2: Memoization (Top-Down DP)
+💡 Thought Process
+We observe overlapping subproblems — the number of paths from (1,1)
+is computed multiple times in the brute force approach.
+To fix this, we store results of solved subproblems in a 2D cache.
+Before computing a new (r, c), we check if it’s already cached.
+🧠 What’s happening
+Each unique cell (r, c) is computed only once.
+When the number of paths from a cell is known, it’s saved in the cache
+and reused later instead of recalculating.
+⏱️ Complexity
+MetricCostReasonTimeO(n × m)Each cell computed onceSpaceO(n × m)Cache + recursion stack
+✅ Benefit
+Same recursive structure
+No repeated work
+Huge speed-up
+
+🧱 Step 3: Dynamic Programming (Bottom-Up)
+💡 Thought Process
+Instead of recursion, we can build the answer iteratively
+starting from the destination cell and moving backward.
+Each cell (r, c) depends on:
+ways(r, c) = ways(r, c + 1) + ways(r + 1, c)
+
+We fill the grid from bottom-right to top-left,
+and since we only need one previous row at a time,
+we can reduce space complexity to O(m) (number of columns).
+🧠 What’s happening
+We initialize the bottom-right corner with 1 (the destination).
+Then, moving leftward and upward, we combine the counts of
+right and down moves to compute paths for every other cell.
+By the time we reach (0, 0), we have the total number of unique paths.
+⏱️ Complexity
+MetricCostReasonTimeO(n × m)Each cell visited onceSpaceO(m)Only one row stored at a time
+✅ Benefit
+No recursion
+Minimal memory use
+Fast and clean
+
+🧠 Mental Model
+
+Brute Force: “Try every path blindly.”
+Memoization: “Remember what I’ve already explored.”
+DP: “Let’s plan ahead and build the answer step by step.”
