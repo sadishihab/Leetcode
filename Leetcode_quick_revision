@@ -2140,4 +2140,207 @@ Works efficiently for m, n ≤ 100.
 Conceptually identical to LeetCode 62, except we skip blocked cells.
 
 
+👉 Problem: Longest Common Subsequence (LeetCode 1143)
+
+✅ Key Idea
+
+We are given two strings, text1 and text2, and we need to find the length of their longest common subsequence (LCS) — a sequence that appears in both strings in the same order, but not necessarily contiguously.
+
+Example:
+text1 = "abcde"
+text2 = "ace"
+→ Longest Common Subsequence = "ace"
+→ Length = 3
+
+To solve this, we use Dynamic Programming (DP) — specifically a bottom-up approach optimized to use only O(m) space.
+
+✨ Flashcard:
+“Compare characters from the end of both strings.
+If they match → add 1 + diagonal value.
+If not → take the max from right or down.
+Build up the LCS length using only two rows.”
+
+⚡ Full Approach
+
+1️⃣ Initialization
+
+Let n = len(text1) and m = len(text2).
+We create two 1D arrays:
+prevRow → represents results for text1[i+1:]
+curRow → represents results for text1[i:]
+Initialize both with zeros of length m + 1.
+
+2️⃣ Bottom-Up DP Traversal
+
+Traverse text1 and text2 backward (from end to start).
+For each pair (i, j):
+
+If characters match (text1[i] == text2[j]):
+→ The LCS includes this character.
+→ curRow[j] = 1 + prevRow[j + 1]
+
+Else:
+→ Skip one character from either string.
+→ curRow[j] = max(prevRow[j], curRow[j + 1])
+
+After finishing one row, assign:
+prevRow = curRow
+
+3️⃣ Final Answer
+
+Once all rows are processed, prevRow[0] holds the LCS length for the full strings.
+
+⏱️ Complexity Analysis
+
+Operation	Time Complexity	Space Complexity
+DP traversal	O(n × m)	O(m)
+
+Each character pair is compared once, and only one row is stored at a time.
+
+✅ Example Walkthrough
+
+Input:
+
+text1 = "abcde"
+text2 = "ace"
+
+DP Computation:
+Compare from the end:
+text1[i] = 'e', text2[j] = 'e' → match → +1
+...
+Final DP row = [3, 2, 1, 0]
+
+Output:
+3
+
+Because the longest common subsequence is "ace".
+
+🧠 Summary
+
+We use bottom-up dynamic programming to build the LCS from the end.
+
+Matching chars → 1 + diagonal.
+
+Non-matching → max(right, down).
+
+Optimized to O(m) space with two rows only.
+
+✅ Result: Efficient, elegant, and scalable for strings up to 1000 characters.
+
+✅ Summary (Mental Model)
+
+Make a grid of all character positions.
+Fill bottom-right to top-left using:
+Match → diagonal + 1
+No match → max(right, down)
+Top-left → LCS length of full strings.
+Backtrack diagonally to reconstruct the subsequence.
+
+
+What is LCS?
+
+You have two strings.
+A subsequence is a string you get by deleting some characters without changing the order.
+Example: "ace" is a subsequence of "abcde".
+A common subsequence appears in both strings.
+
+Longest Common Subsequence (LCS) is the common subsequence with the maximum length.
+
+Perfect! Let’s go through a step-by-step example of LCS textually, without any code.
+
+We’ll use:
+
+text1 = "abcde"
+text2 = "ace"
+
+Step 1: Start from the end of both strings
+
+Last character of text1 = "e"
+
+Last character of text2 = "e"
+
+They match, so this "e" is part of the LCS.
+
+Move to the previous characters in both strings:
+
+text1 now: "abcd"
+text2 now: "ac"
+LCS so far: "e"
+
+Step 2: Compare new last characters
+
+Last character of text1 = "d"
+
+Last character of text2 = "c"
+
+They don’t match, so we have two options:
+
+Ignore "d" in text1 → compare "abc" and "ac"
+
+Ignore "c" in text2 → compare "abcd" and "a"
+
+We choose the option that gives the longer LCS.
+
+Step 3: Explore both options
+
+Option 1: "abc" vs "ac"
+
+Last characters "c" vs "c" → match, include "c"
+
+Move to "ab" vs "a" → last chars "b" vs "a" → don’t match
+
+Only "a" matches → LCS = "ac"
+
+Option 2: "abcd" vs "a"
+
+Last chars "d" vs "a" → don’t match
+
+Skip "d" → "abc" vs "a"
+
+Last chars "c" vs "a" → don’t match
+
+Skip "c" → "ab" vs "a"
+
+Last chars "b" vs "a" → don’t match
+
+Skip "b" → "a" vs "a" → match, include "a"
+
+LCS = "a"
+
+✅ Pick the longer one, which is "ac"
+
+Step 4: Add the previous match
+
+Remember we matched "e" in Step 1
+
+Add it to "ac" → LCS = "ace"
+
+Step 5: Final LCS
+
+"ace" is the longest common subsequence
+
+Length = 3
+
+Key Observations
+
+Always compare last characters of current substrings.
+
+If match → include and move diagonally.
+
+If no match → try skipping one character from either string.
+
+Always pick the option giving the longer subsequence.
+
+Repeat until all characters are processed.
+
+✅ Summary in Words
+
+Think of LCS as picking letters from both strings in order.
+
+Matching letters are included.
+
+Non-matching letters → decide which to skip for a longer sequence.
+
+Build the solution step by step from the end toward the start.
+
 
