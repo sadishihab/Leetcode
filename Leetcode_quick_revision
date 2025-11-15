@@ -2541,4 +2541,86 @@ Iteration 3:
   ...
 
 
+👉 Problem: Maximum Subarray (Kadane’s Algorithm)
+
+You must find the contiguous subarray that gives the maximum total sum.
+
+✅ Key Idea
+
+"If your running sum becomes negative, throw it away and start fresh."
+
+✨ Flashcard
+
+Kadane = keep adding; if sum < 0 → reset; track max.
+
+⚡ Full Approach (Step-by-Step, No Code)
+Step 1 — Start with two trackers
+
+maxSum ← first element of the array
+(This ensures answer always includes at least one number)
+
+curSum ← 0
+(Your temporary running sum)
+
+Step 2 — Begin scanning the array from left to right
+
+For each number in the array:
+
+Step 3 — If the running sum became negative
+
+Drop it.
+
+Restart the subarray from the next number.
+
+Why?
+A negative running sum will only pull future sums down.
+
+So mentally say:
+“curSum < 0? Reset to 0.”
+
+Step 4 — Add the current number to your running total
+
+Extend the current subarray by including this number.
+
+curSum grows as long as you are gaining value.
+
+Step 5 — Update the global best
+
+After adding each number:
+
+Compare curSum with maxSum
+
+If curSum is higher → update maxSum
+
+This ensures you always keep track of the best subarray seen so far.
+
+Step 6 — Finish
+
+After scanning all numbers:
+
+The value in maxSum is the maximum subarray sum.
+
+🧠 Mental Map (Very Simple)
+
+Imagine walking through numbers with a backpack:
+
+Add each number to your backpack.
+
+If the items in the backpack make the total weight negative,
+empty the backpack and start collecting freshly.
+
+Always remember the heaviest backpack value seen.
+
+⏱️ Complexity
+
+Time: O(n) → one pass
+
+Space: O(1) → only two variables
+
+You can also write:
+📌 For the sliding window version
+📌 For the divide & conquer solution
+📌 For returning indices or subarray
+
+
 

@@ -1,0 +1,176 @@
+👉 (Maximum Subarray – Three Approaches)
+1️⃣ Brute Force – O(n²)
+✅ Key Idea
+
+Try every possible subarray and keep track of the largest sum.
+
+At each index i, extend the subarray to the right (j) and accumulate the sum.
+
+✨ Flashcard:
+"Pick a start → extend right → update max → repeat for all starts."
+
+⚡ Full Approach
+Steps:
+
+Initialize maxSum to the first element.
+
+Loop i from 0 to n−1 (start of subarray).
+
+Set curSum = 0 for each new starting point.
+
+Loop j from i to n−1 (extend the subarray).
+
+Add nums[j] to curSum.
+
+Update maxSum = max(maxSum, curSum).
+
+After checking all subarrays → return maxSum.
+
+⏱️ Complexity
+
+Time: O(n²) — every (i, j) pair is checked.
+Space: O(1) — uses constant extra space.
+
+✅ Notes
+
+Very easy to understand.
+
+Very slow for big inputs.
+
+Good as a baseline, bad in interviews for large arrays.
+
+2️⃣ Kadane’s Algorithm – O(n)
+✅ Key Idea
+
+Walk through the array and maintain a running sum.
+If the running sum becomes negative, drop it (reset to 0).
+
+✨ Flashcard:
+"If current sum < 0 → reset. Add each number and keep max."
+
+⚡ Full Approach
+Steps:
+
+maxSum = nums[0]
+
+curSum = 0
+
+Loop through each number n in nums:
+
+If curSum is negative, reset it: curSum = max(curSum, 0)
+
+Add current number: curSum += n
+
+Update best: maxSum = max(maxSum, curSum)
+
+Return maxSum.
+
+⏱️ Complexity
+
+Time: O(n) — single pass.
+Space: O(1).
+
+✅ Notes
+
+Works even when array contains negative numbers.
+
+Extremely efficient.
+
+Most common interview solution.
+
+3️⃣ Sliding Window Variant of Kadane — O(n), with indices
+✅ Key Idea
+
+Same as Kadane, but also track where the max subarray starts and ends.
+
+✨ Flashcard:
+"Reset window when sum < 0. Expand right. Update best window when new max is found."
+
+⚡ Full Approach
+Steps:
+
+maxSum = nums[0]
+
+curSum = 0
+
+Track indices:
+
+L = current window start
+
+maxL, maxR = best window
+
+For each R in range(len(nums)):
+
+If curSum < 0:
+
+reset curSum = 0
+
+move L = R (new window start)
+
+Add current number: curSum += nums[R]
+
+If curSum beats maxSum:
+
+update maxSum
+
+update maxL, maxR = L, R
+
+Return [maxL, maxR].
+
+⏱️ Complexity
+
+Time: O(n)
+Space: O(1)
+
+✅ Notes
+
+Same speed as Kadane.
+
+But it also gives the start and end indices of the best subarray.
+
+Very useful when we need the actual slice of the array.
+
+
+🧠 First: The Thinking Method & Mental Map
+
+All three functions solve Maximum Subarray Sum (LeetCode 53):
+Find a subarray (continuous part) that gives the biggest sum.
+
+1. Brute Force – Thinking Method (Try Everything)
+
+Mental Map:
+Imagine pointing at each index i.
+Then from that i, extend a window to the right step-by-step (j).
+For every possible slice, compute the sum.
+Keep track of the biggest one.
+
+👉 This is like checking all possible subarrays.
+
+2. Kadane’s Algorithm – Thinking Method (Smart skipping)
+
+Mental Map:
+Walk through the array once.
+Keep a running sum (curSum).
+If the running sum becomes negative, drop it.
+Because a negative sum will only pull future sums down.
+Always update the best result (maxSum).
+
+👉 This is like saying:
+“If what I have so far is harmful (negative), I'll start over.”
+
+3. Sliding Window Variation – Thinking Method (Kadane + indices)
+
+Kadane normally returns only the sum.
+This version also returns left and right indices of the best subarray.
+
+Mental Map:
+Still reset curSum when it becomes negative.
+At the moment you reset, the new potential start index = R.
+
+Any time you find a new maxSum, record:
+The current start (L)
+
+The current end (R)
+
+👉 It tracks where the best window starts and ends.
+
