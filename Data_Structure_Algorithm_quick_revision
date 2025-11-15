@@ -2045,3 +2045,43 @@ Fast and clean
 Brute Force: “Try every path blindly.”
 Memoization: “Remember what I’ve already explored.”
 DP: “Let’s plan ahead and build the answer step by step.”
+
+
+
+✅ Bitwise Operators in Python (Explained) (bit_manipulation.py)
+
+| Operation   | Symbol | Meaning                       | Example  | Output |
+| ----------- | ------ | ----------------------------- | -------- | ------ |
+| AND         | `&`    | Both bits must be 1           | `1 & 1`  | `1`    |
+| OR          | `\|`   | Either bit is 1               | `1 \| 0` | `1`    |
+| XOR         | `^`    | Bits must differ              | `1 ^ 0`  | `1`    |
+| NOT         | `~`    | Flips bits (two's complement) | `~1`     | `-2`   |
+| Left shift  | `<<`   | Multiply by 2                 | `1 << 1` | `2`    |
+| Right shift | `>>`   | Divide by 2                   | `2 >> 1` | `1`    |
+
+
+
+Counting Bits Function:
+
+n & 1 checks if the last bit is 1.
+
+n >> 1 removes the last bit (same as n // 2).
+
+This loops until all bits are processed.
+
+Example:
+
+countBits(13)
+13 = 1101 → 3 ones
+
+
+✔ Output: 3
+
+⭐ Want a faster version?
+def countBits(n):
+    return bin(n).count("1")
+
+
+Fast and Pythonic.
+
+
