@@ -2461,4 +2461,84 @@ Time: O(n) → compute once for each number from 1 to n
 
 Space: O(n) → store answers for all numbers from 0 to n
 
+👉 Problem type: Bit Manipulation – Reverse Bits (LeetCode 190)
+
+✨ Flashcard (easy):
+“Take each bit from the input number and put it in the opposite position to reverse the 32-bit binary.”
+
+⚡ Full Approach
+
+We need to reverse the bits of a 32-bit unsigned integer.
+
+For example:
+
+n = 43261596
+binary: 00000010100101000001111010011100
+reversed: 00111001011110000010100101000000
+decimal: 964176192
+
+
+🔥 Key Idea
+
+Initialize result = 0.
+
+Loop 32 times (for each bit of the number):
+
+Shift result left by 1 → make space for the next bit.
+
+Add the last bit of n → n & 1.
+
+Shift n right by 1 → move to the next bit.
+
+After 32 iterations, result contains the reversed bits.
+
+🧠 Steps
+
+Initialize result = 0.
+
+For 32 times:
+
+result = (result << 1) | (n & 1)
+n = n >> 1
+
+
+Return result.
+
+📝 Notes
+
+Works for any 32-bit unsigned integer.
+
+Each iteration extracts one bit from n and places it in the correct reversed position.
+
+Uses bitwise operations only → very fast.
+
+⏱️ Complexity
+
+Time: O(32) → constant, since 32 bits
+
+Space: O(1) → only uses a variable for result
+
+Visual Example (8-bit number for simplicity)
+n = 10110010
+result = 00000000
+
+Iteration 1:
+  n & 1 = 0
+  result << 1 = 00000000
+  result = 00000000 | 0 = 00000000
+  n >>= 1 → n = 01011001
+
+Iteration 2:
+  n & 1 = 1
+  result << 1 = 00000000
+  result = 00000000 | 1 = 00000001
+  n >>= 1 → n = 00101100
+
+Iteration 3:
+  n & 1 = 0
+  result << 1 = 00000010
+  result = 00000010 | 0 = 00000010
+  ...
+
+
 
