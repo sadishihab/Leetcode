@@ -1,5 +1,6 @@
 
 # Counting Bits
+# Using least significant bit (LSB) approach
 def countBits(n):
     count = 0
     while n > 0:

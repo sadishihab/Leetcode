@@ -2061,7 +2061,7 @@ DP: “Let’s plan ahead and build the answer step by step.”
 
 
 
-Counting Bits Function:
+Counting Bits Function (Using least significant bit (LSB) approach):
 
 n & 1 checks if the last bit is 1.
 

@@ -2344,3 +2344,69 @@ Non-matching letters → decide which to skip for a longer sequence.
 Build the solution step by step from the end toward the start.
 
 
+👉 Problem type: Bit Manipulation – Brian Kernighan’s Algorithm - Number of 1 Bits (LeetCode 191)
+
+✨ Flashcard:
+“Use Brian Kernighan’s trick → n &= (n - 1) drops the lowest set bit each time.”
+
+⚡ Full Approach
+
+We need to count how many 1 bits (set bits) a number has in its binary representation.
+
+🔥 Key Idea: Brian Kernighan’s Algorithm
+
+Instead of checking every bit, we repeatedly remove the lowest set bit using:
+
+n &= (n - 1)
+
+
+Why this works:
+
+n - 1 flips all bits after the lowest set bit.
+
+ANDing with n removes the rightmost 1.
+
+Each iteration removes exactly one set bit.
+
+Number of iterations = number of 1 bits.
+
+🧠 Steps
+
+Initialize count = 0.
+
+While n is not zero:
+
+Do n &= (n - 1) → removes the lowest set bit.
+
+Increment count.
+
+Return count.
+
+📝 Notes
+
+The algorithm is efficient because:
+
+#Skips Zero Bits Efficiently
+
+Instead of checking every bit (32 times), the loop runs only for each 1 bit in n.
+
+#Direct Bit Manipulation
+
+By removing one set bit at a time, you avoid unnecessary iterations.
+
+#Works in O(k)
+
+Where k = number of set bits, which is usually much smaller than 32.
+
+#No Extra Space
+
+The operation modifies n directly without needing additional memory.
+
+⏱️ Complexity
+
+Time: O(k) → where k = number of 1 bits
+(Worst case: O(32) for a 32-bit number)
+
+Space: O(1) → constant space
+
+
