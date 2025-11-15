@@ -2409,4 +2409,56 @@ Time: O(k) → where k = number of 1 bits
 
 Space: O(1) → constant space
 
+👉 Problem type: Bit Manipulation – Counting Bits (LeetCode 338)
+
+✨ Flashcard:
+“Number of 1s in i = number of 1s in i divided by 2 + 1 if last bit is 1”
+
+⚡ Full Approach
+
+We need to return an array ans where ans[i] represents the number of 1s in the binary representation of i for all i from 0 to n.
+
+🔥 Key Idea: Dynamic Programming + Bit Manipulation
+
+Instead of converting each number to binary and counting 1s:
+
+Observe that the binary of i can be split into:
+
+Main part: i >> 1 → all bits except the last bit.
+
+Last bit: i & 1 → 1 if last bit is set, 0 otherwise.
+
+If we already know ans[i >> 1] → number of 1s in the main part,
+then adding (i & 1) gives the total number of 1s in i.
+
+🧠 Steps
+
+Initialize ans = [0] * (n + 1) → ans[0] = 0 since 0 has no 1s.
+
+Loop from i = 1 to n:
+
+Compute ans[i] = ans[i >> 1] + (i & 1)
+
+i >> 1 → removes last bit (smaller number, already computed)
+
+i & 1 → adds 1 if last bit is 1
+
+Return ans.
+
+📝 Notes
+
+Dynamic Programming: Each number uses the result of a smaller number (i >> 1) → efficient O(n).
+
+Bit Manipulation: (i & 1) directly gives the last bit without converting to binary.
+
+Linear Time: Each number is processed once.
+
+No Extra Space: Only stores the answer array.
+
+⏱️ Complexity
+
+Time: O(n) → compute once for each number from 1 to n
+
+Space: O(n) → store answers for all numbers from 0 to n
+
 
