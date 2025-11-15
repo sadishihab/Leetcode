@@ -1,0 +1,320 @@
+👉 Problem: Maximum Subarray (Kadane’s Algorithm)
+
+You must find the contiguous subarray that gives the maximum total sum.
+
+✅ Key Idea
+
+"If your running sum becomes negative, throw it away and start fresh."
+
+✨ Flashcard
+
+Kadane = keep adding; if sum < 0 → reset; track max.
+
+⚡ Full Approach (Step-by-Step, No Code)
+Step 1 — Start with two trackers
+
+maxSum ← first element of the array
+(This ensures answer always includes at least one number)
+
+curSum ← 0
+(Your temporary running sum)
+
+Step 2 — Begin scanning the array from left to right
+
+For each number in the array:
+
+Step 3 — If the running sum became negative
+
+Drop it.
+
+Restart the subarray from the next number.
+
+Why?
+A negative running sum will only pull future sums down.
+
+So mentally say:
+“curSum < 0? Reset to 0.”
+
+Step 4 — Add the current number to your running total
+
+Extend the current subarray by including this number.
+
+curSum grows as long as you are gaining value.
+
+Step 5 — Update the global best
+
+After adding each number:
+
+Compare curSum with maxSum
+
+If curSum is higher → update maxSum
+
+This ensures you always keep track of the best subarray seen so far.
+
+Step 6 — Finish
+
+After scanning all numbers:
+
+The value in maxSum is the maximum subarray sum.
+
+🧠 Mental Map (Very Simple)
+
+Imagine walking through numbers with a backpack:
+
+Add each number to your backpack.
+
+If the items in the backpack make the total weight negative,
+empty the backpack and start collecting freshly.
+
+Always remember the heaviest backpack value seen.
+
+⏱️ Complexity
+
+Time: O(n) → one pass
+
+Space: O(1) → only two variables
+
+You can also write:
+📌 For the sliding window version
+📌 For the divide & conquer solution
+📌 For returning indices or subarray
+
+👉 Problem: Maximum Sum Circular Subarray (LeetCode 918)
+
+You must find the maximum subarray sum, but the array is circular — meaning the end wraps around to the start.
+
+✅ Key Idea
+
+There are two possible types of max subarrays:
+
+1️⃣ Normal (Non-Circular) Subarray
+
+Example:
+[1, -2, 3, -2] → best is [3] → sum = 3
+Just run Kadane’s algorithm.
+
+2️⃣ Circular Subarray
+
+The subarray “wraps around” the end → start.
+
+Example:
+[5, -3, 5] best circular = [5, ?, 5] = 10 → sum = 10
+
+How to find this?
+
+👉 Circular max sum = total sum − minimum subarray sum
+
+Because:
+
+Removing the minimum middle part gives the maximum wrapping part.
+
+✨ Flashcard
+
+"Max = max(normalKadane, total − minKadane). But if all numbers are negative → return max normal only."
+
+⚡ Full Approach (Step-by-Step, No Code)
+Step 1 — Compute the normal maximum subarray sum
+
+Use standard Kadane:
+
+Keep adding numbers.
+
+When sum < 0 → reset to 0.
+
+Track the largest sum seen.
+
+This gives:
+
+max_normal
+
+
+This solves the non-wrapping case.
+
+Step 2 — Compute the minimum subarray sum
+
+Do Kadane again, but inverted:
+
+Keep adding numbers.
+
+When sum > 0 → reset to 0.
+
+Track the smallest (most negative) sum seen.
+
+This gives:
+
+min_subarray
+
+
+This helps us compute the maximum circular sum.
+
+Step 3 — Compute total sum of all elements
+total_sum = sum(nums)
+
+
+This is needed for wrapping logic.
+
+Step 4 — Compute circular subarray sum
+max_circular = total_sum − min_subarray
+
+
+This essentially removes the worst (minimum) middle part to form a wrapping subarray.
+
+Step 5 — Edge Case: All numbers are negative
+
+If all numbers are negative:
+
+The minimum subarray = total sum
+
+So: total_sum – min_subarray = 0 (invalid empty subarray)
+
+So in this case:
+✔ Return only max_normal
+
+Because circular sum is not allowed to be empty.
+
+Step 6 — Final Answer
+answer = max(max_normal, max_circular)
+
+🧠 Mental Map (Super Simple)
+
+Think of the array having two choices:
+
+1️⃣ Best is inside the array normally.
+
+Just Kadane.
+
+2️⃣ Best is across the ends.
+
+Take the whole array → remove the worst part → that creates a wrap.
+
+Compare both → pick larger.
+⏱️ Complexity
+
+Time: O(n)
+
+Space: O(1)
+
+🔍 Short Examples
+Example 1: [1, -2, 3, -2]
+
+max_normal = 3
+
+min_subarray = -2
+
+total = 0
+
+max_circular = 0 − (-2) = 2 → but 3 is bigger
+
+Answer = 3
+
+Example 2: [5, -3, 5]
+
+max_normal = 7
+
+min_subarray = -3
+
+total = 7
+
+max_circular = 7 − (-3) = 10
+
+Answer = 10
+
+Example 3: [-3, -2, -3]
+
+All negative → must return largest (least negative)
+
+Answer = -2
+
+👉 Problem: Longest Turbulent Subarray (LeetCode 978)
+
+You are given an integer array arr.
+A turbulent subarray is one where the comparison signs alternate between adjacent elements:
+
+Either: > < > < …
+
+Or: < > < > …
+
+Return the length of the longest turbulent subarray.
+
+✅ Key Idea
+
+Use a sliding window / two counters approach:
+
+Track two lengths while scanning:
+
+up → current subarray ends with <
+
+down → current subarray ends with >
+
+Whenever the sign flips, extend the subarray.
+
+Reset when adjacent numbers are equal.
+
+✨ Flashcard:
+"Compare neighbors. If sign flips → extend subarray. Equal → reset."
+
+⚡ Full Approach (Step-by-Step)
+Step 1 — Handle edge case
+
+If the array has only one element → return 1.
+
+Step 2 — Initialize
+
+max_len = 1 (at least one element counts)
+
+up = 1, down = 1 (lengths of turbulent subarrays ending in < or >)
+
+Step 3 — Loop through array
+
+For each index i from 1 to n-1:
+
+Compare arr[i] with arr[i-1]
+
+If arr[i] > arr[i-1]:
+
+up = down + 1 (flip happened)
+
+down = 1 (reset opposite direction)
+
+Else if arr[i] < arr[i-1]:
+
+down = up + 1
+
+up = 1
+
+Else:
+
+Equal → reset both: up = down = 1
+
+Update max_len = max(max_len, up, down)
+
+Step 4 — Return
+
+max_len after scanning the array.
+
+⏱️ Complexity
+
+Time: O(n) → single pass
+
+Space: O(1) → only 3 variables
+
+📝 Example Dry Run
+Example 1: [9,4,2,10,7,8,8,1,9]
+
+Compare 9>4 → down=2, up=1 → max_len=2
+
+Compare 4>2 → down=2, up=1 → max_len=2
+
+Compare 2<10 → up=down+1=3, down=1 → max_len=3
+
+Compare 10>7 → down=up+1=4, up=1 → max_len=4
+
+Compare 7<8 → up=down+1=5, down=1 → max_len=5
+
+Compare 8=8 → reset → up=down=1
+
+Compare 8>1 → down=up+1=2, up=1
+
+Compare 1<9 → up=down+1=3, down=1
+
+Final max_len = 5
