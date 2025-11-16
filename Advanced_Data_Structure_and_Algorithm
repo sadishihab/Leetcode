@@ -349,3 +349,161 @@ R	Window	nums[R]	In window?
 Time: O(n)
 
 Space: O(k)
+
+
+👉 Problem 1: Longest Subarray With All Equal Values
+
+Find the length of the longest subarray where every element is the same.
+
+You are given:
+
+nums → array of numbers
+
+You must find:
+
+The maximum length of a contiguous stretch where all values are identical
+
+✨ Key Idea
+
+This type of pattern is perfect for a sliding window with two pointers (L and R).
+
+We try to expand the window as long as all elements are equal.
+
+The moment we find a different number:
+
+We “reset” the window
+
+Move L to R
+
+This starts a new segment of identical values
+
+⚡ Full Approach (Step-by-Step, No Code)
+Step 1 — Use two pointers: L and R
+
+L marks the start of the current block of identical numbers.
+
+R moves across the array (0 → n-1).
+
+Step 2 — Compare nums[L] and nums[R]
+
+If they are equal → we remain inside the same subarray.
+
+If they are different →
+The previous block ended.
+Set:
+
+L = R
+
+
+This starts a new block from position R.
+
+Step 3 — Track the maximum block length
+
+At each R:
+
+current_length = R - L + 1
+update max_length
+
+Step 4 — Continue to the end
+
+The answer is the largest length found.
+
+🧠 Mental Picture
+
+Think of walking through the array and grouping numbers:
+
+[7 7 7 2 2 5 5 5 5 5]
+
+When the value changes, you start counting again.
+
+The longest “run” wins.
+
+⏱️ Complexity
+Operation	Cost
+Time	O(n)
+Space	O(1)
+
+Only one scan through the array.
+
+👉 Problem 2: Shortest Subarray With Sum ≥ Target
+
+Find the smallest subarray length whose sum is at least target.
+
+You are given:
+
+nums → positive integers
+
+target → required minimum sum
+
+Return:
+
+Length of the shortest subarray with sum ≥ target
+
+If none exists → return 0
+
+✨ Key Idea
+
+This is a classic expanding + shrinking sliding window.
+
+Because all numbers are positive, the window sum only increases when R moves right — so shrinking works correctly.
+
+⚡ Full Approach (Step-by-Step, No Code)
+Step 1 — Use two pointers
+
+L = start of window
+
+R = end of window
+
+total = sum of current window
+
+Step 2 — Expand the window by moving R
+
+For each R:
+
+total += nums[R]
+
+
+This makes the window sum bigger.
+
+Step 3 — When total ≥ target → shrink
+
+While the window is “heavy enough”:
+
+Update the minimum length:
+
+length = min(length, R - L + 1)
+
+
+Remove the leftmost element:
+
+total -= nums[L]
+L += 1
+
+
+This tries to make the window smaller while still meeting the sum requirement.
+
+Step 4 — Continue until R reaches end
+Step 5 — If no window ever met the target
+
+Return 0.
+
+🧠 Mental Picture
+
+Imagine dragging a window that grows until it hits the target sum.
+
+Then you tighten the window from the left to see if a smaller valid window exists.
+
+Repeat until the end.
+
+⏱️ Complexity
+Operation	Cost
+Time	O(n)
+Space	O(1)
+
+Only linear time because each pointer (L and R) moves at most n steps.
+
+If you want, I can also rewrite these in:
+
+📌 Flashcard format
+📌 Detailed dry run with example
+📌 Illustrated window movement diagrams
