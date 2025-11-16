@@ -507,3 +507,138 @@ If you want, I can also rewrite this in:
 📌 Flashcard format
 📌 Step-by-step dry run with example
 📌 Visual diagram of sliding windows
+
+
+👉 Problem: Minimum Size Subarray Sum (Leetcode 209)
+Find the shortest subarray whose sum ≥ target.
+You are given:
+
+
+nums → array of positive integers
+
+
+target → required minimum sum
+
+
+You must return:
+
+
+The minimal length of a subarray whose sum ≥ target
+
+
+Return 0 if no such subarray exists
+
+
+
+✨ Key Idea
+This is a classic sliding window problem.
+Because all numbers are positive,
+→ expanding the right pointer always increases the sum
+→ shrinking the left pointer always decreases the sum
+So two-pointer sliding window works perfectly.
+
+⚡ Full Approach (Step-by-Step, No Code)
+Step 1 — Use two pointers
+
+
+L → start of the window
+
+
+R → end of the window
+
+
+total → sum inside the window
+
+
+min_length → initialized to ∞
+
+
+
+Step 2 — Expand the window by moving R
+For each new element:
+total += nums[R]
+
+Keep adding numbers until total ≥ target.
+
+Step 3 — When the window meets the requirement
+Whenever:
+total ≥ target
+
+We found a valid subarray.
+Now we try to shrink it from the left to make it as small as possible.
+Update the answer:
+min_length = min(min_length, R - L + 1)
+
+
+Step 4 — Shrink from the left
+Remove nums[L] from the window:
+total -= nums[L]
+L += 1
+
+Continue shrinking while the sum still ≥ target.
+This finds the shortest valid window for this R.
+
+Step 5 — Continue until R reaches the end
+If no valid window was ever found → return 0.
+
+🧠 Mental Picture
+Imagine a window sliding across the array.
+
+
+It grows until it is heavy enough (sum ≥ target)
+
+
+Then it shrinks to find the smallest valid size
+
+
+Then it grows again
+
+
+This ensures we find the minimum valid window.
+
+⏱️ Complexity
+OperationCostTimeO(n)SpaceO(1)
+Each pointer moves at most n steps → linear time.
+
+✔️ Examples Explained
+Example 1
+target = 7
+nums = [2,3,1,2,4,3]
+Valid windows with sum ≥ 7 include:
+
+
+[2,3,1,2] → length 4
+
+
+[3,1,2,4] → length 4
+
+
+[4,3] → length 2 (smallest)
+
+
+Answer: 2
+
+Example 2
+target = 4
+nums = [1,4,4]
+The subarrays:
+
+
+[4] → length 1
+
+
+[4] → length 1
+
+
+Answer: 1
+
+Example 3
+target = 11
+nums = [1,1,1,1,1,1,1,1]
+All sums are ≤ 8 → no subarray can reach 11.
+Answer: 0
+
+If you want, I can also give you:
+📌 the full code solution in Python
+📌 a step-by-step dry run of example 1
+📌 a visual sliding-window diagram
