@@ -144,7 +144,7 @@ Then from that i, extend a window to the right step-by-step (j).
 For every possible slice, compute the sum.
 Keep track of the biggest one.
 
-👉 This is like checking all possible subarrays.
+⚡ This is like checking all possible subarrays.
 
 2. Kadane’s Algorithm – Thinking Method (Smart skipping)
 
@@ -155,7 +155,7 @@ If the running sum becomes negative, drop it.
 Because a negative sum will only pull future sums down.
 Always update the best result (maxSum).
 
-👉 This is like saying:
+⚡ This is like saying:
 “If what I have so far is harmful (negative), I'll start over.”
 
 3. Sliding Window Variation – Thinking Method (Kadane + indices)
@@ -172,5 +172,180 @@ The current start (L)
 
 The current end (R)
 
-👉 It tracks where the best window starts and ends.
+⚡ It tracks where the best window starts and ends.
 
+
+👉 Problem - Sliding WIndow Fixed (sliding_window_fixed.py)
+
+Check if the array has two equal numbers that are close to each other —
+specifically, their indices differ by less than k.
+
+Example:
+If k = 3, then valid pairs are within 3 steps:
+(L, L+1), (L, L+2)
+
+✨ Flashcard
+
+“Fix left. Check next k positions: any match? → True.”
+
+⚡ Full Explanation (Very Easy)
+Goal
+
+We are trying to find two identical values such that:
+
+indices are close (difference < k)
+
+🔍 How the code works (Line-by-Line)
+1. Outer loop → pick a starting index L
+for L in range(len(nums)):
+
+
+Think of L as the left pointer.
+We will check if nums[L] has a matching twin nearby.
+
+2. Inner loop → look ahead up to k positions
+for R in range(L + 1, min(len(nums), L + k)):
+
+
+Start from the next position L+1
+
+Look forward only up to k steps (not the whole array)
+
+Stop early if the array ends
+
+So this checks only the close neighbors.
+
+3. Compare values at L and R
+if nums[L] == nums[R]:
+    return True
+
+
+If we find any match within k steps → answer is True.
+
+Example:
+If L = 2 and nums[2] == nums[4], and 4 - 2 < k, then return True.
+
+4. If loops finish with no match
+return False
+
+
+Means:
+“No two close duplicates exist.”
+
+🧠 Mental Map (Very Simple)
+
+Pick a number.
+
+Look at the next k numbers only.
+
+If any of them is the same → found!
+
+If after checking all positions → none found, return False.
+
+📦 Complexity
+
+Time: O(n × k) because for every element, we look ahead up to k positions
+
+Space: O(1)
+
+👉 Same problem using sliding window and Hash Set. O(n)
+Goal:
+🌟 When scanning the array, always keep a window of the last k elements.
+If the current number is already inside the window → it’s a duplicate within k distance.
+
+✨ Flashcard
+
+“Keep last k elements in a set.
+If current value is already inside → close duplicate found.”
+
+⚡ Full Explanation (Line-by-Line & Super Easy)
+1. Create a window as a SET
+window = set()
+L = 0
+
+
+window stores the last k elements we’ve seen.
+
+L is the left boundary of the sliding window.
+
+Set is used because lookup is O(1) and perfect for checking duplicates.
+
+2. Loop R from left to right (right boundary)
+for R in range(len(nums)):
+
+
+We move R across the array.
+
+At each R, we check nums[R] with the window.
+
+3. Make sure window size never exceeds k
+if R - L + 1 > k:
+    window.remove(nums[L])
+    L += 1
+
+
+Explanation:
+
+The window length is (R - L + 1)
+
+If it becomes bigger than k, we must “shrink” it
+
+Remove the leftmost value (nums[L]) from the set
+
+Move L right by 1
+
+This guarantees the window always contains only the last k elements.
+
+4. Check for close duplicate
+if nums[R] in window:
+    return True
+
+
+If current value already exists in the window →
+It means we found a duplicate within k distance.
+
+Return True immediately.
+
+5. Otherwise, add current value to the window
+window.add(nums[R])
+
+
+Now nums[R] becomes part of the last k elements.
+
+6. If loop finishes with no matches
+return False
+
+
+Meaning:
+No “close duplicates” found.
+
+🧠 Mental Map (Very simple)
+
+Imagine a window of k size sliding to the right:
+
+Window holds only last k values
+
+For each new number:
+
+If it’s already in window → duplicate close by → True
+
+If not, add it to window
+
+If window gets too big → remove oldest value
+
+📌 Example
+
+nums = [1, 2, 3, 1], k = 3
+
+Step by step:
+
+R	Window	nums[R]	In window?
+0	{}	1	No → add
+1	{1}	2	No → add
+2	{1,2}	3	No → add
+3	{1,2,3}	1	Yes! → return True
+⏱️ Complexity
+
+Time: O(n)
+
+Space: O(k)
