@@ -318,3 +318,97 @@ Compare 8>1 → down=up+1=2, up=1
 Compare 1<9 → up=down+1=3, down=1
 
 Final max_len = 5
+
+
+
+👉 Problem: Contains Duplicate II
+
+You must determine whether any number appears twice within a distance of k from each other.
+
+✅ Key Idea
+
+“Keep a sliding window of size at most k.
+If a number reappears inside that window → duplicate found.”
+
+You don’t need to search the entire array — only look k steps back.
+
+✨ Flashcard
+
+Nearby duplicate =
+“Use a sliding window set.
+If window grows > k → remove leftmost.
+If current number already in set → True.”
+
+⚡ Full Approach (Step-by-Step, No Code)
+Step 1 — Create a sliding window
+
+Use a set to store the last few elements you’ve seen.
+
+Call it:
+window ← empty set
+
+Also keep a pointer:
+left ← 0
+(This marks the start of the sliding window)
+
+Step 2 — Walk through the array using right pointer
+
+For each index right, you check the current number nums[right].
+
+Step 3 — Ensure the window never becomes larger than k
+
+If the distance (right - left) becomes bigger than k,
+you must remove nums[left] from the window → slide forward.
+
+Why?
+Because any element more than k steps away is no longer allowed.
+
+So think:
+“Window too big? Kick out the leftmost.”
+
+Then increase left.
+
+Step 4 — Check for a duplicate inside the window
+
+Before inserting the current number:
+
+If nums[right] is already inside the window →
+you found a value that appears again within ≤ k distance.
+
+Return True immediately.
+
+This is the core condition.
+
+Step 5 — Add the current number to the window
+
+After ensuring the window is valid and checking for duplicates,
+insert the current number.
+
+Step 6 — If loop finishes with no match
+
+Return False.
+
+This means no number repeated within k distance.
+
+🧠 Mental Map (Very Simple)
+
+Imagine a sliding glass window that can only show k elements at a time.
+
+You move the window from left to right.
+
+If a number is seen again inside the window → duplicate found.
+
+If the window gets too wide → push out the leftmost number.
+
+⏱️ Complexity
+
+Time: O(n)
+(You visit each number once)
+
+Space: O(k)
+(Window holds at most k items)
+
+If you'd like, I can also write:
+📌 The hashmap version
+📌 The brute-force explanation
+📌 A visual example walk-through with emojis
