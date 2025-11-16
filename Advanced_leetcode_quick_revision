@@ -321,7 +321,7 @@ Final max_len = 5
 
 
 
-👉 Problem: Contains Duplicate II
+👉 Problem: Contains Duplicate II (Leet code 219)
 
 You must determine whether any number appears twice within a distance of k from each other.
 
@@ -412,3 +412,98 @@ If you'd like, I can also write:
 📌 The hashmap version
 📌 The brute-force explanation
 📌 A visual example walk-through with emojis
+
+
+👉 Problem: Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold (Leetcode 1343)
+
+Count Subarrays With Average ≥ Threshold
+
+You are given:
+
+arr → an array of numbers
+
+k → size of subarray
+
+threshold → required minimum average
+
+You must count:
+
+How many subarrays of size k
+have average ≥ threshold?
+
+✨ Key Idea
+
+Instead of checking averages, we compare sum:
+
+A subarray's average ≥ threshold
+⇔ its sum ≥ threshold * k
+
+Why?
+
+average = sum / k
+sum / k ≥ threshold  →  sum ≥ threshold * k
+
+
+So we only need the sum, not the average.
+
+⚡ Full Approach (Step-by-Step, No Code)
+Step 1 — Compute the target sum
+
+You need each window’s sum to be at least:
+
+threshold * k
+
+
+This avoids doing division and makes comparisons faster.
+
+Step 2 — Start by summing the first window of size k
+
+Take the first k elements and compute their sum.
+
+If this sum ≥ target sum → count it.
+
+Step 3 — Slide the window across the array (1 step at a time)
+
+When sliding from one window to the next:
+
+Add the new element on the right
+
+Remove the element that is leaving from the left
+
+This keeps the window always of size k.
+
+This takes O(1) per step.
+
+Step 4 — After each slide, compare the window sum
+
+If window_sum ≥ target_sum → increase answer.
+
+Step 5 — Continue until the end of the array
+
+Return how many windows qualified.
+
+🧠 Mental Picture
+
+Imagine a window that covers exactly k numbers.
+
+You slide this window across the array from left to right.
+
+At each position:
+
+Check if the total inside the window is “heavy enough”
+
+If yes → count it
+
+This is classical sliding window.
+
+⏱️ Complexity
+Operation	Cost
+Time	O(n)
+Space	O(1)
+
+Only one pass through the array.
+
+If you want, I can also rewrite this in:
+📌 Flashcard format
+📌 Step-by-step dry run with example
+📌 Visual diagram of sliding windows
