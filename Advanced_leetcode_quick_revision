@@ -1122,3 +1122,119 @@ Example 3
 Input: numbers = [-1,0], target = -1
 Output: [1,2]
 Explanation: -1 + 0 = -1
+
+
+👉 Problem: Remove Duplicates from Sorted Array (LeetCode 26 two pointers)
+
+You are given:
+
+nums → a sorted integer array in non-decreasing order
+
+You may:
+
+Remove duplicate elements in-place
+
+Keep the relative order of the unique elements
+
+Return:
+
+k → the number of unique elements in the array
+
+The first k elements of nums should be the unique numbers
+
+Elements beyond index k-1 can be ignored
+
+Constraints:
+
+1 <= nums.length <= 3 * 10^4
+
+-100 <= nums[i] <= 100
+
+Array is sorted in non-decreasing order
+
+✨ Key Idea
+
+Because the array is sorted, duplicates appear consecutively:
+
+Use two pointers:
+
+L → slow pointer, tracks last unique element
+
+R → fast pointer, scans through the array
+
+At each step:
+
+Compare nums[R] with nums[L]
+
+If different → found a new unique number
+
+Move L forward
+
+Assign nums[L] = nums[R]
+
+If same → skip, R moves forward
+
+At the end, L + 1 is the count of unique numbers
+
+✨ Flashcard
+
+Remove Duplicates =
+“Use two pointers on sorted array. L tracks last unique. R scans. When nums[R] != nums[L], move L and update. Return L + 1.”
+
+🧠 Mental Picture
+
+Imagine a slow finger L marking the last unique element
+
+A fast finger R scans the array
+
+Whenever a new number appears, copy it after L
+
+Result: unique numbers shifted to the front, duplicates ignored
+
+⚡ Full Approach (Step-by-Step, No Code)
+
+Step 1 — Initialize pointers
+
+L = 0  # Last unique element index
+
+
+Step 2 — Iterate with fast pointer
+
+for R in range(1, len(nums)):
+
+
+Step 3 — Check for new unique element
+
+If nums[R] != nums[L] → new number found
+
+Move L += 1
+
+Assign nums[L] = nums[R]
+
+Step 4 — Continue until end of array
+
+All unique elements are now from index 0 to L
+
+Return L + 1 → number of unique elements
+
+⏱️ Complexity
+
+Operation	Cost
+Time	O(n) → single pass through array
+Space	O(1) → in-place, constant extra space
+
+✔️ Example Results
+
+Example 1
+
+Input: nums = [1,1,2]
+Output: 2, nums = [1,2,_]
+Explanation: unique elements are 1 and 2
+
+
+Example 2
+
+Input: nums = [0,0,1,1,1,2,2,3,3,4]
+Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+Explanation: unique elements are 0,1,2,3,4
+
