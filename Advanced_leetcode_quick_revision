@@ -408,10 +408,6 @@ Time: O(n)
 Space: O(k)
 (Window holds at most k items)
 
-If you'd like, I can also write:
-📌 The hashmap version
-📌 The brute-force explanation
-📌 A visual example walk-through with emojis
 
 
 👉 Problem: Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold (Leetcode 1343)
@@ -503,10 +499,6 @@ Space	O(1)
 
 Only one pass through the array.
 
-If you want, I can also rewrite this in:
-📌 Flashcard format
-📌 Step-by-step dry run with example
-📌 Visual diagram of sliding windows
 
 
 👉 Problem: Minimum Size Subarray Sum (Leetcode 209)
@@ -638,7 +630,110 @@ nums = [1,1,1,1,1,1,1,1]
 All sums are ≤ 8 → no subarray can reach 11.
 Answer: 0
 
-If you want, I can also give you:
-📌 the full code solution in Python
-📌 a step-by-step dry run of example 1
-📌 a visual sliding-window diagram
+
+👉 Problem: Longest Substring Without Repeating Characters
+
+Find the length of the longest substring (continuous sequence)
+with no repeating characters.
+
+You are given:
+
+s → a string
+
+Return:
+
+The maximum length of any substring where all characters are unique
+
+✨ Key Idea
+
+Use a sliding window with:
+
+L → left pointer
+
+R → right pointer
+
+a set to store characters currently inside the window
+
+We expand the window with R, and if a duplicate appears,
+we shrink from the left until the window becomes valid again.
+
+⚡ Full Approach (Step-by-Step, No Code)
+Step 1 — Use two pointers
+
+L starts at 0
+
+R loops over every character
+
+A set window stores the characters currently inside the window
+
+Step 2 — Expand the window by adding s[R]
+
+If s[R] is not in the set:
+
+Add it
+
+Update max length
+
+If s[R] is in the set → we have a duplicate.
+
+Step 3 — Shrink from the left when duplicate found
+
+While s[R] is already in the window:
+
+Remove s[L] from the set
+
+Move L to the right
+
+Repeat until duplicate disappears
+
+Now the window is valid again.
+
+Step 4 — Track the maximum window size
+
+At each step:
+
+max_length = max(max_length, R - L + 1)
+
+Step 5 — Continue until R reaches the end
+
+Return the maximum.
+
+🧠 Mental Picture
+
+Imagine a window sliding across the string:
+
+Expand as long as all characters are unique
+
+When you hit a duplicate → shrink from the left
+
+Keep only the valid "unique character substring" inside the window
+
+Track the largest window ever formed
+
+⏱️ Complexity
+Operation	Cost
+Time	O(n)
+Space	O(min(n, charset))
+
+Since each pointer moves at most n times.
+
+
+✔️ Example Outputs
+Example 1
+
+s = "abcabcbb"
+Longest: "abc" → length 3
+
+Example 2
+
+s = "bbbbb"
+Longest: "b" → length 1
+
+Example 3
+
+s = "pwwkew"
+Longest: "wke" → length 3
+
+If you want, you can also do it by:
+
+📌 A version using a dictionary instead of a set (faster)
