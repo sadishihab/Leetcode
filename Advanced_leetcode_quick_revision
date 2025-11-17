@@ -1367,3 +1367,166 @@ Input: nums = [0,0,1,1,1,1,2,3,3]
 Output: 7, nums = [0,0,1,1,2,3,3,_,_]
 Explanation: keep at most two duplicates
 
+
+👉 Problem: Container With Most Water (LeetCode 11)
+
+You are given:
+
+height → a list of vertical line heights
+
+Each line is at coordinate (i, height[i])
+
+You may:
+
+Pick two lines to form a container with the x-axis
+
+Return:
+
+The maximum area of water the container can store
+
+Constraints:
+
+Cannot slant the container → height is limited by the shorter line
+
+2 <= height.length <= 10^5
+
+0 <= height[i] <= 10^4
+
+✨ Key Idea
+
+Use two pointers:
+
+L → start of array
+
+R → end of array
+
+Area formula:
+
+area
+=
+min
+⁡
+(
+ℎ
+𝑒
+𝑖
+𝑔
+ℎ
+𝑡
+[
+𝐿
+]
+,
+ℎ
+𝑒
+𝑖
+𝑔
+ℎ
+𝑡
+[
+𝑅
+]
+)
+×
+(
+𝑅
+−
+𝐿
+)
+area=min(height[L],height[R])×(R−L)
+
+Move the pointer pointing to the shorter line, because moving the taller line will never increase the area.
+
+Keep track of maximum area seen so far.
+
+✨ Flashcard
+
+Container With Most Water =
+“Two pointers at both ends. Area = min(height[L], height[R]) * width. Move shorter line pointer. Track max area.”
+
+🧠 Mental Picture
+
+Imagine a container formed by two vertical lines
+
+Width = distance between lines
+
+Height = shorter line
+
+Slide the shorter line inward → possible bigger height, maybe bigger area
+
+Stop when pointers meet
+
+⚡ Full Approach (Step-by-Step, No Code)
+
+Step 1 — Initialize pointers and max area
+
+L = 0
+R = len(height) - 1
+max_area = 0
+
+
+L → left pointer
+
+R → right pointer
+
+max_area → stores largest container area so far
+
+Step 2 — Loop until pointers meet
+
+while L < R:
+
+
+Continue scanning all possible containers formed by L and R
+
+Step 3 — Calculate area
+
+current_area = min(height[L], height[R]) * (R - L)
+max_area = max(max_area, current_area)
+
+
+Width = R - L
+
+Height = min(height[L], height[R])
+
+Update max_area if current_area is larger
+
+Step 4 — Move pointer pointing to shorter line
+
+if height[L] < height[R]:
+    L += 1
+else:
+    R -= 1
+
+
+Move the smaller line pointer inward
+
+Why? Because moving the taller line cannot increase area, but moving the shorter line may
+
+Step 5 — Return result
+
+return max_area
+
+
+After pointers meet, max_area holds the maximum container area
+
+⏱️ Complexity
+
+Operation	Cost
+Time	O(n) → single pass with two pointers
+Space	O(1) → constant extra space
+
+✔️ Example Results
+
+Example 1
+
+Input: height = [1,8,6,2,5,4,8,3,7]
+Output: 49
+Explanation: Max area formed by lines at index 1 and 8 → min(8,7) * (8-1) = 49
+
+
+Example 2
+
+Input: height = [1,1]
+Output: 1
+Explanation: Only two lines → area = 1
+
