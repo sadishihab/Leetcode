@@ -1,4 +1,4 @@
-👉 Problem: Maximum Subarray (Kadane’s Algorithm)
+👉 Problem: Maximum Subarray (Kadane’s Algorithm) (leetcode 53)
 
 You must find the contiguous subarray that gives the maximum total sum.
 
@@ -111,6 +111,20 @@ Removing the minimum middle part gives the maximum wrapping part.
 ✨ Flashcard
 
 "Max = max(normalKadane, total − minKadane). But if all numbers are negative → return max normal only."
+
+✅ How It Works
+
+Use Kadane’s algorithm to find the maximum subarray sum in the normal (non-circular) array.
+
+Use a modified Kadane’s algorithm to find the minimum subarray sum.
+
+Compute total_sum of the array.
+
+Maximum circular subarray sum can be calculated as total_sum - min_subarray.
+
+Handle edge case: if all numbers are negative, the normal max subarray sum is the answer.
+
+Return the larger of max_normal and max_circular.
 
 ⚡ Full Approach (Step-by-Step, No Code)
 Step 1 — Compute the normal maximum subarray sum
@@ -253,6 +267,30 @@ Reset when adjacent numbers are equal.
 ✨ Flashcard:
 "Compare neighbors. If sign flips → extend subarray. Equal → reset."
 
+✅ How It Works
+
+If the array has only one element, return 1.
+
+Use two counters, up and down, to track lengths of turbulent subarrays ending at the current element:
+
+up → last comparison was >
+
+down → last comparison was <
+
+Iterate through the array starting from index 1:
+
+If arr[i] > arr[i - 1], set up = down + 1 and reset down = 1.
+
+If arr[i] < arr[i - 1], set down = up + 1 and reset up = 1.
+
+If equal, reset both up and down to 1.
+
+At each step, update max_len with the largest of max_len, up, and down.
+
+Continue until the end of the array.
+
+Return max_len → length of the longest turbulent subarray.
+
 ⚡ Full Approach (Step-by-Step)
 Step 1 — Handle edge case
 
@@ -338,6 +376,24 @@ Nearby duplicate =
 “Use a sliding window set.
 If window grows > k → remove leftmost.
 If current number already in set → True.”
+
+✅ How It Works
+
+Use a sliding window of size at most k with pointers L (left) and R (right).
+
+Maintain a set window to store elements currently in the window.
+
+For each R, check if the window size exceeds k:
+
+If yes, remove nums[L] from the window and increment L.
+
+If nums[R] is already in the window → a nearby duplicate is found, return True.
+
+Otherwise, add nums[R] to the window.
+
+Continue until the end of the array.
+
+If no nearby duplicates are found, return False.
 
 ⚡ Full Approach (Step-by-Step, No Code)
 Step 1 — Create a sliding window
@@ -451,6 +507,24 @@ Build first window.
 Slide: add right, remove left.
 If sum ≥ target → count.”
 
+✅ How It Works
+
+Compute target_sum = threshold * k → the minimum sum a subarray of size k needs.
+
+Initialize window_sum with the sum of the first k elements.
+
+Initialize count to 1 if the first window meets the threshold, otherwise 0.
+
+Slide the window across the array:
+
+Add the new element entering the window and remove the element leaving the window.
+
+If window_sum >= target_sum, increment count.
+
+Continue until the end of the array.
+
+Return count → number of subarrays of size k with average ≥ threshold.
+
 ⚡ Full Approach (Step-by-Step, No Code)
 Step 1 — Compute the target sum
 
@@ -546,6 +620,24 @@ Grow R until sum ≥ target.
 Shrink L to minimize window.
 Track shortest valid size.
 If never valid → return 0.”
+
+✅ How It Works
+
+Use a sliding window with L as the left pointer and R as the right pointer.
+
+Maintain total as the sum of elements in the current window.
+
+For each R, add nums[R] to total to expand the window.
+
+While total >= target, the current window is valid:
+
+Update min_length with the size of the window (R - L + 1).
+
+Shrink the window from the left by subtracting nums[L] and incrementing L.
+
+Continue until the end of the array.
+
+If no valid window is found, return 0; otherwise, return min_length.
 
 ⚡ Full Approach (Step-by-Step, No Code)
 Step 1 — Use two pointers
@@ -682,6 +774,26 @@ Longest substring without repeating chars =
 If char not in set → add & update max.
 If duplicate → shrink L removing chars until gone.
 Window always stays unique.”
+
+ChatGPT said:
+
+✅ How It Works
+
+Use a sliding window with L as the left pointer and R as the right pointer.
+
+Maintain a set window to store characters in the current window.
+
+For each R, check if s[R] is already in the window:
+
+If yes, remove characters from the left (L) until the duplicate is gone.
+
+Add s[R] to the window.
+
+Update max_length with the size of the current window (R - L + 1).
+
+Continue until the end of the string.
+
+Return max_length → the length of the longest substring without repeating characters.
 
 ⚡ Full Approach (Step-by-Step, No Code)
 Step 1 — Use two pointers
@@ -827,6 +939,24 @@ If too many replacements → shrink from left
 
 Keep the largest valid window
 
+✅ How It Works
+
+Use a sliding window with pointers L (left) and R (right).
+
+Maintain a frequency map count of characters inside the window.
+
+Track max_freq, the count of the most frequent character in the current window.
+
+For each R, add s[R] to the frequency map and update max_freq.
+
+If the window size minus max_freq exceeds k, shrink the window from the left (L) and update counts.
+
+At each step, update max_length with the size of the valid window (R - L + 1).
+
+Continue until the end of the string.
+
+Return max_length → the length of the longest substring after at most k replacements.
+
 ⚡ Full Approach (Step-by-Step, No Code)
 Step 1 — Sliding window with L and R
 
@@ -957,6 +1087,20 @@ Shrink inward until pointers meet
 
 If all comparisons pass → palindrome
 
+✅ How It Works
+
+Initialize two pointers, L at the start and R at the end of the string.
+
+Move L forward and R backward, skipping non-alphanumeric characters.
+
+At each step, compare the lowercase versions of s[L] and s[R].
+
+If a mismatch is found, return False → not a palindrome.
+
+Otherwise, move both pointers inward and continue.
+
+If pointers meet without mismatches, return True → the string is a palindrome.
+
 ⚡ Full Approach (Step-by-Step, No Code)
 
 Step 1 — Initialize pointers
@@ -1070,6 +1214,20 @@ Compare their sum to the target
 Move fingers closer together until sum matches the target
 
 One pass → finds the solution efficiently
+
+✅ How It Works
+
+L and R are pointers starting at the beginning and end of the array.
+
+Calculate current_sum = numbers[L] + numbers[R].
+
+If current_sum > target, move R left to reduce the sum.
+
+If current_sum < target, move L right to increase the sum.
+
+If current_sum == target, return [L + 1, R + 1] (1-indexed).
+
+Continue until the correct pair is found.
 
 ⚡ Full Approach (Step-by-Step, No Code)
 
@@ -1191,6 +1349,22 @@ Whenever a new number appears, copy it after L
 
 Result: unique numbers shifted to the front, duplicates ignored
 
+✅ How It Works
+
+If the array is empty, return 0.
+
+Use L as a slow pointer to track the position of the last unique element.
+
+Iterate with R as a fast pointer through the array starting from index 1.
+
+At each step, check if nums[R] is different from nums[L].
+
+If different, increment L and write nums[R] at position L.
+
+Continue until the end of the array.
+
+Return L + 1 as the number of unique elements.
+
 ⚡ Full Approach (Step-by-Step, No Code)
 
 Step 1 — Initialize pointers
@@ -1299,6 +1473,22 @@ Fast pointer R → scans through array
 Only copy the element if it does not exceed two occurrences
 
 At the end → first L elements are the allowed numbers
+
+✅ How It Works
+
+If the array has 2 or fewer elements, all are allowed.
+
+Use L as a slow pointer to track the position to write allowed elements.
+
+Iterate with R as a fast pointer through the array starting from index 2.
+
+At each step, check if nums[R] is different from nums[L - 2] to allow at most two duplicates.
+
+If allowed, write nums[R] at position L and increment L.
+
+Continue until the end of the array.
+
+Return L as the number of allowed elements.
 
 ⚡ Full Approach (Step-by-Step, No Code)
 
@@ -1456,6 +1646,20 @@ Slide the shorter line inward → possible bigger height, maybe bigger area
 
 Stop when pointers meet
 
+✅ How It Works
+
+L and R scan from both ends toward the center.
+
+At each step, the shorter line determines the container height.
+
+Calculate area = min(height[L], height[R]) × (R − L).
+
+Update max_area if current area is larger.
+
+Move the pointer pointing to the shorter line inward.
+
+Continue until L meets R.
+
 ⚡ Full Approach (Step-by-Step, No Code)
 
 Step 1 — Initialize pointers and max area
@@ -1529,4 +1733,159 @@ Example 2
 Input: height = [1,1]
 Output: 1
 Explanation: Only two lines → area = 1
+
+
+👉 Problem: Trapping Rain Water (LeetCode 42)
+
+You are given:
+
+height → an array of non-negative integers representing an elevation map
+
+Width of each bar = 1
+
+You may:
+
+Compute how much water is trapped after raining between the bars
+
+Return:
+
+Total units of trapped water
+
+Constraints:
+
+1 <= height.length <= 2 * 10^4
+
+0 <= height[i] <= 10^5
+
+✨ Key Idea
+
+Water trapped at a given index depends on tallest bars to the left and right:
+
+water at i
+=
+max
+⁡
+(
+0
+,
+min
+⁡
+(
+tallest left
+,
+tallest right
+)
+−
+height
+[
+𝑖
+]
+)
+water at i=max(0,min(tallest left,tallest right)−height[i])
+
+Use two pointers approach for O(1) space:
+
+L → start pointer
+
+R → end pointer
+
+Track left_max → tallest bar from left
+
+Track right_max → tallest bar from right
+
+Move the pointer pointing to the smaller bar
+
+Compute water trapped at each step and accumulate
+
+✨ Flashcard
+
+Trapping Rain Water =
+“Two pointers at both ends. Track tallest bars from left and right. Move the shorter bar inward. Water trapped = min(left_max, right_max) - height[i]. Add to total.”
+
+🧠 Mental Picture
+
+Imagine the bars forming valleys and peaks
+
+Water can only be trapped up to the smaller of the tallest bars on the left and right
+
+Move pointers inward step by step
+
+At each step, calculate trapped water above the current bar
+
+Continue until pointers meet
+
+⚡ Step-by-Step Approach (No Code)
+
+Step 1 — Initialize pointers and variables
+
+Place L at the start of the array and R at the end
+
+Initialize left_max and right_max to 0
+
+Initialize water to 0
+
+Step 2 — Loop until pointers meet
+
+Keep processing the bars between L and R
+
+Step 3 — Decide which pointer to move
+
+Compare height[L] and height[R]
+
+Move the pointer pointing to the smaller bar
+
+If left bar is smaller → trapped water depends on left_max
+
+If right bar is smaller → trapped water depends on right_max
+
+Step 4 — Update max and add trapped water
+
+If current bar ≥ max on its side → update the max
+
+Else → water trapped at this bar = max - height at the bar
+
+Move pointer inward
+
+Step 5 — Continue until pointers meet
+
+Repeat Step 3 and Step 4 until the two pointers meet
+
+Accumulate trapped water at each step
+
+Step 6 — Return result
+
+The total accumulated water is the answer
+
+⏱️ Complexity
+
+Operation	Cost
+Time	O(n) → single pass with two pointers
+Space	O(1) → constant extra space
+
+✔️ Example Results
+
+Example 1
+
+Input: [0,1,0,2,1,0,1,3,2,1,2,1]
+Output: 6
+Explanation: Water trapped = 6 units
+
+
+Example 2
+
+Input: [4,2,0,3,2,5]
+Output: 9
+Explanation: Water trapped = 9 units
+
+✅ How It Works
+
+L and R scan from both ends toward the center.
+
+At each step, the smaller bar determines trapped water.
+
+left_max and right_max track the tallest bars seen so far.
+
+Water trapped at a bar = max(0, min(left_max, right_max) − height[i]).
+
+Continue until L meets R.
 
