@@ -502,8 +502,160 @@ Space	O(1)
 
 Only linear time because each pointer (L and R) moves at most n steps.
 
-If you want, I can also rewrite these in:
+👉 Problem: Two Pointers (two_pointers.py)
+👉 Problem 1: Check if a String is a Palindrome
 
-📌 Flashcard format
-📌 Detailed dry run with example
-📌 Illustrated window movement diagrams
+Determine whether a given string reads the same forwards and backwards.
+
+You are given:
+
+word → a string of characters
+
+You must return:
+
+true if the string is a palindrome
+
+false otherwise
+
+✨ Key Idea
+
+Use the two-pointer pattern:
+
+One pointer starts at the left
+
+One pointer starts at the right
+
+Compare characters while moving inward.
+
+The moment characters don’t match → it’s not a palindrome.
+
+If we reach the center without mismatches → it is a palindrome.
+
+⚡ Full Approach (Step-by-Step, No Code)
+Step 1 — Initialize Two Pointers
+
+Set:
+
+L = 0 (start of the string)
+
+R = len(word) − 1 (end of the string)
+
+Step 2 — Compare Characters
+
+While L < R:
+
+If word[L] == word[R] → good, keep moving toward the middle
+
+If they differ → instantly return false
+
+Step 3 — Move Pointers
+
+After each comparison:
+
+Increment L
+
+Decrement R
+
+This gradually checks symmetrical positions.
+
+Step 4 — Reaching the Middle
+
+If the loop completes without finding a mismatch →
+The string is a palindrome → return true
+
+🧠 Mental Picture
+
+Imagine folding a string from both ends toward the center.
+If all mirrored characters match perfectly → palindrome.
+
+Example:
+
+racecar
+L-----R (r == r)
+ L---R  (a == a)
+  L-R   (c == c)
+   center
+
+⏱️ Complexity
+Operation	Cost
+Time	O(n)
+Space	O(1)
+
+Only scans the string once, using constant memory.
+
+👉 Problem 2: Two Numbers Sum to Target (In Sorted Array)
+
+Find two numbers in a sorted list that add up to a given target.
+
+You are given:
+
+nums → a sorted array of integers
+
+target → the required sum
+
+You must return:
+
+The indices of the two numbers (L, R) that add up to the target
+
+There is guaranteed exactly one solution
+
+✨ Key Idea
+
+Use the two-pointer technique on the sorted array.
+
+Because it's sorted:
+
+If the sum is too big → move the right pointer left
+
+If the sum is too small → move the left pointer right
+
+If the sum matches → done!
+
+⚡ Full Approach (Step-by-Step, No Code)
+Step 1 — Start with Two Pointers
+
+Set:
+
+L = 0 (start of the array)
+
+R = len(nums) − 1 (end of the array)
+
+Step 2 — Check the Sum of nums[L] + nums[R]
+
+Three cases:
+
+Sum > target
+The right value is too large
+→ Move R left
+
+Sum < target
+The left value is too small
+→ Move L right
+
+Sum == target
+Perfect match
+→ Return [L, R]
+
+Step 3 — Repeat Until They Meet
+
+Pointers move inward until the sum is found.
+
+🧠 Mental Picture
+
+You're looking at a scale:
+
+small ......... big
+ L           R
+
+
+If the total is too heavy → shift right pointer left.
+If too light → shift left pointer right.
+
+Eventually, the balance matches the target.
+
+⏱️ Complexity
+Operation	Cost
+Time	O(n)
+Space	O(1)
+
+Just a single pass through the array.
