@@ -377,6 +377,13 @@ Move L to R
 
 This starts a new segment of identical values
 
+✨ Flashcard
+
+“Track a block of equal numbers with L.
+Move R forward.
+If value changes → set L = R (new block).
+Longest block length = answer.”
+
 ⚡ Full Approach (Step-by-Step, No Code)
 Step 1 — Use two pointers: L and R
 
@@ -446,6 +453,12 @@ If none exists → return 0
 This is a classic expanding + shrinking sliding window.
 
 Because all numbers are positive, the window sum only increases when R moves right — so shrinking works correctly.
+
+✨ Flashcard
+
+“Expand R to grow sum.
+When total ≥ target → shrink from L to find smaller valid window.
+Track minimum window length.”
 
 ⚡ Full Approach (Step-by-Step, No Code)
 Step 1 — Use two pointers
@@ -531,6 +544,12 @@ The moment characters don’t match → it’s not a palindrome.
 
 If we reach the center without mismatches → it is a palindrome.
 
+✨ Flashcard
+
+“Use two pointers from both ends.
+If characters ever differ → not a palindrome.
+If pointers meet with no mismatches → palindrome.”
+
 ⚡ Full Approach (Step-by-Step, No Code)
 Step 1 — Initialize Two Pointers
 
@@ -610,6 +629,13 @@ If the sum is too big → move the right pointer left
 If the sum is too small → move the left pointer right
 
 If the sum matches → done!
+
+✨ Flashcard
+
+“Use two pointers on sorted array.
+If sum too big → move R left.
+If sum too small → move L right.
+When sum matches → return [L, R].”
 
 ⚡ Full Approach (Step-by-Step, No Code)
 Step 1 — Start with Two Pointers
