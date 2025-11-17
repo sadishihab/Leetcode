@@ -1238,3 +1238,132 @@ Input: nums = [0,0,1,1,1,2,2,3,3,4]
 Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
 Explanation: unique elements are 0,1,2,3,4
 
+
+👉 Problem: Remove Duplicates from Sorted Array II (LeetCode 80)
+
+You are given:
+
+nums → a sorted integer array in non-decreasing order
+
+You may:
+
+Remove duplicates in-place such that each unique element appears at most twice
+
+Keep the relative order of elements
+
+Return:
+
+k → number of elements after removing extra duplicates
+
+The first k elements of nums should contain the final result
+
+Elements beyond index k-1 can be ignored
+
+Constraints:
+
+Do not allocate extra space → O(1) space
+
+1 <= nums.length <= 3 * 10^4
+
+-10^4 <= nums[i] <= 10^4
+
+✨ Key Idea
+
+Use two pointers:
+
+L → slow pointer, tracks the position to write the next allowed element
+
+R → fast pointer, scans the array
+
+Keep at most 2 duplicates:
+
+Compare nums[R] with nums[L-2] (the element 2 steps behind the slow pointer)
+
+If nums[R] != nums[L-2] → it is allowed → copy nums[R] to nums[L] and move L forward
+
+If nums[R] == nums[L-2] → more than 2 duplicates → skip
+
+This works because the array is sorted → duplicates are consecutive
+
+✨ Flashcard
+
+Remove Duplicates II =
+“Use two pointers. Slow pointer writes allowed elements. Keep at most two duplicates. If nums[R] != nums[L-2] → write nums[R]. Return L.”
+
+🧠 Mental Picture
+
+Slow pointer L → marks next position to write allowed element
+
+Fast pointer R → scans through array
+
+Only copy the element if it does not exceed two occurrences
+
+At the end → first L elements are the allowed numbers
+
+⚡ Full Approach (Step-by-Step, No Code)
+
+Step 1 — Handle edge case
+
+if len(nums) <= 2:
+    return len(nums)
+
+
+If array has 0, 1, or 2 elements → all are allowed
+
+Step 2 — Initialize slow pointer
+
+L = 2  # first two elements are always allowed
+
+
+L points to next position to write
+
+Start from index 2 because first two elements are always allowed
+
+Step 3 — Iterate with fast pointer
+
+for R in range(2, len(nums)):
+
+
+R scans from the third element to the end
+
+Step 4 — Check if current element is allowed
+
+if nums[R] != nums[L - 2]:
+    nums[L] = nums[R]
+    L += 1
+
+
+Compare with the element two steps behind slow pointer (nums[L-2])
+
+If different → allowed → copy to nums[L] and move L forward
+
+If same → skip → prevents more than 2 duplicates
+
+Step 5 — Return number of allowed elements
+
+return L
+
+
+L is now the count of elements with at most two duplicates
+
+⏱️ Complexity
+
+Operation	Cost
+Time	O(n) → single pass through array
+Space	O(1) → in-place, constant extra space
+
+✔️ Example Results
+
+Example 1
+
+Input: nums = [1,1,1,2,2,3]
+Output: 5, nums = [1,1,2,2,3,_]
+Explanation: keep at most two duplicates
+
+
+Example 2
+
+Input: nums = [0,0,1,1,1,1,2,3,3]
+Output: 7, nums = [0,0,1,1,2,3,3,_,_]
+Explanation: keep at most two duplicates
+
