@@ -902,3 +902,109 @@ s = "AABABBA", k = 1
 Best substring → "BBBB" after one change.
 
 Max length = 4
+
+
+👉 Problem: Valid Palindrome (LeetCode 125)
+
+You are given:
+
+s → a string consisting of printable ASCII characters (letters, digits, punctuation, spaces)
+
+You may:
+
+Convert uppercase letters to lowercase
+
+Remove all non-alphanumeric characters
+
+Return:
+
+true if the resulting string reads the same forward and backward, otherwise false.
+
+✨ Key Idea
+
+We want to check if a string is a palindrome ignoring cases and non-alphanumeric characters.
+
+Use two pointers:
+
+L starts at the beginning
+
+R starts at the end
+
+At each step:
+
+Skip non-alphanumeric characters
+
+Compare characters in lowercase
+
+If mismatch → return false
+
+If pointers meet → return true
+
+✨ Flashcard
+
+Valid Palindrome =
+“Use two pointers. Skip non-alphanumeric. Compare lowercase. If all match → palindrome.”
+
+🧠 Mental Picture
+
+Imagine a window sliding inwards from both ends:
+
+Ignore spaces, punctuation, etc.
+
+Compare letters and digits
+
+Shrink inward until pointers meet
+
+If all comparisons pass → palindrome
+
+⚡ Full Approach (Step-by-Step, No Code)
+
+Step 1 — Initialize pointers
+L = 0, R = len(s) - 1
+
+Step 2 — Skip invalid characters
+While L < R:
+
+Move L forward if s[L] is not alphanumeric
+
+Move R backward if s[R] is not alphanumeric
+
+Step 3 — Compare characters
+
+Convert s[L] and s[R] to lowercase
+
+If they are different → return false
+
+Else → move L += 1 and R -= 1
+
+Step 4 — Repeat until pointers meet
+
+If loop finishes without mismatch → return true
+
+⏱️ Complexity
+
+Operation	Cost
+Time	O(n) → scan string once
+Space	O(1) → constant extra space for pointers
+
+✔️ Example Results
+
+Example 1
+
+Input: "A man, a plan, a canal: Panama"
+Output: true
+Explanation: "amanaplanacanalpanama" is a palindrome
+
+
+Example 2
+
+Input: "race a car"
+Output: false
+Explanation: "raceacar" is not a palindrome
+
+
+Example 3
+
+Input: " "
+Output: true
+Explanation: empty string is trivially a palindrome
