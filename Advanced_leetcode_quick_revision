@@ -442,6 +442,15 @@ sum / k ≥ threshold  →  sum ≥ threshold * k
 
 So we only need the sum, not the average.
 
+✨ Flashcard (Short Memory Trick)
+
+Count subarrays avg ≥ threshold =
+“Use sliding window sum.
+Target = threshold × k.
+Build first window.
+Slide: add right, remove left.
+If sum ≥ target → count.”
+
 ⚡ Full Approach (Step-by-Step, No Code)
 Step 1 — Compute the target sum
 
@@ -528,6 +537,15 @@ Because all numbers are positive,
 → expanding the right pointer always increases the sum
 → shrinking the left pointer always decreases the sum
 So two-pointer sliding window works perfectly.
+
+✨ Flashcard
+
+Minimum Size Subarray Sum =
+“Use sliding window (positive nums).
+Grow R until sum ≥ target.
+Shrink L to minimize window.
+Track shortest valid size.
+If never valid → return 0.”
 
 ⚡ Full Approach (Step-by-Step, No Code)
 Step 1 — Use two pointers
@@ -631,7 +649,7 @@ All sums are ≤ 8 → no subarray can reach 11.
 Answer: 0
 
 
-👉 Problem: Longest Substring Without Repeating Characters
+👉 Problem: Longest Substring Without Repeating Characters (leetcode 03)
 
 Find the length of the longest substring (continuous sequence)
 with no repeating characters.
@@ -656,6 +674,14 @@ a set to store characters currently inside the window
 
 We expand the window with R, and if a duplicate appears,
 we shrink from the left until the window becomes valid again.
+
+✨ Flashcard
+
+Longest substring without repeating chars =
+“Use sliding window set.
+If char not in set → add & update max.
+If duplicate → shrink L removing chars until gone.
+Window always stays unique.”
 
 ⚡ Full Approach (Step-by-Step, No Code)
 Step 1 — Use two pointers
@@ -737,3 +763,142 @@ Longest: "wke" → length 3
 If you want, you can also do it by:
 
 📌 A version using a dictionary instead of a set (faster)
+
+👉 Problem: Longest Repeating Character Replacement (leetcode 424)
+
+You are given:
+
+s → a string of uppercase letters
+
+k → maximum number of character replacements allowed
+
+You may:
+
+Change any character to any other uppercase letter
+
+Perform this operation at most k times
+
+Return:
+
+The length of the longest substring that can be made of the same character, after using at most k replacements.
+
+✨ Key Idea
+
+We want a substring where:
+
+Most characters are the same
+
+And we can fix the rest (up to k characters) by replacing them
+
+Inside any window:
+
+replacements needed = window_size - count_of_most_frequent_char_in_window
+
+
+For the window to be valid:
+
+window_size - max_freq ≤ k
+
+
+This tells us whether the window can be turned into all identical letters.
+
+✨ Flashcard
+
+Longest Repeating Character Replacement =
+“Use sliding window freq map.
+Track max_freq inside window.
+Window valid if size − max_freq ≤ k.
+If invalid → shrink L.
+Track largest valid window.”
+
+🧠 Mental Picture
+
+Imagine a window sliding across the string.
+
+At each step:
+
+Count how many characters already match
+
+Calculate how many characters need replacing
+
+If replacements needed ≤ k → good window
+
+If too many replacements → shrink from left
+
+Keep the largest valid window
+
+⚡ Full Approach (Step-by-Step, No Code)
+Step 1 — Sliding window with L and R
+
+Expand the window by moving R
+
+Keep frequency counts of letters in the window
+
+Track max_freq = the highest frequency of any character in the current window
+
+Step 2 — Check if the window is valid
+
+A window is valid if:
+
+(R - L + 1) - max_freq ≤ k
+
+
+Meaning:
+
+Total characters
+
+Minus the number of already-matching characters
+
+Must be ≤ k replacements allowed
+
+If valid → we can expand further.
+
+Step 3 — If window becomes invalid
+
+Shrink from the left:
+
+reduce count of s[L]
+L += 1
+
+
+We don’t need to reduce max_freq strictly, because:
+
+Letting it stay slightly outdated does not break correctness
+
+The window size only grows to valid sizes
+
+This is a well-known trick that keeps the code O(n).
+
+Step 4 — Track maximum window size
+
+Whenever the window is valid:
+
+max_length = max(max_length, R - L + 1)
+
+Step 5 — Continue to end of string
+
+Return the largest valid window found.
+
+
+
+⏱️ Complexity
+Operation	Cost
+Time	O(n)
+Space	O(1)
+
+26 uppercase letters → constant extra space.
+
+✔️ Example Results
+Example 1
+
+s = "ABAB", k = 2
+We can make all letters 'A' or 'B'.
+
+Max length = 4
+
+Example 2
+
+s = "AABABBA", k = 1
+Best substring → "BBBB" after one change.
+
+Max length = 4
