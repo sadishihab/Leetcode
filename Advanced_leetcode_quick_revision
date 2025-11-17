@@ -1002,7 +1002,6 @@ Input: "race a car"
 Output: false
 Explanation: "raceacar" is not a palindrome
 
-
 Example 3
 
 Input: " "
