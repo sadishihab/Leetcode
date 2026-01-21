@@ -685,3 +685,59 @@ Time	O(n)
 Space	O(1)
 
 Just a single pass through the array.
+
+👉 Prefix Sum – Range Sum Query (O(1) per query)
+
+1️⃣ Prefix Sum Technique
+
+(Preprocessing O(n), Query O(1))
+
+✅ Key Idea
+
+Store cumulative sums so any subarray sum can be computed using subtraction instead of re-summing elements.
+
+✨ Flashcard
+
+"Precompute sums once → subtract boundaries → get range sum instantly."
+
+⚡ Full Approach
+
+Steps:
+
+Initialize an empty array prefix.
+
+Set a variable total = 0.
+
+Traverse the input array from left to right:
+
+Add the current element to total.
+
+Append total to the prefix array.
+
+To answer a range sum query (left, right):
+
+Take prefix[right] as the sum from index 0 to right.
+
+If left > 0, subtract prefix[left − 1].
+
+If left == 0, subtract 0.
+
+The result is the sum of elements from index left to right.
+
+⏱️ Complexity
+
+Preprocessing Time: O(n)
+
+Query Time: O(1)
+
+Space: O(n)
+
+✅ Notes
+
+Ideal when multiple range sum queries are needed.
+
+Simple logic, very fast queries.
+
+Not suitable if the array is frequently updated.
+
+Commonly used in interviews and competitive programming.
