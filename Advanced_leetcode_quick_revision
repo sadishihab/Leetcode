@@ -1889,3 +1889,95 @@ Water trapped at a bar = max(0, min(left_max, right_max) − height[i]).
 
 Continue until L meets R.
 
+👉 Problem: Range Sum Query – Immutable (Prefix Sum) (LeetCode 303)
+
+You must answer multiple queries asking for the sum of elements between indices left and right (inclusive).
+
+✅ Key Idea
+
+"Precompute cumulative sums once, then answer every range query using subtraction."
+
+Instead of adding numbers again and again for every query, store partial sums and reuse them.
+
+✨ Flashcard
+
+Prefix Sum = sum till right − sum before left
+
+⚡ Full Approach (Step-by-Step, No Code)
+Step 1 — Create a prefix sum structure
+
+Prepare an array that will store cumulative sums.
+
+Each position i will hold the sum of elements from index 0 to i.
+
+Step 2 — Build cumulative totals
+
+Start with a running total set to 0.
+
+Scan the array from left to right:
+
+Add the current number to the running total
+
+Store this total in the prefix array
+
+After this step:
+
+prefix[i] = sum of elements from 0 to i
+
+Step 3 — Understand what a range sum means
+
+To find the sum from index left to right:
+
+Take the sum up to right
+
+Remove the sum of elements before left
+
+Mathematically:
+
+If left > 0 → subtract prefix[left − 1]
+
+If left == 0 → subtract 0
+
+Step 4 — Answer each query in constant time
+
+For every query (left, right):
+
+Get the cumulative sum at right
+
+Subtract the cumulative sum just before left
+
+The result is the required range sum
+
+No loops. No recalculation.
+
+Step 5 — Finish
+
+Since the array is immutable, the prefix array never changes.
+
+You can answer thousands of queries efficiently using the same precomputed data.
+
+🧠 Mental Map (Very Simple)
+
+Imagine your array as checkpoints on a road:
+
+Each checkpoint stores how far you’ve traveled so far.
+
+To know the distance between two checkpoints:
+
+Look at the farther one
+
+Subtract the distance just before the starting point
+
+That difference is your answer.
+
+⏱️ Complexity
+
+Preprocessing: O(n) (build prefix sums once)
+
+Each Query: O(1)
+
+Space: O(n) (prefix array)
+
+📌 This is the best possible solution for an immutable array
+📌 This is exactly what interviewers expect for LeetCode 303
+📌 Mutable version? → Fenwick Tree / Segment Tree
