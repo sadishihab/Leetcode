@@ -1899,6 +1899,20 @@ You must answer multiple queries asking for the sum of elements between indices 
 
 Instead of adding numbers again and again for every query, store partial sums and reuse them.
 
+🧠 Mental Map (Very Simple)
+
+Imagine your array as checkpoints on a road:
+
+Each checkpoint stores how far you’ve traveled so far.
+
+To know the distance between two checkpoints:
+
+Look at the farther one
+
+Subtract the distance just before the starting point
+
+That difference is your answer.
+
 ✨ Flashcard
 
 Prefix Sum = sum till right − sum before left
@@ -1956,19 +1970,7 @@ Since the array is immutable, the prefix array never changes.
 
 You can answer thousands of queries efficiently using the same precomputed data.
 
-🧠 Mental Map (Very Simple)
 
-Imagine your array as checkpoints on a road:
-
-Each checkpoint stores how far you’ve traveled so far.
-
-To know the distance between two checkpoints:
-
-Look at the farther one
-
-Subtract the distance just before the starting point
-
-That difference is your answer.
 
 ⏱️ Complexity
 
@@ -1981,3 +1983,103 @@ Space: O(n) (prefix array)
 📌 This is the best possible solution for an immutable array
 📌 This is exactly what interviewers expect for LeetCode 303
 📌 Mutable version? → Fenwick Tree / Segment Tree
+
+👉 Problem: Range Sum Query 2D – Immutable (2D Prefix Sum)
+(LeetCode 304)
+
+You must answer multiple queries asking for the sum of elements inside a rectangular sub-matrix, defined by its top-left corner (row1, col1) and bottom-right corner (row2, col2).
+
+✅ Key Idea
+
+"Precompute cumulative sums for the whole matrix once, then answer every rectangle query using subtraction."
+
+Instead of summing all cells inside the rectangle for every query, store partial rectangle sums and reuse them.
+
+🧠 Mental Map (Very Simple)
+
+Imagine the matrix as a large field divided into blocks.
+
+At each cell, you store:
+“How much area (sum) is covered from the top-left corner up to here?”
+
+To find the area of any rectangle:
+Take the big area till the bottom-right
+Remove the area above
+Remove the area to the left
+Add back the overlapping corner (removed twice)
+
+### Think of it like peeling layers. Take a big rectangle. Cut off the top. Cut off the left. Fix the double cut
+
+✨ Flashcard
+
+2D Prefix Sum = big rectangle − top − left + overlap
+
+⚡ Full Approach (Step-by-Step, No Code)
+Step 1 — Create a 2D prefix sum structure
+
+Prepare a 2D array prefix.
+
+Each position (i, j) will store the sum of all elements from (0,0) to (i,j).
+
+Step 2 — Build cumulative totals row by row
+
+For each row:
+
+Start a running sum row_sum = 0
+
+Move left to right across the row:
+
+Add the current cell value to row_sum
+
+Add the value from the cell directly above (if it exists)
+
+Store the result in the prefix matrix
+
+After this step:
+
+prefix[i][j] = sum of all elements inside rectangle (0,0) → (i,j)
+
+Step 3 — Understand what a rectangle sum means
+
+To find the sum of a rectangle (row1, col1) → (row2, col2):
+
+Start with the sum from (0,0) → (row2, col2)
+
+Remove the area above row1
+
+Remove the area left of col1
+
+Add back the top-left overlap (it was removed twice)
+
+Step 4 — Answer each query in constant time
+
+For every query (row1, col1, row2, col2):
+
+Get the cumulative sum at (row2, col2)
+
+Subtract the cumulative sum above the rectangle
+
+Subtract the cumulative sum to the left of the rectangle
+
+Add back the overlapping top-left area
+
+No loops. No recalculation.
+
+Step 5 — Finish
+
+Since the matrix is immutable, the prefix matrix never changes.
+
+You can answer thousands of rectangle sum queries efficiently using the same precomputed data.
+
+⏱️ Complexity
+
+Preprocessing: O(m × n) (build prefix matrix once)
+
+Each Query: O(1)
+
+Space: O(m × n) (prefix matrix)
+
+📌 This is the best possible solution for an immutable 2D matrix
+📌 This is exactly what interviewers expect for LeetCode 304
+📌 Mutable version? → 2D Fenwick Tree / Segment Tree
+
