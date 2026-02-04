@@ -2083,3 +2083,129 @@ Space: O(m × n) (prefix matrix)
 📌 This is exactly what interviewers expect for LeetCode 304
 📌 Mutable version? → 2D Fenwick Tree / Segment Tree
 
+👉 Problem: Find Pivot Index (1D Prefix Sum)
+(LeetCode 724)
+
+You are given an array of integers.
+You must find the leftmost index where:
+
+sum of elements strictly to the left
+=
+sum of elements strictly to the right
+
+If no such index exists, return -1.
+
+✅ Key Idea
+
+"Keep a running prefix sum from the left, and derive the right sum using the total."
+
+Instead of recalculating sums for every index, compute the total once and reuse it.
+
+🧠 Mental Map (Very Simple)
+
+Imagine the array split into three parts at index i:
+
+[ left_sum | nums[i] | right_sum ]
+
+
+left_sum → sum of everything before i
+
+nums[i] → current element
+
+right_sum → everything after i
+
+If the left and right sides balance, you’ve found the pivot.
+
+✨ Flashcard
+
+1D Prefix Sum Pivot Rule
+
+right_sum = total − left_sum − current_value
+
+
+Pivot condition:
+
+left_sum == right_sum
+
+⚡ Full Approach (Step-by-Step, No Code)
+Step 1 — Calculate total sum
+
+Add up all elements of the array once.
+This represents the entire weight of the array.
+
+Step 2 — Start with an empty left side
+
+Initialize a variable:
+
+left_sum = 0
+
+At the beginning, nothing exists to the left.
+
+Step 3 — Scan the array from left to right
+
+At each index:
+
+Treat the current element as the “center”
+
+Everything before it is left_sum
+
+Everything after it is:
+
+right_sum = total − left_sum − current_element
+
+Step 4 — Check the pivot condition
+
+If:
+
+left_sum == right_sum
+
+
+Return the current index immediately
+(this guarantees the leftmost pivot).
+
+Step 5 — Slide the divider
+
+If it’s not a pivot:
+
+Add the current element to left_sum
+
+Move to the next index
+
+The divider shifts one step to the right.
+
+Step 6 — No pivot found
+
+If the loop ends with no match, return -1.
+
+🔍 What left_sum += num really means
+
+It moves the divider:
+
+Before:
+[ left | current | right ]
+
+After:
+[ left + current | next | right ]
+
+
+This is a running (implicit) prefix sum.
+
+⏱️ Complexity
+
+Time: O(n) (single pass)
+
+Space: O(1) (no extra array)
+
+📌 Why this is optimal
+
+📌 Uses prefix sum logic without extra memory
+📌 One loop, no nested sums
+📌 Exactly what interviewers expect for LeetCode 724
+
+🔁 Relation to LeetCode 304
+Problem	Dimension	Prefix Sum Type
+304	2D	Stored prefix matrix
+724	1D	Running prefix sum
+
+Same idea. Different dimension.
+
