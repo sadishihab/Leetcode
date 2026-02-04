@@ -2083,8 +2083,7 @@ Space: O(m × n) (prefix matrix)
 📌 This is exactly what interviewers expect for LeetCode 304
 📌 Mutable version? → 2D Fenwick Tree / Segment Tree
 
-👉 Problem: Find Pivot Index (1D Prefix Sum)
-(LeetCode 724)
+👉 Problem: Find Pivot Index (1D Prefix Sum) (LeetCode 724)
 
 You are given an array of integers.
 You must find the leftmost index where:
@@ -2208,4 +2207,186 @@ Problem	Dimension	Prefix Sum Type
 724	1D	Running prefix sum
 
 Same idea. Different dimension.
+
+
+👉 Problem: Product of Array Except Self (Prefix × Suffix Product) (LeetCode 238)
+
+You are given an integer array nums.
+You must return an array answer where:
+
+answer[i] = product of all elements except nums[i]
+
+⚠️ Constraints:
+
+No division
+
+O(n) time
+
+Follow-up: O(1) extra space
+
+✅ Key Idea
+
+"What’s missing at index i is everything to the left × everything to the right."
+
+So for every index:
+
+answer[i] = (product of left side) × (product of right side)
+
+
+This is prefix product + suffix product, just like prefix sums—but with multiplication.
+
+🧠 Mental Map (Very Simple)
+
+Imagine the array split at index i:
+
+[ left product | nums[i] | right product ]
+
+
+Ignore the middle. Multiply the two sides.
+
+✨ Flashcard
+
+Product Except Self
+
+answer[i] = prefix_product[i] × suffix_product[i]
+
+⚡ Full Approach (Two-Pass, No Division)
+Step 1 — Prefix products (left side)
+
+Create an output array answer.
+
+For each index:
+
+Store the product of all elements before it
+
+Example (nums = [1,2,3,4]):
+
+answer = [1, 1, 2, 6]
+
+
+(1 is neutral for multiplication)
+
+Step 2 — Suffix products (right side)
+
+Now walk from right to left, keeping a running right_product.
+
+At each index:
+
+answer[i] *= right_product
+right_product *= nums[i]
+
+
+This multiplies the right side into the stored left product.
+
+Step 3 — Done
+
+The output array now contains the correct product for every index.
+
+
+🔍 Dry Run (Example 1)
+
+Input
+
+nums = [1,2,3,4]
+
+After prefix pass
+answer = [1, 1, 2, 6]
+
+After suffix pass
+answer = [24, 12, 8, 6]
+
+🧠 Why this works with zeros
+
+Example:
+
+nums = [-1,1,0,-3,3]
+
+
+Prefix and suffix naturally handle zeros
+
+No division → no undefined behavior
+
+Exactly one zero → only one index has non-zero product
+
+Multiple zeros → all products are zero
+
+⏱️ Complexity
+
+Time: O(n)
+
+Extra Space: O(1) (output array excluded)
+
+📌 Interview Takeaways
+
+📌 This is prefix-suffix multiplication
+📌 Same pattern family as:
+
+LeetCode 724 (Pivot Index)
+
+LeetCode 304 (2D Prefix Sum)
+
+LeetCode 560 (Subarray Sum)
+
+📌 Division-based solutions are not accepted
+
+Line-by-line Explanation
+class Solution:
+This defines the class as required by LeetCode.
+Think of it as a “container” for the function.
+
+def productExceptSelf(self, nums):
+This defines the function.
+nums is the input list.
+self is just standard for class methods in Python.
+n = len(nums)
+
+Get the length of the array.
+We’ll use this to loop through the array.
+
+answer = [1] * n
+Make an output array of the same size as nums.
+Fill it with 1 because multiplying by 1 doesn’t change anything.
+
+prefix = 1
+prefix will store the product of all numbers to the left of the current index.
+Start with 1 because nothing is on the left of index 0.
+
+for i in range(n):
+    answer[i] = prefix
+    prefix *= nums[i]
+
+Step by step:
+answer[i] = prefix → store the product of all elements before index i.
+prefix *= nums[i] → include the current element in the left product for the next index.
+
+After this loop:
+answer[i] contains the product of all elements to the left of i.
+
+suffix = 1
+suffix will store the product of all numbers to the right of the current index.
+Start with 1 because nothing is on the right of the last index.
+
+for i in range(n - 1, -1, -1):
+    answer[i] *= suffix
+    suffix *= nums[i]
+
+Step by step:
+
+answer[i] *= suffix → multiply the current value (left product) by the product of all elements to the right.
+suffix *= nums[i] → include the current element in the right product for the next index to the left.
+
+After this loop:
+answer[i] now contains product of everything except nums[i].
+
+return answer
+
+Return the final output array.
+
+🧠 Key Idea (Easy Way)
+
+First loop → collect left products.
+
+Second loop → multiply right products.
+
+No division. One array used for output. Two simple passes.
 
