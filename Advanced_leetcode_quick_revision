@@ -1984,8 +1984,7 @@ Space: O(n) (prefix array)
 📌 This is exactly what interviewers expect for LeetCode 303
 📌 Mutable version? → Fenwick Tree / Segment Tree
 
-👉 Problem: Range Sum Query 2D – Immutable (2D Prefix Sum)
-(LeetCode 304)
+👉 Problem: Range Sum Query 2D – Immutable (2D Prefix Sum) (LeetCode 304)
 
 You must answer multiple queries asking for the sum of elements inside a rectangular sub-matrix, defined by its top-left corner (row1, col1) and bottom-right corner (row2, col2).
 
@@ -2390,3 +2389,141 @@ Second loop → multiply right products.
 
 No division. One array used for output. Two simple passes.
 
+
+👉 Problem: Subarray Sum Equals K (1D Prefix Sum + Hash Map) (LeetCode 560)
+
+You are given an integer array nums and an integer k.
+
+Your task is to count how many continuous subarrays have a sum equal to k.
+
+✅ Key Idea
+
+“Track cumulative sums and count how many times we’ve seen a needed sum before.”
+
+Instead of checking every subarray (slow), we reuse past prefix sums to instantly know how many valid subarrays end at the current index.
+
+🧠 Mental Map (Very Simple)
+
+Imagine walking through the array while keeping a running balance.
+
+At each step, ask:
+
+“Have I ever seen a balance of (current_sum − k) before?”
+
+If yes:
+
+Every time it appeared = one valid subarray ending here
+
+Then:
+
+Record the current balance for future use
+
+✨ Flashcard
+
+1D Prefix Sum Rule
+
+subarray sum = current_sum − previous_sum
+
+
+So:
+
+If current_sum − k exists before → subarray sum = k
+
+⚡ Full Approach (Step-by-Step, No Code)
+Step 1 — Initialize counters
+
+count → total number of valid subarrays
+
+cum_sum → running sum while iterating
+
+prefix_counts → stores:
+
+prefix_sum → how many times it appeared
+
+
+Start with:
+
+prefix_counts[0] = 1
+
+
+👉 This represents the empty prefix, allowing subarrays that start at index 0.
+
+Step 2 — Traverse the array
+
+Move through nums one element at a time.
+
+At each element:
+
+Add it to cum_sum
+
+Now ask:
+
+“Do I already have a prefix sum equal to cum_sum − k?”
+
+Step 3 — Count valid subarrays
+
+If cum_sum − k exists:
+
+Add its frequency to count
+
+Why?
+
+Each occurrence represents a different starting point
+
+All of them form a valid subarray ending here
+
+Step 4 — Store current prefix sum
+
+Record the current cum_sum in prefix_counts.
+
+Important:
+
+Use increment, not assignment
+
+Same cumulative sum can appear multiple times
+
+This builds history for future checks.
+
+Step 5 — Finish
+
+After scanning the array:
+
+count contains the total number of subarrays whose sum is k
+
+Return it.
+
+🧩 Tiny Walkthrough
+nums = [1, 2, 3]
+k = 3
+
+Index	num	    cum_sum	    cum_sum − k	    Found before?	        count
+start	 –	       0	        –	      prefix_counts[0]=1	       0
+0	     1	       1	       -2	            ❌	                   0
+1	     2	       3	        0	            ✅	                   1
+2	     3	       6	        3	            ✅	                   2
+
+Valid subarrays:
+
+[1,2]
+
+[3]
+
+⏱️ Complexity
+
+Time: O(n) (single pass)
+
+Space: O(n) (prefix sum map)
+
+📌 Why this solution is perfect
+
+📌 Works with negative numbers (sliding window fails)
+📌 Optimal for interviews
+📌 Exactly what LeetCode expects for Subarray Sum Equals K
+
+🔁 Related problems:
+
+Prefix sum basics
+
+Subarray sum = 0
+
+2D version → Prefix Sum Matrix
