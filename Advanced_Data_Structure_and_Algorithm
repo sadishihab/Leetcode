@@ -741,3 +741,142 @@ Simple logic, very fast queries.
 Not suitable if the array is frequently updated.
 
 Commonly used in interviews and competitive programming.
+
+
+
+👉 Floyd’s Tortoise and Hare
+
+Detect cycles, find middle, or locate cycle start in a linked list using two pointers: slow (1 step) & fast (2 steps).
+
+✨ Flashcard
+
+“Slow walks, fast runs. Meet? → cycle exists. Rewind slow → start of cycle.”
+
+⚡ Full Explanation (Very Easy)
+
+1. Find the middle of a linked list
+
+Goal
+Find the middle node of a linked list efficiently.
+
+🔍 How the code works (Line-by-Line)
+
+Initialize pointers
+
+slow, fast = head, head
+
+
+slow → moves 1 step at a time
+
+fast → moves 2 steps at a time
+
+Traverse until fast reaches the end
+
+while fast and fast.next:
+    slow = slow.next
+    fast = fast.next.next
+
+
+Fast moves twice as fast → when fast hits the end, slow is in the middle.
+
+Return slow
+
+return slow
+
+
+Middle node found!
+
+🧠 Mental Map
+“Fast pointer finishes first → slow pointer is middle.”
+
+📦 Complexity
+
+Time: O(n)
+
+Space: O(1)
+
+2. Detect if a cycle exists
+
+Goal
+Check if the linked list loops back on itself.
+
+🔍 How the code works (Line-by-Line)
+
+Initialize slow & fast
+
+slow, fast = head, head
+
+
+Traverse
+
+while fast and fast.next:
+    slow = slow.next
+    fast = fast.next.next
+    if slow == fast:
+        return True
+
+
+Fast catches up with slow inside the cycle → cycle exists
+
+If no meeting
+
+return False
+
+
+Fast reaches the end → no cycle
+
+🧠 Mental Map
+“Two runners. Meet? → cycle. Reach end? → no cycle.”
+
+📦 Complexity
+
+Time: O(n)
+
+Space: O(1)
+
+3. Find the start of the cycle
+
+Goal
+Return the first node of the cycle, if it exists.
+
+🔍 How the code works (Line-by-Line)
+
+Initialize pointers and detect meeting
+
+slow, fast = head, head
+while fast and fast.next:
+    slow = slow.next
+    fast = fast.next.next
+    if slow == fast:
+        break
+
+
+First meeting point inside the cycle
+
+Check if no cycle
+
+if not fast or not fast.next:
+    return None
+
+
+Find cycle start
+
+slow2 = head
+while slow != slow2:
+    slow = slow.next
+    slow2 = slow2.next
+return slow
+
+
+Move slow from meeting & slow2 from head one step at a time
+
+They meet at the start of the cycle
+
+🧠 Mental Map
+“Rewind slow to head. Both walk 1 step → meet at cycle start.”
+
+📦 Complexity
+
+Time: O(n)
+
+Space: O(1)
