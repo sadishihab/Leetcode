@@ -2590,3 +2590,90 @@ Middle node found ✅
 Time: O(n)
 
 Space: O(1)
+
+👉 Floyd’s Tortoise and Hare + Reverse Second Half (LeetCode 2130)
+
+Find the maximum twin sum in a linked list using two pointers and a reverse of the second half.
+
+✨ Flashcard
+
+“Find middle → reverse second half → walk together → add twins → track max.”
+
+⚡ Full Explanation (Very Easy)
+
+1️⃣ Find the middle of the linked list
+
+🎯 Goal
+Split the list into two halves so twin nodes can be aligned.
+
+🧠 Mental Picture
+
+Original list: 5 → 4 → 2 → 1
+Slow stops at middle → split
+Left half:  5 → 4
+Right half: 2 → 1
+
+
+slow moves 1 step, fast moves 2 steps
+
+When fast reaches the end → slow is at middle
+
+Even-length list → slow lands at start of second half
+
+2️⃣ Reverse the second half
+
+🎯 Goal
+Align twins so we can walk left & right together.
+
+🧠 Mental Picture
+
+Right half before reverse: 2 → 1
+After reverse:             1 → 2
+
+
+Twins now line up side by side
+
+Left half stays the same
+
+Right half is flipped
+
+Think: “Mirror the second half to face the first half”
+
+3️⃣ Walk both halves and compute maximum twin sum
+
+🎯 Goal
+Add each twin pair and track the maximum sum.
+
+🧠 Mental Picture
+
+Left:   5 → 4
+Right:  1 → 2
+Add pairs: 5+1=6, 4+2=6
+Maximum = 6
+
+
+Move both pointers together
+
+Stop when the right pointer ends
+
+Why right? → Each node in the right half has exactly one twin
+
+“Cut → Flip → Add → Track max”
+
+🧠 Extra Notes / Mental Hooks
+
+You don’t need extra space
+
+Only one pass to middle, one reverse, one pass for sums
+
+Works for any even-length linked list
+
+Fast pointer → stops the middle naturally
+
+Reversing the second half → makes twin calculation simple
+
+📦 Complexity
+
+Time: O(n) → middle + reverse + pair walk
+
+Space: O(1) → only pointers, no extra list
