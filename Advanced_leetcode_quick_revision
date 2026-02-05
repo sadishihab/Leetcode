@@ -2754,3 +2754,95 @@ Fast finishes track → no cycle.”
 Time: O(n) → slow + fast traverse at most once around the list
 
 Space: O(1) → only two pointers
+
+👉 Floyd’s Tortoise and Hare (Linked List Cycle II – LeetCode 142)
+
+Find the starting node of a cycle in a linked list using two pointers: slow (1 step) & fast (2 steps).
+
+✨ Flashcard
+
+“Slow walks, fast runs.
+Meet inside cycle? → rewind slow → start of cycle.
+Fast reaches end? → no cycle.”
+
+⚡ Full Explanation (Very Easy)
+
+1️⃣ Detect if a cycle exists
+
+🎯 Goal
+Determine whether the linked list contains a cycle first.
+
+🧠 Mental Picture
+
+Example: 3 → 2 → 0 → -4
+           ↑         ↓
+           ←---------
+
+
+Slow pointer moves 1 step
+
+Fast pointer moves 2 steps
+
+If a cycle exists:
+
+Fast will eventually “lap” slow
+
+Slow and fast meet inside the cycle
+
+If no cycle exists:
+
+Fast reaches the end of the list (None) → no cycle
+
+🔹 Step-by-Step
+
+Initialize pointers
+
+slow = head
+
+fast = head
+
+Traverse
+
+Move slow 1 step
+
+Move fast 2 steps
+
+If slow == fast → cycle exists → go to next step
+
+Else → continue
+
+If fast reaches the end → return None (no cycle)
+
+2️⃣ Find the start of the cycle
+
+🎯 Goal
+Return the first node where the cycle begins.
+
+🧠 Mental Picture
+
+Let slow = meeting point inside cycle
+
+Let slow2 = head of the list
+
+Move both pointers 1 step at a time
+
+They will meet at the start of the cycle
+
+List: 3 → 2 → 0 → -4
+Start: slow2 = head
+Meeting: slow inside cycle
+Walk both → meet at node 2 (start of cycle)
+
+
+Why it works:
+Distance from head to cycle start = distance from meeting point to cycle start along the cycle
+
+🧠 Mental Map
+
+“Detect cycle → meet inside → rewind slow to head → both walk 1 step → meet at cycle start.”
+
+📦 Complexity
+
+Time: O(n) → one pass to detect + one pass to find start
+
+Space: O(1) → only two pointers
