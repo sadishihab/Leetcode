@@ -2527,3 +2527,66 @@ Prefix sum basics
 Subarray sum = 0
 
 2D version → Prefix Sum Matrix
+
+👉 Floyd’s Tortoise and Hare (Middle of Linked List – LeetCode 876)
+
+Find the middle of a linked list using two pointers:
+slow (1 step) & fast (2 steps).
+
+✨ Flashcard
+
+“Slow walks, fast runs.
+Fast ends → slow is the middle.
+Even list? → second middle.”
+
+⚡ Full Explanation (Very Easy)
+
+1. Find the middle of a linked list
+🎯 Goal
+
+Return the middle node of a singly linked list.
+If there are two middle nodes, return the second one.
+
+🔍 How the code works (Line-by-Line)
+
+Initialize pointers
+slow, fast = head, head
+
+
+slow → moves 1 step at a time
+
+fast → moves 2 steps at a time
+
+Both start at the head.
+
+Traverse until fast reaches the end
+while fast and fast.next:
+    slow = slow.next
+    fast = fast.next.next
+
+
+Fast moves twice as fast as slow
+
+When fast reaches the end:
+
+slow is at the middle
+
+For even-length lists:
+
+slow naturally lands on the second middle
+
+Return slow
+return slow
+
+
+Middle node found ✅
+
+🧠 Mental Map
+
+“Fast pointer finishes first → slow pointer is the middle.”
+
+📦 Complexity
+
+Time: O(n)
+
+Space: O(1)
