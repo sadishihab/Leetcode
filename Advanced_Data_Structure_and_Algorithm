@@ -880,3 +880,105 @@ They meet at the start of the cycle
 Time: O(n)
 
 Space: O(1)
+
+👉 Trie (Prefix Tree)
+
+Store words efficiently and answer search and prefix queries by sharing common letter paths.
+
+✨ Flashcard
+
+“Letters form paths.
+Only some nodes are word endings.
+Prefix ≠ word.”
+
+⚡ Full Explanation (Very Easy)
+1. Inserting a word
+🎯 Goal
+
+Store a word letter by letter while reusing common prefixes.
+
+🔍 How it works
+
+• Start from the root (empty node)
+• Move through each letter in order
+• If a letter path doesn’t exist → create it
+• Move forward until the last letter
+
+⚡ At the last letter, mark:
+
+“A complete word ends here.”
+
+This is what the word flag represents.
+
+🧠 Mental Map
+
+“Walk letters → stop → stamp END OF WORD.”
+
+2. Searching for a word
+🎯 Goal
+
+Confirm whether a full word exists — not just a prefix.
+
+🔍 How it works
+
+• Start from the root
+• Follow the path of each letter
+• If any letter is missing → word does not exist
+• After the final letter, check:
+
+⚡ Is this node marked as a word end?
+
+✔ Yes → valid word
+❌ No → only a prefix
+
+🧠 Mental Map
+
+“Path exists + word-end stamp → word found.”
+
+3. Checking a prefix (startsWith)
+🎯 Goal
+
+Check whether any word starts with this prefix.
+
+🔍 How it works
+
+• Start from the root
+• Walk through prefix letters
+• If all letters exist in sequence → prefix exists
+
+🚫 No need to check word ending
+
+🧠 Mental Map
+
+“Prefix only needs a path, not a destination.”
+
+⭐ Why the word flag is CRITICAL
+
+Imagine storing:
+
+• car
+• cat
+
+Both share the path: c → a
+
+But:
+
+• car ends at r
+• cat ends at t
+
+Without a word-ending marker:
+❌ The Trie cannot tell whether “ca” is a word or just a prefix.
+
+👉 The word flag answers one question only:
+
+“Does a complete word stop here?”
+
+📦 Complexity
+
+• Time per operation: linear in word length
+• Extra space: only for new letters
+
+🧠 One-Line Intuition
+
+“Trie remembers paths.
+word = True remembers when to stop.”
