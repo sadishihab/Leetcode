@@ -3178,3 +3178,114 @@ With dots → branching (still safe due to max 2 dots)
 “Trie remembers paths.
 DFS explores options.
 . turns search into smart branching.”
+
+👉 Word Search II (Trie + Backtracking DFS) (Leet Code 212)
+
+Find all words from a list that can be formed by walking adjacent cells on a board without reusing a cell.
+
+✨ Flashcard
+
+“Board = maze.
+Words = Trie.
+DFS walks the board, Trie prunes dead paths.”
+
+⚡ Full Mental Map (Very Easy)
+
+This problem looks scary, but it’s really three ideas glued together:
+
+1️⃣ Trie → store all words efficiently
+2️⃣ DFS on the board → walk letters
+3️⃣ Pruning → stop early when no word can match
+
+🧠 Big Picture Strategy
+
+❌ Bad idea:
+For every word → search the board
+→ too slow (30k words × DFS)
+
+✅ Good idea:
+Search the board once, and use a Trie to check which words are possible.
+
+🧩 Step 1: Build a Trie from words
+
+🎯 Goal
+Share prefixes so we don’t repeat work.
+
+Example words:
+
+["oath", "eat", "pea", "rain"]
+
+
+Trie mental shape:
+
+(root)
+ ├── o → a → t → h (word)
+ ├── e → a → t (word)
+ ├── p → e → a
+ └── r → a → i → n
+
+
+🧠 Mental Map
+“Trie tells us which paths are promising.”
+
+🧩 Step 2: DFS from every board cell
+
+🎯 Goal
+Start DFS from each cell and try to build words.
+
+From each cell:
+• Move up / down / left / right
+• Mark cell as visited
+• Follow Trie paths
+• Backtrack when done
+
+🧠 Mental Map
+“Board walk + Trie walk at the same time.”
+
+🧩 Step 3: Pruning (MOST IMPORTANT)
+
+🎯 Goal
+Stop exploring paths that can’t form any word.
+
+If:
+• Current letter not in Trie children
+→ STOP immediately
+
+🧠 Mental Map
+“No Trie path → dead end → don’t explore further.”
+
+🧩 Step 4: Found a word
+
+When:
+• Trie node says word = True
+
+✔ Add word to result
+✔ Mark it False (avoid duplicates)
+
+🧠 Mental Map
+“Reached a word-end stamp → collect word.”
+
+🧠 One Full DFS Thought
+
+“From this board cell, can I walk in such a way that letters follow a Trie path and end at a word?”
+
+📦 Complexity (with Big-O)
+
+Let:
+• M × N = board size
+• W = number of words
+• L = max word length
+
+Time
+
+O(M × N × 4ᴸ) (worst case)
+👉 In practice much faster due to Trie pruning
+
+Space
+
+• Trie: O(W × L)
+• DFS recursion: O(L)
+
+🧠 One-Line Intuition (Interview Gold)
+
+“Trie reduces word search to prefix checking, DFS explores the board, and pruning kills useless paths early.”
