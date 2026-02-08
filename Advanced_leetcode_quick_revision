@@ -3033,3 +3033,148 @@ Without a word-ending marker:
 
 “Trie remembers paths.
 word = True remembers when to stop.”
+
+👉 Design Add and Search Words Data Structure - WordDictionary (Trie + DFS with . wildcard) (Leetcode 211)
+
+Store words efficiently and support flexible search where . can match any letter, by combining a Trie with DFS.
+
+✨ Flashcard
+
+“Trie gives structure.
+. gives freedom.
+One matching path = success.”
+
+⚡ Full Explanation (Very Easy)
+1. Adding a word
+
+🎯 Goal
+Store a word so it can be searched later (with or without .).
+
+🔍 How it works
+
+• Start from the root (empty node)
+• Move through each letter one by one
+• If a letter path doesn’t exist → create it
+• Move forward until the last letter
+
+⚡ At the last letter, mark:
+
+“A complete word ends here.”
+
+This is stored using the word flag.
+
+🧠 Mental Map
+
+“Walk letters → stop → stamp END OF WORD.”
+
+2. Searching for a word (with . support)
+
+🎯 Goal
+Check if any stored word matches the search pattern.
+
+🔍 How it works (Big Picture)
+
+• Start from the root
+• Match the word character by character
+• Normal letter → follow one path
+• Dot . → try all possible paths
+• If at least one path succeeds → return True
+
+3. DFS helper (core idea)
+
+🎯 Goal
+Answer this question:
+
+“From this node, can the rest of the word be matched?”
+
+🔍 Step-by-step logic
+
+• i = current position in the search word
+• node = where we are in the Trie
+
+⚡ When i == len(word)
+
+We reached the end of the search word.
+
+✔ If a word ends here → match found
+❌ Otherwise → only a prefix
+
+🧠 Mental Map
+
+“Word finished → check word-end stamp.”
+
+🔀 When current character is .
+
+Dot means wildcard.
+
+🔍 What we do:
+
+• Try every child of the current node
+• Recursively search the rest of the word
+• If any path works, stop and return True
+• If all paths fail → return False
+
+🧠 Mental Map
+
+“Dot = open every door.
+One success is enough.”
+
+🔒 When current character is a letter
+
+• If the letter path doesn’t exist → fail
+• If it exists → move forward and continue
+
+🧠 Mental Map
+
+“Letter locks the path.
+No road → dead end.”
+
+4. Why search starts with dfs(0, root)
+
+• 0 → start from the first character
+• root → all words in a Trie start here
+
+🧠 Mental Map
+
+“Words start at the root.
+Matching starts at index 0.”
+
+⭐ Example Walkthrough
+
+Stored words:
+• bat
+• bdc
+• bad
+
+Search:
+
+b.d
+
+
+🧠 What happens:
+
+• b → follow b
+• . → try all children (a, d)
+• d → check if word ends here
+
+✔ Path b → a → d → "bad" matches
+✔ Return True
+
+📦 Complexity
+
+• Add word: linear in word length
+• Search:
+
+No dot → linear
+
+With dots → branching (still safe due to max 2 dots)
+
+• Add word → O(L)
+• Search without dot → O(L)
+• Search with dot → O(26ᵈ · L), but d ≤ 2, so practical and safe
+
+🧠 One-Line Intuition
+
+“Trie remembers paths.
+DFS explores options.
+. turns search into smart branching.”
