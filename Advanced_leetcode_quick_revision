@@ -3175,6 +3175,7 @@ With dots → branching (still safe due to max 2 dots)
 
 🧠 One-Line Intuition
 
+
 “Trie remembers paths.
 DFS explores options.
 . turns search into smart branching.”
@@ -3289,3 +3290,193 @@ Space
 🧠 One-Line Intuition (Interview Gold)
 
 “Trie reduces word search to prefix checking, DFS explores the board, and pruning kills useless paths early.”
+
+
+👉 Prefix & Suffix Search (Trie Trick) (LeetCode 745)
+
+Given a list of words, support queries:
+
+f(prefix, suffix) → largest index of a word
+that starts with prefix AND ends with suffix
+
+
+✨ Flashcard
+
+“Suffix first, then #, then prefix.
+Store everything in one Trie.”
+
+⚡ Full Mental Map (Very Easy)
+
+This problem looks clever, but it’s really one big trick:
+
+1️⃣ Combine suffix + '#' + word
+2️⃣ Store everything in one Trie
+3️⃣ During search, walk suffix + '#' + prefix
+
+That’s it.
+
+🧠 Big Picture Strategy
+
+❌ Bad idea
+For every query:
+• Check every word
+• Check prefix + suffix
+→ O(N × word_length) → too slow
+
+✅ Good idea
+Precompute all suffix–prefix combinations once using a Trie.
+
+🧩 Step 1: Why the # character?
+long_word = "#" + word
+
+
+🎯 Goal
+Separate suffix and prefix clearly.
+
+🧠 Mental Map
+# is a wall:
+
+[suffix] # [prefix]
+
+
+No ambiguity. Clean split.
+
+🧩 Step 2: Insert ALL suffixes of each word
+
+Example words:
+
+words = ["apple"]
+
+
+Word index = 0
+
+All suffixes of "apple":
+
+"apple"
+"pple"
+"ple"
+"le"
+"e"
+""
+
+🧩 Step 3: What exactly do we insert?
+
+For every suffix:
+
+suffix + "#" + word
+
+Inserted strings for "apple":
+apple#apple
+pple#apple
+ple#apple
+le#apple
+e#apple
+#apple
+
+
+🧠 Mental Map
+“Every possible suffix is paired with the full word.”
+
+🧩 Step 4: Trie insertion (core loop)
+for j in range(len(word) + 1):
+    curr = self.root
+    curr.index = i
+    for c in word[j:] + long_word:
+        if c not in curr.children:
+            curr.children[c] = TrieNode()
+        curr = curr.children[c]
+        curr.index = i
+
+What’s happening mentally?
+
+• Start at root
+• Walk character by character
+• Create nodes if needed
+• Always update index = i
+
+🧠 Mental Map
+
+“Every node remembers the latest word index passing through it.”
+
+That’s how we get maximum index automatically.
+
+🧠 Trie Mental Shape (Partial)
+(root)
+ ├── l → e → # → a → p → p → l → e   (index=0)
+ ├── p → l → e → # → a → p → p → l → e
+ ├── # → a → p → p → l → e
+
+
+Each path represents:
+
+suffix # word
+
+🧩 Step 5: Searching
+def f(self, pref, suff):
+    search = suff + "#" + pref
+
+
+Example query:
+
+f("ap", "le")
+
+
+Search string:
+
+"le#ap"
+
+
+🧠 Mental Map
+“If le#ap exists, then:
+suffix = le
+prefix = ap
+→ valid word exists.”
+
+🧩 Step 6: Trie traversal
+for c in search:
+    if c not in curr.children:
+        return -1
+    curr = curr.children[c]
+
+
+• Walk Trie exactly like a prefix search
+• If path breaks → no match
+
+🧩 Step 7: Return answer
+return curr.index
+
+
+🎯 Why this works
+Because during insertion:
+
+curr.index = i
+
+
+was always updated.
+
+🧠 Mental Map
+“The deepest node holds the largest index.”
+
+🧠 One Full Thought (Interview Gold)
+
+“I pre-store every suffix combined with the word in a Trie.
+During query, I search suffix#prefix.
+The Trie node already knows the largest index.”
+
+📦 Complexity
+
+Let:
+• N = number of words
+• L = max word length
+
+Time
+Build: O(N × L²)
+Query: O(L)
+
+Space
+Trie: O(N × L²)
+
+🧠 One-Line Intuition
+
+“Turn prefix–suffix search into a single Trie lookup using
+suffix#prefix.”
