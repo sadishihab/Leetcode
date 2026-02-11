@@ -3684,3 +3684,150 @@ O(n)
 “While building the tree,
 the first edge that connects two already-connected nodes
 is the redundant edge.”
+
+👉 Accounts Merge (Union-Find Trick) (LeetCode 721)
+
+Given a list of accounts, merge all accounts that belong to the same person. Two accounts belong to the same person if any email is shared.
+
+✨ Flashcard
+
+“Emails are nodes. Accounts sharing emails are connected. Union-Find merges accounts. Then collect all emails per person.”
+
+⚡ Full Mental Map (Very Easy)
+
+This problem looks like string/email processing, but it’s really graph connectivity:
+
+1️⃣ Treat each account as a node.
+2️⃣ If two accounts share an email → connect them.
+3️⃣ Union-Find merges connected accounts.
+4️⃣ Collect all emails for each connected component → merged account.
+
+🧠 Big Picture Strategy
+
+❌ Bad idea
+
+Compare every account pair for shared emails → O(N² × email_length) → too slow
+
+✅ Good idea
+
+Use Union-Find to track account connectivity efficiently
+
+Then group emails by root parent → final result
+
+🧩 Step 1: Initialize Union-Find
+
+Create a parent for every account
+
+Create a rank to optimize merging
+
+0   1   2   3
+↑   ↑   ↑   ↑
+
+
+Everyone starts in their own group.
+
+🧩 Step 2: Map emails to accounts & Union
+
+Loop through accounts:
+
+For each email, check if it already exists in email_to_account
+
+If yes → merge current account with previous account owning that email
+
+If no → map this email to current account index
+
+Mental Map
+
+Accounts 0 & 1 share 'b@mail' → merged
+Accounts 2 separate
+
+
+Union-Find ensures all connected accounts have the same root.
+
+🧩 Step 3: Group emails by root parent
+
+For every email:
+
+root = uf.find(account_index)
+
+
+Find which person/component it belongs to
+
+Add email to root_to_emails[root]
+
+Mental Map
+
+root 0 → ["a@mail","b@mail","c@mail"]
+root 2 → ["d@mail"]
+
+
+🧩 Step 4: Build final merged accounts
+
+For each root:
+
+name = accounts[root][0] → pick the person’s name
+
+emails = sorted(root_to_emails[root]) → sort emails alphabetically
+
+Append [name] + emails to result
+
+Mental Map
+
+0 → ["John", "a@mail","b@mail","c@mail"]
+2 → ["Mary", "d@mail"]
+
+
+🧠 Why It Works
+
+Union-Find merges all accounts connected by emails
+
+Root parent = representative of each person
+
+Grouping emails by root gives all emails for that person
+
+Sorting + adding name → final merged account
+
+🧪 Example
+
+Input:
+
+accounts = [
+    ["John","a@mail","b@mail"],
+    ["John","b@mail","c@mail"],
+    ["Mary","d@mail"]
+]
+
+
+Process:
+
+Map emails → union accounts 0 & 1
+
+Group emails by root:
+
+0 → ["a@mail","b@mail","c@mail"]
+2 → ["d@mail"]
+
+
+Build result:
+
+[
+  ["John","a@mail","b@mail","c@mail"],
+  ["Mary","d@mail"]
+]
+
+
+📦 Complexity
+
+N = number of accounts, E = total emails
+
+Time
+
+O(N + E log E) (log E for sorting emails)
+
+Space
+
+O(N + E) for Union-Find and mapping
+
+🧠 One-Line Intuition
+
+“Each account is a node. Emails connect accounts. Union-Find merges nodes. Collect all emails per root → merged account.”
