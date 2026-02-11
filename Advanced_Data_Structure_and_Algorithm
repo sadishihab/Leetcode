@@ -982,3 +982,173 @@ Without a word-ending marker:
 
 “Trie remembers paths.
 word = True remembers when to stop.”
+
+👉 Union-Find (Disjoint Set Union - DSU)
+
+Efficiently track connected components and merge groups while keeping everything fast and balanced.
+
+✨ Flashcard
+
+“Each node points upward.
+Root = group leader.
+Flatten while climbing.
+Attach small under big.”
+
+⚡ Full Explanation (Very Easy)
+
+1️⃣ Initialization
+
+🎯 Goal
+
+Start with n separate nodes — each in its own group.
+
+🔍 How it works
+
+• Every node begins as its own parent
+• Every node starts with height (rank) = 0
+
+So initially:
+
+1   2   3   4
+↑   ↑   ↑   ↑
+
+
+Everyone is their own leader.
+
+🧠 Mental Map
+
+“Everyone starts alone.”
+
+2️⃣ Finding a Leader (Find Operation)
+
+🎯 Goal
+
+Figure out which group a node belongs to.
+
+🔍 How it works
+
+• Start from the node
+• Move upward through parents
+• Stop when you reach a node that points to itself
+
+That node is the root (leader).
+
+⚡ Path Compression (The Speed Trick)
+
+While climbing:
+
+• Make each node skip its parent
+• Point it closer to the root
+
+This flattens the structure.
+
+Instead of:
+
+1 → 2 → 3 → 4
+
+
+It gradually becomes:
+
+1 → 4
+2 → 4
+3 → 4
+
+
+Future searches become extremely fast.
+
+🧠 Mental Map
+
+“Climb to the leader.
+Shorten the ladder while climbing.”
+
+3️⃣ Merging Two Groups (Union Operation)
+
+🎯 Goal
+
+Combine two different groups into one.
+
+🔍 How it works
+
+• Find the leader of node A
+• Find the leader of node B
+• If same leader → already connected
+• If different → attach one tree under the other
+
+⚡ Union by Rank (Balance Control)
+
+To prevent long chains:
+
+• Attach smaller-height tree under taller tree
+• If same height → attach one and increase height by 1
+
+This keeps trees shallow.
+
+🧠 Mental Map
+
+“Small tree goes under big tree.”
+
+⭐ Why Rank + Path Compression Together Are Powerful
+
+Without them:
+
+1 → 2 → 3 → 4 → 5
+
+
+Find becomes slow.
+
+With both optimizations:
+
+Tree becomes flat.
+
+Each operation becomes almost constant time.
+
+📦 Complexity
+
+• Each operation ≈ O(1) in practice
+• More precisely: O(α(n))
+(Inverse Ackermann — grows so slowly it's basically constant)
+
+🚀 When Is Union-Find Used?
+
+Union-Find is used when you need to:
+
+1️⃣ Detect Cycles in Graphs
+
+If connecting two nodes that already have the same leader → cycle detected.
+
+Common in:
+• Undirected graph cycle detection
+• Kruskal’s Minimum Spanning Tree
+
+2️⃣ Find Number of Connected Components
+
+Example:
+• Number of provinces
+• Number of friend circles
+• Network connectivity problems
+
+3️⃣ Dynamic Connectivity Problems
+
+When connections are added over time and you must quickly check:
+
+“Are these two nodes connected?”
+
+4️⃣ Kruskal’s Algorithm (Minimum Spanning Tree)
+
+Before adding an edge:
+• Check if it forms a cycle
+• If not → union them
+
+5️⃣ Grid Problems
+
+Examples:
+• Number of islands
+• Surrounded regions
+• Accounts merge
+• Redundant connection
+
+🧠 One-Line Intuition
+
+“Union-Find remembers groups.
+Find tells you the leader.
+Union merges leaders efficiently.”
