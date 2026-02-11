@@ -3831,3 +3831,86 @@ O(N + E) for Union-Find and mapping
 🧠 One-Line Intuition
 
 “Each account is a node. Emails connect accounts. Union-Find merges nodes. Collect all emails per root → merged account.”
+
+
+👉 Problem type: Consecutive Sequence – Longest Consecutive Sequence (LeetCode 128)
+
+✨ Flashcard:
+“Longest streak starts at the beginning of a sequence. Use a set for O(1) lookups. Track streak length.”
+
+⚡ Full Approach
+
+We need the length of the longest consecutive numbers in an unsorted array.
+
+🔥 Key Idea: HashSet + Sequence Start Check
+
+Instead of sorting (O(n log n)):
+
+Store all numbers in a set → fast lookup
+
+For each number, only start a streak if num - 1 is not in the set → ensures we start at sequence beginnings
+
+Count consecutive numbers num, num+1, num+2… → track streak length
+
+Return the maximum streak length
+
+🧠 Steps / Mental Map
+
+Step 1: Put numbers in a set
+
+Fast O(1) lookup
+
+Removes duplicates
+
+Mental Map:
+
+nums → set(nums)
+
+
+Step 2: Loop through each number in the set
+
+Only start counting at sequence beginnings
+
+Skip numbers in the middle of a sequence → avoids duplicate work
+
+Mental Map:
+
+num - 1 not in set → start streak
+num - 1 in set → skip
+
+
+Step 3: Count consecutive numbers
+
+Move forward along the consecutive sequence
+
+Increase streak for each consecutive number
+
+Mental Map:
+
+current → num
+streak = 1
+while current + 1 in set → current += 1, streak += 1
+
+
+Step 4: Track the longest streak
+
+Keep updating the maximum streak length
+
+Ensures the final answer is the longest sequence
+
+Mental Map:
+
+longest = max(longest, streak)
+
+
+📦 Complexity
+
+Time: O(n) → each number processed at most twice
+
+Space: O(n) → set stores all numbers
+
+🧠 One-Line Intuition / Mental Map
+
+Numbers → set
+Sequence start? num-1 not in set → count streak
+Update max streak → return
