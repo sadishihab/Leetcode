@@ -4032,3 +4032,103 @@ Store partial sums
 Update one leaf → fix upward
 Query only needed pieces → fast answer 🚀
 
+👉 Problem type: Greedy + Sorting – Queue Reconstruction by Height (LeetCode 406)
+
+✨ Flashcard:
+“Place taller people first.
+For same height → smaller k first.
+Insert at index k → guarantees k taller people in front.”
+
+⚡ Full Approach
+
+We need to reconstruct the queue such that:
+
+For each person [h, k] →
+Exactly k people in front have height ≥ h.
+
+Brute force is tricky:
+
+Trying to place short people first → breaks taller people’s condition ❌
+
+Better approach → Greedy + Sort + Insert
+
+🔥 Key Idea: Tallest First + Insert at k
+
+Instead of placing randomly:
+
+1️⃣ Place tall people first
+2️⃣ Insert each person at index = k
+
+Why?
+
+All people already in the list are taller or same height
+
+Inserting at k ensures exactly k taller people in front
+
+Shorter people inserted later do not affect taller people
+
+🧠 Steps / Mental Map
+
+Step 1: Sort People
+people.sort(key=lambda x: (-x[0], x[1]))
+
+
+x[0] = height → -x[0] → descending order
+
+x[1] = k → ascending order if heights tie
+
+Example:
+
+Input: [[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]
+Sorted: [[7,0],[7,1],[6,1],[5,0],[5,2],[4,4]]
+
+
+Mental Map:
+
+Tallest → first
+If tie → smaller k first
+
+Step 2: Insert Each Person at Index k
+res = []
+for person in people:
+    res.insert(person[1], person)
+
+
+Process:
+
+Take person [h, k]
+
+Insert into res at index = k
+
+Why does this work?
+
+All previously inserted people are taller or same height
+
+So inserting at index k guarantees exactly k taller people in front
+
+Example step:
+
+1️⃣ Insert [7,0] at 0 → [[7,0]]
+2️⃣ Insert [7,1] at 1 → [[7,0],[7,1]]
+3️⃣ Insert [6,1] at 1 → [[7,0],[6,1],[7,1]]
+
+Check [6,1]: one taller person in front ✔
+
+Step 3: Return Result
+return res
+
+
+Fully reconstructed queue satisfying all [h, k] constraints
+
+📦 Complexity
+
+Sorting → O(n log n)
+
+Insertion → O(n²) worst case
+
+Space → O(n)
+
+🧠 One-Line Intuition / Mental Map
+
+Sort tall → insert at k → shorter people adjust around taller → queue satisfies all conditions 🚀
+
