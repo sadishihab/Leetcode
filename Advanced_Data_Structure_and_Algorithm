@@ -1152,3 +1152,195 @@ Examples:
 “Union-Find remembers groups.
 Find tells you the leader.
 Union merges leaders efficiently.”
+
+👉 Segment Tree
+
+Efficiently handle range queries + point updates in logarithmic time.
+
+Perfect when:
+
+You need many range sums
+
+And values change over time
+
+✨ Flashcard
+
+“Split range in half.
+Store sum at each node.
+Update one leaf.
+Fix sums while returning.”
+
+⚡ Full Explanation (Very Easy)
+
+1️⃣ Structure
+
+🎯 Goal
+
+Store array information in a tree so queries become fast.
+
+🔍 How it works
+
+Each node stores:
+
+sum → total of its range
+
+L, R → range it represents
+
+left, right → children
+
+If array is:
+
+[2, 4, 5, 7]
+
+
+Tree looks like:
+
+            [0-3]
+           sum=18
+          /      \
+      [0-1]      [2-3]
+      sum=6      sum=12
+      /   \      /    \
+   [0]   [1]   [2]    [3]
+    2     4     5      7
+
+
+🧠 Mental Map
+
+“Each node owns a range.”
+
+2️⃣ Building the Tree (build) — O(n)
+@staticmethod
+def build(nums, L, R):
+
+
+🎯 Goal
+
+Construct the full tree from the array.
+
+🔍 How it works
+
+• If L == R → leaf node
+• Otherwise:
+
+Split range in half
+
+Build left child
+
+Build right child
+
+Sum = left.sum + right.sum
+
+Key idea:
+
+Build children first
+Then compute parent
+
+
+🧠 Mental Map
+
+“Divide range.
+Build children.
+Combine results.”
+
+❓ Why is build a static method?
+
+Because:
+
+• It does NOT use self
+• Tree does not exist yet
+• It creates and returns the first node
+
+So it belongs to the class,
+but doesn’t depend on an object.
+
+Think:
+
+“Factory method to create tree.”
+
+3️⃣ Update Operation — O(log n)
+def update(self, index, val):
+
+
+🎯 Goal
+
+Change one value in the array.
+
+🔍 How it works
+
+• Move down to the correct leaf
+• Update its value
+• While returning back:
+
+Recalculate parent sums
+
+Only one path from root → leaf is visited.
+
+If tree height is log n → time is log n.
+
+🧠 Mental Map
+
+“Go to the leaf.
+Fix sums while climbing back.”
+
+4️⃣ Range Query — O(log n)
+def rangeQuery(self, L, R):
+
+
+🎯 Goal
+
+Return sum of any subarray.
+
+🔍 How it works
+
+Three cases:
+
+1️⃣ Exact match → return sum immediately
+2️⃣ Entirely left → go left
+3️⃣ Entirely right → go right
+4️⃣ Split across middle → query both sides
+
+We only visit relevant branches.
+
+🧠 Mental Map
+
+“Only walk where the range overlaps.”
+
+⭐ Why Segment Tree Is Powerful
+
+Without it:
+
+Range sum → O(n)
+Update → O(1)
+
+With it:
+
+Range sum → O(log n)
+Update → O(log n)
+
+Best when both operations are frequent.
+
+📦 Complexity
+
+• Build → O(n)
+• Update → O(log n)
+• Range Query → O(log n)
+• Space → O(n)
+
+🚀 When Is Segment Tree Used?
+
+1️⃣ Range Sum Queries
+2️⃣ Range Minimum / Maximum
+3️⃣ Dynamic array problems
+4️⃣ Competitive programming
+5️⃣ Any problem with:
+
+Many updates
+
+Many range queries
+
+🧠 One-Line Intuition
+
+“Break array into ranges.
+Store partial sums.
+Touch only needed pieces.”
