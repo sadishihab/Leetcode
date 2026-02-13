@@ -3914,3 +3914,121 @@ Space: O(n) → set stores all numbers
 Numbers → set
 Sequence start? num-1 not in set → count streak
 Update max streak → return
+
+👉 Problem type: Segment Tree – Range Sum Query (Mutable) (LeetCode 307)
+
+✨ Flashcard:
+“Split the array into ranges.
+Store sum at each node.
+Update one leaf → fix ancestors.
+Query only overlapping ranges.”
+
+⚡ Full Approach
+
+We need to support:
+
+• update(index, val)
+• sumRange(left, right)
+
+Efficiently.
+
+Brute force:
+
+• Update → O(1)
+• Range sum → O(n) ❌ (too slow for many queries)
+
+Better approach → Segment Tree
+
+🔥 Key Idea: Store Partial Sums in a Tree
+
+Instead of recalculating sums every time:
+
+• Divide array into halves
+• Each node stores sum of its range
+• Update affects only one root-to-leaf path
+• Query touches only relevant segments
+
+🧠 Steps / Mental Map
+
+Step 1: Build the Tree (O(n))
+
+Split array recursively:
+
+[0-3]
+ /   \
+[0-1] [2-3]
+
+
+Each node stores:
+
+sum = left.sum + right.sum
+
+
+Mental Map:
+
+Divide → Build children → Combine
+
+
+Code logic:
+
+if L == R:
+    return leaf
+
+build left
+build right
+sum = left + right
+
+Step 2: Update a Value (O(log n))
+
+Goal: Change nums[index] = val
+
+Process:
+
+• Go down to the correct leaf
+• Update its sum
+• While returning → recompute parent sums
+
+Only one path is visited (tree height = log n)
+
+Mental Map:
+
+Go to leaf
+Fix sums while climbing back
+
+Step 3: Query Range Sum (O(log n))
+
+Goal: Return sum from left to right
+
+Three cases:
+
+1️⃣ Exact match → return sum immediately
+2️⃣ Entirely in left subtree → go left
+3️⃣ Entirely in right subtree → go right
+4️⃣ Split across middle → query both sides
+
+Mental Map:
+
+No overlap → ignore
+Full overlap → return
+Partial overlap → split
+
+
+📦 Complexity
+
+Time:
+
+• Build → O(n)
+• Update → O(log n)
+• sumRange → O(log n)
+
+Space:
+
+• O(n)
+
+🧠 One-Line Intuition / Mental Map
+
+Array → break into ranges
+Store partial sums
+Update one leaf → fix upward
+Query only needed pieces → fast answer 🚀
+
