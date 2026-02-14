@@ -4132,3 +4132,81 @@ Space → O(n)
 
 Sort tall → insert at k → shorter people adjust around taller → queue satisfies all conditions 🚀
 
+👉 Problem type: Interval Overlap Detection – Calendar Booking (LeetCode 729)
+
+✨ Flashcard:
+
+“Each booking is a block on a timeline.
+If new block enters an existing block’s space → Reject ❌
+If it stays completely outside → Accept ✅”
+
+⚡ Full Approach
+
+We maintain a calendar that contains multiple time blocks.
+
+Each time block represents a booked event.
+
+When a new booking request arrives, our goal is:
+
+👉 Ensure it does NOT occupy the same time space as any existing block.
+
+🔥 Key Idea: Detect Space Collision
+
+Think of time as a straight line.
+
+Each booking occupies some portion of that line.
+
+When placing a new booking, we check:
+
+Does the new booking start before an existing booking finishes
+AND
+
+Does the new booking finish after an existing booking starts
+
+If both happen, it means:
+
+👉 The new booking has entered the space of an existing booking
+
+So it must be rejected.
+
+🧠 Steps / Mental Map
+
+Step 1: Maintain a list of booked time blocks
+
+Your calendar is simply a collection of occupied spaces.
+
+Step 2: For every new booking, scan all existing blocks
+
+You mentally compare the new block with each existing block.
+
+Goal:
+
+👉 Ensure the new block does not invade any occupied space.
+
+Step 3: Decision
+
+If the new block touches occupied space → Reject
+
+If the new block stays fully in free space → Accept and add it to calendar
+
+📦 Complexity
+
+Time:
+
+O(n)
+
+Because each new booking checks all existing bookings
+
+Space:
+
+O(n)
+
+Because bookings are stored
+
+🧠 One-Line Intuition / Mental Map
+
+Treat bookings like blocks on a timeline →
+New block must fit in empty space only →
+If it touches another block’s space → Reject ❌
+Else → Accept ✅
+
