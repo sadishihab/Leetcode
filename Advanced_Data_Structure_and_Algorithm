@@ -1506,3 +1506,186 @@ Problems with many updates + many range queries
 🧠 One-Line Intuition
 
 “Break array into ranges. Store partial results in an array. Touch only the ranges you need.”
+
+👉 Two Heaps – Running Median (Median in Data Stream)
+
+Efficiently maintain median while numbers are inserted dynamically.
+
+Perfect when:
+
+You need median after every insertion
+
+Numbers come in a stream
+
+Sorting every time is too slow
+
+✨ Flashcard
+
+“Split into two halves.
+Max heap → left side.
+Min heap → right side.
+Balance sizes.
+Median is at the top.”
+
+⚡ Full Explanation (Very Easy)
+
+1️⃣ Structure
+
+🎯 Goal:
+Keep smaller half and larger half separated so median is always accessible fast.
+
+🔍 How it works:
+
+self.small → Max Heap → stores smaller half
+self.large → Min Heap → stores larger half
+
+Python has only min heap → so max heap is simulated using negative values.
+
+Example stream:
+[5, 2, 10, 4]
+
+Heaps become:
+
+small (max heap) → [4, 2]
+large (min heap) → [5, 10]
+
+🧠 Mental Map:
+“Left heap → smaller numbers
+Right heap → larger numbers
+Median sits at the boundary”
+
+2️⃣ Insert Operation — O(log n)
+heapq.heappush(self.small, -1 * num)
+
+
+🎯 Goal:
+Insert number into correct half.
+
+🔍 How it works:
+
+Step 1: Always push into small (max heap)
+
+Why?
+
+Because easier to move from small → large if needed.
+
+Step 2: Fix order property
+if (-1 * self.small[0]) > self.large[0]:
+
+
+🎯 Meaning:
+
+Largest of small > smallest of large → WRONG order
+
+So swap
+
+Example:
+
+small → [10]
+large → [5]
+
+Wrong → move 10 to large
+
+🧠 Mental Map:
+“Left side must always be ≤ Right side”
+
+Step 3: Balance sizes
+if len(self.small) > len(self.large) + 1:
+
+
+🎯 Goal:
+
+Heaps size difference must not exceed 1
+
+Why?
+
+Because median must stay in middle
+
+Balance by moving root between heaps
+
+🧠 Mental Map:
+“Heaps must stay equal height”
+
+3️⃣ Get Median — O(1)
+def getMedian(self):
+
+
+🎯 Goal:
+Return middle value
+
+Case 1: small bigger
+
+Example:
+[2,4,5]
+
+Median = top of small
+
+return -self.small[0]
+
+Case 2: large bigger
+
+Example:
+[2,4,5]
+
+Median = top of large
+
+return self.large[0]
+
+Case 3: equal size
+
+Example:
+[2,4,5,10]
+
+Median = average of two middles
+
+return (left + right) / 2
+
+
+🧠 Mental Map:
+“Median is either one top, or average of two tops”
+
+⭐ Why Two Heaps Is Powerful
+
+Without it:
+
+Operation Time
+Insert O(n)
+Median O(1)
+
+With sorting every time → O(n log n)
+
+With Two Heaps:
+
+Operation Time
+Insert O(log n)
+Median O(1)
+
+Best for streaming data
+
+📦 Complexity
+
+Insert → O(log n)
+
+Get Median → O(1)
+
+Space → O(n)
+
+🚀 When to Use Two Heaps
+
+Median in data stream
+
+Running median problems
+
+Sliding window median
+
+Priority based partition problems
+
+LeetCode:
+
+Find Median from Data Stream
+
+Sliding Window Median
+
+🧠 One-Line Intuition
+
+“Keep smaller half left, larger half right, median always on top.”
