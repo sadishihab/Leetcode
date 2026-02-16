@@ -1153,7 +1153,7 @@ Examples:
 Find tells you the leader.
 Union merges leaders efficiently.”
 
-👉 Segment Tree
+👉 Segment Tree - Node Based
 
 Efficiently handle range queries + point updates in logarithmic time.
 
@@ -1344,3 +1344,165 @@ Many range queries
 “Break array into ranges.
 Store partial sums.
 Touch only needed pieces.”
+
+👉 Segment Tree – Array Based
+
+Efficiently handle range queries + point updates in logarithmic time.
+
+Perfect when:
+
+You want fast range max, min, or sum queries
+
+Array values change over time
+
+You don’t want the overhead of objects
+
+✨ Flashcard
+
+“Store ranges in an array.
+Update a leaf.
+Propagate changes.
+Query a range recursively.”
+
+⚡ Full Explanation (Very Easy)
+1️⃣ Structure
+
+🎯 Goal:
+Store array information in a binary tree using an array to make queries and updates fast.
+
+🔍 How it works:
+
+tree → array representing segment tree nodes
+
+size → maximum number of elements / range size
+
+Leaf nodes → represent actual array values
+
+Parent nodes → store aggregate function (max, sum, min) of children
+
+Example array: [2, 4, 5, 7]
+Array-based tree structure (conceptual):
+
+Node array indices: [1,2,3,4,...]
+tree[1] = root = max or sum of full range
+tree[2] = left child
+tree[3] = right child
+...
+Leaf nodes store actual values
+
+
+🧠 Mental Map:
+“Each node stores aggregate info about a range.”
+
+2️⃣ Build / Initialization — O(n)
+self.tree = [default] * (4*size)
+
+
+🎯 Goal:
+Initialize a segment tree array to store all ranges.
+
+🔍 How it works:
+
+4*size → ensures enough space for all nodes
+
+Leaves → store values of the original array
+
+Parents → store aggregate (max, sum, etc.)
+
+🧠 Mental Map:
+“Reserve space for all ranges, even if tree is not perfect.”
+
+❓ Why 4*size?
+
+Worst-case full binary tree may require up to 4*n nodes
+
+Safe, simple rule to prevent overflow
+
+3️⃣ Update Operation — O(log n)
+def update(self, index, value, node=1, start=1, end=None):
+
+
+🎯 Goal:
+Update one value in the array and reflect changes in all relevant ranges.
+
+🔍 How it works:
+
+Go down recursively to the leaf representing index
+
+Update the leaf value
+
+While returning back, update parent nodes:
+
+tree[node] = func(tree[2*node], tree[2*node+1])
+
+
+Only the path from root → leaf is touched → O(log n)
+
+🧠 Mental Map:
+“Go to the leaf. Fix all parents while climbing back.”
+
+4️⃣ Range Query — O(log n)
+def query(self, left, right, node=1, start=1, end=None):
+
+
+🎯 Goal:
+Return aggregate value (max, sum, min) in the range [left, right].
+
+🔍 How it works:
+
+Three cases:
+
+No overlap → return default (0 for sum/max, inf for min)
+
+Total overlap → return tree[node]
+
+Partial overlap → query left and right children and combine
+
+Recursion ensures only relevant branches are visited
+
+🧠 Mental Map:
+“Only walk down ranges that overlap with the query.”
+
+⭐ Why Array-Based Segment Tree Is Powerful
+
+Without it:
+
+Operation	Time
+Range query	O(n)
+Update value	O(1)
+
+With it:
+
+Operation	Time
+Range query	O(log n)
+Update value	O(log n)
+
+Best when:
+
+Many updates + many queries
+
+📦 Complexity
+
+Build / init → O(n)
+
+Update → O(log n)
+
+Range query → O(log n)
+
+Space → O(4*n)
+
+🚀 When to Use Array-Based Segment Tree
+
+Range Sum Queries
+
+Range Maximum / Minimum
+
+Dynamic array problems
+
+Competitive programming
+
+Problems with many updates + many range queries
+
+🧠 One-Line Intuition
+
+“Break array into ranges. Store partial results in an array. Touch only the ranges you need.”
