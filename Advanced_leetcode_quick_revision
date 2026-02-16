@@ -4210,3 +4210,91 @@ New block must fit in empty space only →
 If it touches another block’s space → Reject ❌
 Else → Accept ✅
 
+👉 Problem type: Dynamic Programming + Segment Tree – Longest Increasing Subsequence II (LeetCode 2407)
+
+✨ Flashcard:
+“Use a segment tree to track the max length of subsequences ending at each value.
+Query range [num - k, num - 1] → max previous length.
+Update current value → extend subsequence by 1.”
+
+⚡ Full Approach
+
+We need the longest strictly increasing subsequence where the difference between adjacent elements ≤ k.
+
+Brute force DP (O(n^2)) → too slow ❌
+Better approach → Segment Tree + Range Max Query
+
+🔥 Key Idea: Use Segment Tree for Range Max
+
+Instead of checking all previous numbers individually:
+
+1️⃣ For current num:
+Query max subsequence length in [num - k, num - 1]
+→ gives the longest subsequence that can extend to num.
+
+2️⃣ Update num in segment tree with prev_max + 1
+→ store the longest subsequence ending with num.
+
+🧠 Steps / Mental Map
+
+Step 1: Initialize segment tree
+
+max_num = max(nums)
+seg_tree = SegmentTree(max_num, func=max, default=0)
+
+
+max_num = max element in nums
+
+func=max → we want maximum in a range
+
+default=0 → initial subsequence length
+
+Step 2: Traverse nums
+
+for num in nums:
+    prev_max = seg_tree.query(max(1, num - k), num - 1)
+    curr_len = prev_max + 1
+    seg_tree.update(num, curr_len)
+    res = max(res, curr_len)
+
+
+query(max(1, num-k), num-1) → longest subsequence ending with numbers ≤ k behind
+
+curr_len = prev_max + 1 → extend subsequence by 1
+
+update(num, curr_len) → store max length ending at num
+
+res = max(res, curr_len) → keep global maximum
+
+Step 3: Return the result
+
+return res
+
+
+📦 Complexity
+
+Time: O(n log M) → n = len(nums), M = max(nums)
+Each query/update on segment tree = O(log M)
+
+Space: O(M) → for segment tree
+
+🧠 One-Line Intuition / Mental Map
+
+“Query max in [num-k, num-1] → extend subsequence → update num in segment tree → global max tracks longest subsequence 🚀”
+
+Example Run
+
+Input: nums = [4,2,1,4,3,4,5,8,15], k = 3
+
+Mental Map:
+
+1️⃣ num=1 → query [1-3,0] = empty → length=1 → update 1
+2️⃣ num=2 → query [max(1,-1),1] = 1 → length=2 → update 2
+3️⃣ num=3 → query [0,2] = 2 → length=3 → update 3
+4️⃣ num=4 → query [1,3] = 3 → length=4 → update 4
+5️⃣ num=5 → query [2,4] = 4 → length=5 → update 5
+
+Output = 5 ✅
+
+Do you want me to draw a visual mental map of the segment tree updates for this example? It really helps solidify how the range queries work.
+
