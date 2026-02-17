@@ -4371,3 +4371,248 @@ Mental Map:
 3️⃣ num=3 → push to small → small=[1,3], large=[2] → balance → small=[2,1], large=[3] → median = 2
 
 Output: [1, 1.5, 2] ✅
+
+
+👉 Problem type: Heap + Lazy Deletion – Sliding Window Median (LeetCode 480)
+
+✨ Flashcard:
+
+“Use two heaps to maintain median.
+Use lazy deletion to remove old window elements efficiently.”
+
+⚡ Full Approach
+
+We need the median of every sliding window of size k.
+
+Example:
+
+nums = [1,3,-1,-3,5,3,6,7], k=3
+Window moves → median changes
+
+Brute force:
+
+Sort every window → O(k log k) per window ❌ too slow
+
+Optimal → Two Heaps + Lazy Deletion
+
+🔥 Key Idea: Three Components
+
+1️⃣ Two Heaps → maintain median
+
+small → max heap → smaller half
+large → min heap → larger half
+
+Rule:
+
+small can have equal OR 1 extra element
+
+Median:
+
+odd → top of small
+even → average of both tops
+
+2️⃣ Problem: Removing old element is hard ❌
+
+Heap cannot remove arbitrary element in O(log n)
+
+Example:
+
+Heap = [1,3,5,7]
+
+Remove 3 → not possible directly
+
+3️⃣ Solution: Lazy Deletion ✅
+
+Instead of removing immediately:
+
+Mark it in dictionary
+
+self.delayed[num] += 1
+
+Remove later when it reaches top
+
+This is called lazy deletion
+
+🧠 Steps / Mental Map
+
+Overall Flow:
+
+Add new number
+Balance heaps
+Get median
+Mark outgoing number for deletion
+Prune heaps if needed
+Balance again
+
+🧱 Class DualHeap Mental Model
+
+Think:
+
+small → left half
+large → right half
+delayed → garbage list
+small_size → valid elements count
+large_size → valid elements count
+
+🧹 prune() → Garbage Collector
+
+✨ Purpose:
+
+Remove invalid elements from heap top
+
+Code Logic:
+
+while heap top is marked deleted:
+    remove it
+    decrease delayed count
+
+
+Why needed?
+
+Because heap still contains old elements physically
+
+⚖️ balance() → Maintain Heap Structure
+
+Goal:
+
+size difference ≤ 1
+small always >= large
+
+
+Case 1:
+
+small too big:
+
+move → small → large
+
+Case 2:
+
+large too big:
+
+move → large → small
+
+After move → prune invalid elements
+
+➕ add(num) → Insert New Element
+
+Step 1:
+
+If num ≤ small max
+
+→ goes to small
+
+Else
+
+→ goes to large
+
+Step 2:
+
+Balance heaps
+
+Complexity:
+
+O(log k)
+
+➖ remove(num) → Lazy Delete
+
+Step 1:
+
+Mark deleted
+
+self.delayed[num] += 1
+
+Step 2:
+
+Decrease correct heap size
+
+Step 3:
+
+If number is at heap top → prune immediately
+
+Step 4:
+
+Balance heaps
+
+🎯 get_median()
+
+Case 1: odd window
+
+return top of small
+
+Case 2: even window
+
+return average
+
+O(1)
+
+🚀 Sliding Window Driver Code
+for i in range(len(nums)):
+
+    add(nums[i])
+
+    if window formed:
+
+        record median
+
+        remove outgoing element
+
+🧠 One-Line Intuition / Mental Map
+
+“Two heaps store median, lazy deletion removes expired elements efficiently.”
+
+🔥 Example Run
+
+nums = [1,3,-1,-3,5], k=3
+
+Window 1:
+
+[1,3,-1]
+
+small = [1,-1]
+large = [3]
+
+median = 1
+
+Slide →
+
+remove 1
+add -3
+
+Window:
+
+[3,-1,-3]
+
+median = -1
+
+Slide →
+
+remove 3
+add 5
+
+Window:
+
+[-1,-3,5]
+
+median = -1
+
+Output:
+
+[1, -1, -1]
+
+📦 Complexity
+
+Operation Time
+
+add O(log k)
+
+remove O(log k)
+
+median O(1)
+
+Total O(n log k)
+
+Space O(k)
+
+🧠 Ultimate Intuition (Interview Gold)
+
+“Two heaps give median. Lazy deletion makes sliding window removal efficient.”
