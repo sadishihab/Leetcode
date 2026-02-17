@@ -4148,7 +4148,7 @@ Each time block represents a booked event.
 
 When a new booking request arrives, our goal is:
 
-👉 Ensure it does NOT occupy the same time space as any existing block.
+⚡ Ensure it does NOT occupy the same time space as any existing block.
 
 🔥 Key Idea: Detect Space Collision
 
@@ -4165,7 +4165,7 @@ Does the new booking finish after an existing booking starts
 
 If both happen, it means:
 
-👉 The new booking has entered the space of an existing booking
+⚡ The new booking has entered the space of an existing booking
 
 So it must be rejected.
 
@@ -4181,7 +4181,7 @@ You mentally compare the new block with each existing block.
 
 Goal:
 
-👉 Ensure the new block does not invade any occupied space.
+⚡ Ensure the new block does not invade any occupied space.
 
 Step 3: Decision
 
@@ -4296,5 +4296,78 @@ Mental Map:
 
 Output = 5 ✅
 
-Do you want me to draw a visual mental map of the segment tree updates for this example? It really helps solidify how the range queries work.
+👉 Problem type: Heap – Median from Data Stream (LeetCode 295)
 
+✨ Flashcard:
+“Use two heaps: max heap for smaller half, min heap for larger half.
+Median = top of max heap / min heap or average if even number of elements.”
+
+⚡ Full Approach
+
+We need to continuously find the median as numbers arrive in a data stream.
+
+Brute force (sorting each time) → too slow ❌
+Better approach → Two Heaps
+
+🔥 Key Idea: Two Heaps
+
+small (max heap) → stores the smaller half of numbers (negate numbers for max heap in Python)
+
+large (min heap) → stores the larger half of numbers
+
+Balance heaps so size difference ≤ 1
+
+Median is either:
+
+top of larger heap if it has more elements
+
+top of smaller heap if it has more elements
+
+average of both tops if equal
+
+🧠 Steps / Mental Map
+
+Step 1: Initialize heaps
+
+small = []  # max heap (negated numbers)
+large = []  # min heap
+
+
+Step 2: Insert number
+
+1️⃣ Push num to max heap (small)
+2️⃣ If top of small > top of large → swap to maintain order
+3️⃣ Balance heaps → size difference ≤ 1
+
+
+heapq in Python is min heap → negate values to simulate max heap
+
+Step 3: Find median
+
+if len(small) > len(large): return -small[0]
+if len(large) > len(small): return large[0]
+return (-small[0] + large[0]) / 2.0  # even number of elements
+
+
+📦 Complexity
+
+Operation	Time
+addNum	O(log n) → heap push/pop
+findMedian	O(1)
+
+Space: O(n) → for both heaps
+
+🧠 One-Line Intuition / Mental Map
+“Maintain two balanced heaps → top elements give median instantly 🚀”
+
+Example Run
+
+Input stream: [1, 2, 3]
+
+Mental Map:
+
+1️⃣ num=1 → push to small → small=[1] → median = 1
+2️⃣ num=2 → push to small → small=[1,2] → balance → small=[1], large=[2] → median = (1+2)/2 = 1.5
+3️⃣ num=3 → push to small → small=[1,3], large=[2] → balance → small=[2,1], large=[3] → median = 2
+
+Output: [1, 1.5, 2] ✅
