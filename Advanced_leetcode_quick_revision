@@ -4616,3 +4616,139 @@ Space O(k)
 🧠 Ultimate Intuition (Interview Gold)
 
 “Two heaps give median. Lazy deletion makes sliding window removal efficient.”
+
+👉 Problem type: Heap + Greedy – IPO Capital Maximization (LeetCode 502)
+
+✨ Flashcard:
+“Use two heaps:
+
+Min-heap to unlock affordable projects by capital
+
+Max-heap to pick the most profitable project
+Repeat up to k projects to maximize capital.”
+
+⚡ Full Approach
+
+We need to maximize total capital after completing at most k projects, given initial capital w.
+
+Example:
+
+profits = [1,2,3], capital = [0,1,1], w = 0, k = 2
+
+
+Only projects you can afford with current capital are available.
+
+Always pick the project with highest profit among unlocked ones.
+
+🔥 Key Idea: Two Heaps
+
+1️⃣ Capital Min Heap → store all projects by required capital
+
+Quickly unlock projects you can afford
+
+Heap top = project with smallest capital requirement
+
+2️⃣ Profit Max Heap → store unlocked projects by profit
+
+Always pick largest profit project
+
+Use negative numbers in Python to simulate max heap
+
+🧠 Steps / Mental Map
+
+1️⃣ Push all projects into capital_heap → (required capital, profit)
+2️⃣ Repeat k times:
+
+Unlock all projects with capital ≤ current capital → move to profit_heap
+
+If profit_heap empty → break (no projects affordable)
+
+Pop max profit → add to capital w
+3️⃣ Return final capital w
+
+🧱 Class Heap Mental Model
+
+capital_heap → min-heap → locked projects
+profit_heap → max-heap → unlocked projects ready to pick
+
+
+Unlock → move from capital_heap → profit_heap
+
+Pick → pop max from profit_heap → update capital
+
+Repeat up to k times
+
+🚀 Code Explanation Line-by-Line
+
+capital_heap = []
+for c, p in zip(capital, profits):
+    heapq.heappush(capital_heap, (c, p))
+
+
+Push all projects into min-heap by required capital.
+
+Top of heap = project with smallest capital needed.
+
+profit_heap = []
+
+
+Max heap (store profits as negative numbers in Python).
+
+Top of heap = project with largest profit among unlocked.
+
+for _ in range(k):
+
+
+Repeat up to k projects.
+
+while capital_heap and capital_heap[0][0] <= w:
+    c, p = heapq.heappop(capital_heap)
+    heapq.heappush(profit_heap, -p)
+
+
+Unlock all projects you can currently afford.
+
+Move them to profit heap.
+
+if not profit_heap:
+    break
+
+
+Stop if no project is affordable → cannot increase capital further.
+
+w += -heapq.heappop(profit_heap)
+
+
+Pick the most profitable project → add profit to capital w.
+
+return w
+
+
+Return final maximized capital after k projects.
+
+🔥 Example Run
+
+Input:
+
+profits = [1,2,3], capital = [0,1,1], w = 0, k = 2
+
+
+Step 1: Capital heap = [(0,1),(1,2),(1,3)], Profit heap = []
+
+Step 1 unlock: (0,1) → profit heap = [1] → pick max → w = 1
+
+Step 2 unlock: (1,2),(1,3) → profit heap = [3,2] → pick max → w = 4
+
+Output: 4 ✅
+
+📦 Complexity
+
+Operation	Time
+Build capital heap	O(n)
+Each heap push/pop	O(log n)
+Total	O(n log n)
+Space	O(n)
+
+🧠 One-Line Intuition
+
+“Unlock affordable projects → pick the highest profit → increase capital → repeat k times.”
