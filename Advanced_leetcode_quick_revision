@@ -4940,3 +4940,149 @@ Efficient and clean
 🧠 One-Line Intuition
 
 “Include element → explore → remove → exclude element → explore → repeat until all subsets are built.”
+
+👉 Problem type: Backtracking + Sorting – Subsets with Duplicates (LeetCode 90)
+
+✨ Flashcard:
+“Sort first.
+
+Include element normally.
+
+When excluding → skip all duplicates.
+
+This prevents duplicate subsets.”
+
+⚡ Full Approach
+
+We need to generate all subsets, but input may contain duplicate numbers.
+
+Example:
+
+nums = [1,2,2]
+
+Output:
+
+[[],[1],[1,2],[1,2,2],[2],[2,2]]
+
+NOT allowed:
+
+[2] appearing twice ❌
+
+🔥 Key Idea: Sort + Skip Duplicates
+
+Why sort?
+
+To bring duplicates together:
+
+[2,1,2] → sort → [1,2,2]
+
+Now easy to detect duplicates
+
+🧠 Steps / Mental Map
+
+1️⃣ Sort nums
+
+2️⃣ At each index:
+
+Include element → normal recursion
+
+Exclude element → skip all duplicates
+
+3️⃣ Save subset at leaf
+
+🧱 Backtracking Mental Model
+
+Decision Tree:
+
+nums = [1,2,2]
+
+              []
+          /         \
+        [1]         []
+      /    \      /    \
+   [1,2]  [1]  [2]    []
+    /           /
+[1,2,2]      [2,2]
+
+
+Duplicates automatically avoided
+
+🚀 Code Explanation Line-by-Line
+
+nums.sort()
+
+
+Sort to group duplicates
+
+subsets = []
+curSet = []
+
+
+Result storage and working subset
+
+def helper(i):
+
+
+Recursive function
+
+if i == len(nums):
+    subsets.append(curSet[:])
+    return
+
+
+Save subset
+
+curSet.append(nums[i])
+helper(i + 1)
+curSet.pop()
+
+
+Include current element
+
+Explore
+
+Backtrack
+
+while i + 1 < len(nums) and nums[i] == nums[i + 1]:
+    i += 1
+
+
+Skip duplicates
+
+Critical step
+
+helper(i + 1)
+
+
+Exclude element
+
+helper(0)
+
+
+Start recursion
+
+return subsets
+
+
+Return result
+
+🔥 Example Run
+
+Input:
+
+[1,2,2]
+
+Output:
+
+[[],[1],[1,2],[1,2,2],[2],[2,2]] ✅
+
+📦 Complexity
+
+Operation Time
+Total subsets 2ⁿ
+Total O(n × 2ⁿ)
+Space O(n)
+
+🧠 One-Line Intuition
+
+“Sort → include element → backtrack → skip duplicates → exclude → repeat.”
