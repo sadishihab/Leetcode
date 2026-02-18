@@ -1,13 +1,20 @@
 class Solution:
     def subsets(self, nums):
-        res = []
+        subsets = []
+        curSet = []
 
-        def backtrack(start, path):
-            res.append(path[:])          # add current subset
-            for i in range(start, len(nums)):
-                path.append(nums[i])     # choose
-                backtrack(i + 1, path)   # explore
-                path.pop()               # un-choose (backtrack)
+        def helper(i):
+            if i == len(nums):
+                subsets.append(curSet.copy())
+                return
 
-        backtrack(0, [])
-        return res
+            # include nums[i]
+            curSet.append(nums[i])
+            helper(i + 1)
+
+            # exclude nums[i]
+            curSet.pop()
+            helper(i + 1)
+
+        helper(0)
+        return subsets
