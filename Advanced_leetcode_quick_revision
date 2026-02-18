@@ -4752,3 +4752,191 @@ Space	O(n)
 🧠 One-Line Intuition
 
 “Unlock affordable projects → pick the highest profit → increase capital → repeat k times.”
+
+👉 Problem type: Backtracking – Power Set Generation (LeetCode 78 Subsets)
+
+✨ Flashcard:
+“Every element has two choices:
+
+Include it
+
+Exclude it
+
+Explore both recursively to build all subsets.”
+
+⚡ Full Approach
+
+We need to generate all possible subsets of an array of unique elements.
+
+Example:
+
+nums = [1,2,3]
+
+Output:
+
+[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+
+Each element has two decisions:
+
+Include in subset
+
+Do NOT include in subset
+
+This creates a decision tree
+
+Total subsets:
+
+2ⁿ
+
+🔥 Key Idea: Backtracking (Include / Exclude)
+
+At each index i:
+
+Include nums[i]
+
+Exclude nums[i]
+
+Recursively explore both
+
+🧠 Steps / Mental Map
+
+1️⃣ Start from index 0 with empty subset
+
+2️⃣ For each element:
+
+Include → explore deeper
+
+Backtrack → remove element
+
+Exclude → explore deeper
+
+3️⃣ When index reaches end → save subset
+
+🧱 Backtracking Mental Model
+
+Think like a tree:
+
+nums = [1,2]
+
+            []
+         /       \
+       [1]       []
+      /   \     /   \
+   [1,2] [1]  [2]  []
+
+
+Each path = one subset
+
+🚀 Code Explanation Line-by-Line
+
+subsets = []
+curSet = []
+
+
+subsets → stores final answer
+
+curSet → current subset being built
+
+def helper(i):
+
+
+Recursive function
+
+i → current index in nums
+
+if i == len(nums):
+    subsets.append(curSet.copy())
+    return
+
+
+Reached end of array
+
+Save current subset
+
+This is a leaf node in decision tree
+
+curSet.append(nums[i])
+helper(i + 1)
+
+
+Include current element
+
+Move to next index
+
+curSet.pop()
+
+
+Backtrack
+
+Remove last element
+
+Restore previous state
+
+helper(i + 1)
+
+
+Exclude current element
+
+Move to next index
+
+helper(0)
+
+
+Start recursion from index 0
+
+return subsets
+
+
+Return all subsets
+
+🔥 Example Run
+
+Input:
+
+nums = [1,2]
+
+Execution:
+
+Start: []
+
+Include 1 → [1]
+
+Include 2 → [1,2] → save
+
+Exclude 2 → [1] → save
+
+Backtrack
+
+Exclude 1 → []
+
+Include 2 → [2] → save
+
+Exclude 2 → [] → save
+
+Output:
+
+[[],[1],[2],[1,2]] ✅
+
+📦 Complexity
+
+Operation Time
+Total subsets 2ⁿ
+Copy each subset O(n)
+Total O(n × 2ⁿ)
+Space O(n)
+
+Recursion depth = n
+
+🚀 Why Backtracking Works Best
+
+Because:
+
+We must explore all combinations
+
+Backtracking avoids extra memory
+
+Efficient and clean
+
+🧠 One-Line Intuition
+
+“Include element → explore → remove → exclude element → explore → repeat until all subsets are built.”
