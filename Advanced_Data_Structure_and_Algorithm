@@ -1689,3 +1689,329 @@ Sliding Window Median
 🧠 One-Line Intuition
 
 “Keep smaller half left, larger half right, median always on top.”
+
+👉 Backtracking – Generate All Subsets (Power Set)
+
+Efficiently generate all possible subsets using recursion and decisions.
+
+Perfect when:
+
+You need all combinations
+
+Each element has two choices → include or exclude
+
+Order doesn’t matter
+
+Duplicates may or may not exist
+
+✨ Flashcard
+
+“Every element → two choices.
+Include it.
+Or skip it.
+Recursively explore both.”
+
+⚡ Full Explanation (Very Easy)
+
+1️⃣ Structure
+
+🎯 Goal:
+
+Generate all subsets of a list.
+
+Example:
+
+Input:
+[1,2]
+
+Output:
+[], [1], [2], [1,2]
+
+🔍 Core Idea:
+
+Each element has 2 choices
+
+Include
+Exclude
+
+So total subsets:
+
+2ⁿ
+
+🧠 Mental Map:
+
+            []
+        /        \
+      [1]        []
+     /   \      /   \
+ [1,2]  [1]  [2]    []
+
+
+Decision Tree
+
+Each level → decision point
+
+2️⃣ Core Variables
+subsets → final result
+
+curSet → current subset being built
+
+i → current index
+
+
+🧠 Mental Map:
+
+subsets → storage box
+
+curSet → subset under construction
+
+i → current element position
+
+3️⃣ Base Case
+
+Code:
+
+if i >= len(nums):
+    subsets.append(curSet.copy())
+    return
+
+
+🎯 Goal:
+
+When all elements processed → store result
+
+⚠️ Why copy?
+
+Because curSet changes later
+
+Without copy → all results same
+
+🧠 Mental Map:
+
+“Reached leaf → save subset”
+
+4️⃣ Include Decision
+
+Code:
+
+curSet.append(nums[i])
+helper(i + 1, nums, curSet, subsets)
+curSet.pop()
+
+
+🎯 Goal:
+
+Choose current element
+
+Step-by-step:
+
+Add element
+
+Explore further
+
+Remove element (BACKTRACK)
+
+Example:
+
+nums = [1,2]
+
+curSet = []
+
+Include 1 → [1]
+
+Include 2 → [1,2]
+
+🧠 Mental Map:
+
+“Choose → Explore → Undo”
+
+This is Backtracking
+
+5️⃣ Exclude Decision
+
+Code:
+
+helper(i + 1, nums, curSet, subsets)
+
+
+🎯 Goal:
+
+Skip current element
+
+Example:
+
+Skip 1 → []
+
+Include 2 → [2]
+
+🧠 Mental Map:
+
+“Skip and explore”
+
+6️⃣ Full Flow Example
+
+Input:
+
+[1,2]
+
+Execution:
+
+Start []
+
+Include 1 → [1]
+
+Include 2 → [1,2] → save
+
+Exclude 2 → [1] → save
+
+Backtrack
+
+Exclude 1 → []
+
+Include 2 → [2] → save
+
+Exclude 2 → [] → save
+
+
+Final:
+
+[]
+[1]
+[2]
+[1,2]
+
+
+⭐ Why Backtracking Is Powerful
+
+Because it explores:
+
+All possibilities
+
+Without storing full tree
+
+Memory efficient
+
+7️⃣ Handling Duplicates Version
+
+Function:
+
+subsetsWithDuplicates(nums)
+
+
+🎯 Problem:
+
+Input:
+
+[1,2,2]
+
+Normal solution gives duplicate subsets:
+
+[2] appears twice
+
+WRONG
+
+8️⃣ Solution: Skip Duplicates
+
+Code:
+
+while i + 1 < len(nums) and nums[i] == nums[i + 1]:
+    i += 1
+
+
+🎯 Meaning:
+
+Skip duplicate elements
+
+Example:
+
+[2,2,2]
+
+Skip extra copies
+
+Only process once
+
+🧠 Mental Map:
+
+“Skip identical twins”
+
+9️⃣ Why Sorting Is Required
+
+Code:
+
+nums.sort()
+
+
+🎯 Goal:
+
+Bring duplicates together
+
+Example:
+
+[2,1,2]
+
+Becomes:
+
+[1,2,2]
+
+Now easy to skip
+
+🧠 Mental Map:
+
+“Sort → detect duplicates easily”
+
+10️⃣ Visual Example with Duplicates
+
+Input:
+
+[1,2,2]
+
+Tree:
+
+            []
+        /         \
+      [1]         []
+     /   \       /   \
+ [1,2]  [1]   [2]   []
+   |
+ [1,2,2]
+
+
+Duplicates skipped properly
+
+📦 Complexity
+
+Time → O(n × 2ⁿ)
+
+Why?
+
+2ⁿ subsets
+
+Each copy takes O(n)
+
+Space → O(n)
+
+Recursion depth
+
+🚀 When to Use Backtracking Subsets
+
+Power set problems
+
+Combination problems
+
+Decision problems
+
+Include-exclude problems
+
+LeetCode:
+
+Subsets
+
+Subsets II
+
+Combination Sum
+
+Permutations
+
+🧠 One-Line Intuition
+
+“Every element → include or skip → explore both recursively.”
