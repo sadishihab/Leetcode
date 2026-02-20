@@ -5295,3 +5295,265 @@ Most used interview template
 🧠 One-Line Intuition
 
 “Pick next number forward and stop when combination size reaches k.”
+
+
+👉 Backtracking – Phone Letter Combinations (LeetCode 17)
+
+Efficiently generate all possible letter combinations from phone digits using recursion and incremental building.
+
+Perfect when:
+
+You need all possible combinations from multiple groups
+
+Each position has multiple choices
+
+Combination length is fixed
+
+Classic keypad backtracking problem
+
+✨ Flashcard
+
+“Pick a letter for current digit.
+Move to next digit.
+Stop when all digits are used.”
+
+⚡ Full Explanation (Very Easy)
+
+1️⃣ Structure
+
+🎯 Goal:
+
+Generate all letter combinations from given phone digits.
+
+Example:
+
+Input:
+
+digits = "23"
+
+
+Output:
+
+ad
+ae
+af
+bd
+be
+bf
+cd
+ce
+cf
+
+
+🔍 Core Idea:
+
+Each digit gives multiple letters.
+
+We build combinations step-by-step.
+
+Digit by digit.
+
+🧠 Mental Map:
+
+Start ""
+
+Digit 2 → a,b,c
+
+Pick a → "a"
+ Digit 3 → d,e,f
+ Pick d → "ad" ✅
+ Pick e → "ae" ✅
+ Pick f → "af" ✅
+
+Pick b → "b"
+ Pick d → "bd" ✅
+ Pick e → "be" ✅
+ Pick f → "bf" ✅
+
+Pick c → "c"
+ Pick d → "cd" ✅
+ Pick e → "ce" ✅
+ Pick f → "cf" ✅
+
+2️⃣ Core Variables
+
+res → final result
+
+path → current letter combination
+
+index → current digit position
+
+phone → digit → letters mapping
+
+🧠 Mental Map:
+
+res → storage box
+
+path → word under construction
+
+index → which digit we are processing
+
+phone → choice provider
+
+3️⃣ Base Case
+
+Code:
+
+if index == len(digits):
+    res.append(path)
+    return
+
+
+🎯 Goal:
+
+All digits processed
+
+Combination complete
+
+Save it
+
+🧠 Mental Map:
+
+“Word ready → save it”
+
+Example:
+
+digits="23"
+
+path="ad"
+
+Save
+
+4️⃣ Pick Decision (FOR LOOP)
+
+Code:
+
+letters = phone[digits[index]]
+
+for ch in letters:
+
+
+🎯 Goal:
+
+Try every letter for current digit
+
+Example:
+
+Digit = "2"
+
+Letters:
+
+a
+b
+c
+
+
+🧠 Mental Map:
+
+“Try every possible letter”
+
+5️⃣ Move Forward Step
+
+Code:
+
+backtrack(index + 1, path + ch)
+
+
+🎯 Goal:
+
+Choose letter
+
+Move to next digit
+
+🧠 Mental Map:
+
+“Choose → Move forward”
+
+Example:
+
+"" + a → "a"
+"a" + d → "ad"
+
+6️⃣ Why No pop() Here?
+
+Because:
+
+path + ch
+
+
+creates NEW string
+
+Strings are immutable
+
+No need to undo
+
+🧠 Mental Map:
+
+Each path is independent
+
+7️⃣ Full Flow Example
+
+Input:
+
+digits="23"
+
+
+Execution:
+
+Start ""
+
+Pick a → "a"
+
+Pick d → "ad" ✅
+
+Pick e → "ae" ✅
+
+Pick f → "af" ✅
+
+Pick b → "b"
+
+Pick d → "bd" ✅
+
+Pick e → "be" ✅
+
+Pick f → "bf" ✅
+
+Pick c → "c"
+
+Pick d → "cd" ✅
+
+Pick e → "ce" ✅
+
+Pick f → "cf" ✅
+
+📦 Complexity
+
+Time:
+
+O(4^n)
+
+
+Because each digit has max 4 letters
+
+Space:
+
+O(n)
+
+
+Recursion depth
+
+🚀 Why This Works Best
+
+Because:
+
+Explores all combinations
+
+No duplicates
+
+Clean recursion
+
+Standard interview pattern
+
+🧠 One-Line Intuition
+
+“Pick one letter per digit and move forward until word is complete.”
