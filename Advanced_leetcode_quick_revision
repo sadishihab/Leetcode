@@ -5558,7 +5558,9 @@ Standard interview pattern
 
 “Pick one letter per digit and move forward until word is complete.”
 
-👉 Backtracking – Permutations using Swap (LeetCode 46)
+
+
+👉 Backtracking – Permutations Using Swap (LeetCode 46)
 
 Efficiently generate all possible permutations by fixing one position at a time and swapping choices into place.
 
@@ -5568,323 +5570,9 @@ You need all arrangements of elements
 
 Order matters
 
-Each position must use one unique element
+Each position must use exactly one element
 
 Classic permutation backtracking problem
-
-✨ Flashcard
-
-“Fix a position.
-Swap each choice into place.
-Move to next position.
-Swap back when returning.”
-
-⚡ Full Explanation (Very Easy)
-
-1️⃣ Structure
-
-🎯 Goal:
-
-Generate all permutations of the array.
-
-Example:
-
-Input:
-
-nums = [1,2,3]
-
-
-Output:
-
-[1,2,3]
-[1,3,2]
-[2,1,3]
-[2,3,1]
-[3,1,2]
-[3,2,1]
-
-
-🔍 Core Idea:
-
-Each position can take any remaining number.
-
-We fix positions one-by-one.
-
-Using swap.
-
-🧠 Mental Map
-
-Start:
-
-[1,2,3]
-
-
-Fix index 0
-
-Try:
-
-[1,_,_]
-[2,_,_]
-[3,_,_]
-
-
-Then fix next index.
-
-2️⃣ Result Container
-res = []
-
-
-🎯 Goal:
-
-Store all permutations
-
-Example later:
-
-res =
-[
-[1,2,3],
-[1,3,2],
-...
-]
-
-3️⃣ Backtracking Function
-def backtrack(start):
-
-
-🎯 Goal:
-
-Fix position = start
-
-Example:
-
-start=0 → fixing index 0
-start=1 → fixing index 1
-start=2 → fixing index 2
-
-
-Visual:
-
-[ _, _, _ ]
-  ↑
-start
-
-4️⃣ Base Case
-if start == len(nums):
-    res.append(nums[:])
-    return
-
-
-🎯 Goal:
-
-If all positions fixed → save permutation
-
-Example:
-
-nums = [2,3,1]
-
-
-Save:
-
-res.append([2,3,1])
-
-
-🧠 Mental Map:
-
-“All positions filled → save answer”
-
-5️⃣ Try All Choices
-for i in range(start, len(nums)):
-
-
-🎯 Goal:
-
-Try every number for current position
-
-Example:
-
-nums=[1,2,3]
-start=0
-
-
-Loop:
-
-i=0
-i=1
-i=2
-
-6️⃣ Swap (Choose)
-nums[start], nums[i] = nums[i], nums[start]
-
-
-🎯 Goal:
-
-Place choice at current position
-
-Example:
-
-Before:
-
-[1,2,3]
-
-
-swap(0,2)
-
-After:
-
-[3,2,1]
-
-
-🧠 Mental Map:
-
-“Put new number in current slot”
-
-7️⃣ Recurse (Explore)
-backtrack(start + 1)
-
-
-🎯 Goal:
-
-Fix next position
-
-Example:
-
-[3,2,1]
-   ↑
- start=1
-
-8️⃣ Swap Back (Undo)
-nums[start], nums[i] = nums[i], nums[start]
-
-
-🎯 Goal:
-
-Restore original array
-
-Example:
-
-Before undo:
-
-[3,2,1]
-
-
-After undo:
-
-[1,2,3]
-
-
-🧠 Mental Map:
-
-“Reset before trying next choice”
-
-This is BACKTRACKING.
-
-9️⃣ Start Recursion
-backtrack(0)
-
-
-🎯 Goal:
-
-Start fixing from index 0
-
-🔟 Return Result
-return res
-
-
-Final result:
-
-[
-[1,2,3]
-[1,3,2]
-[2,1,3]
-[2,3,1]
-[3,1,2]
-[3,2,1]
-]
-
-🧠 Step-by-Step Mental Animation
-
-Start:
-
-[1,2,3]
-
-
-Fix index 0:
-
-swap(0,0) → [1,2,3]
-swap(0,1) → [2,1,3]
-swap(0,2) → [3,2,1]
-
-
-For each → fix next index
-
-Example branch:
-
-[2,1,3]
-
-fix index 1:
-
-[2,1,3]
-[2,3,1]
-
-🌳 Recursion Tree
-                 [1,2,3]
-            /       |       \
-       [1,_,_]  [2,_,_]  [3,_,_]
-        /   \      /  \     /   \
-   [1,2,3][1,3,2] ...
-
-⭐ Why Swap Back is Critical
-
-Without swap back:
-
-Array becomes corrupted
-
-Example wrong:
-
-[3,2,1]
-[3,1,2]  ❌
-
-
-Swap back restores:
-
-[1,2,3]
-
-📦 Complexity
-
-Time:
-
-O(n × n!)
-
-
-Space:
-
-O(n)
-
-🚀 When to Use This Pattern
-
-Permutations
-
-Arrangements
-
-Ordering problems
-
-Backtracking problems
-
-🧠 One-Line Intuition
-
-“Fix position. Try every number. Undo. Repeat.
-
-✅ Permutations Backtracking – Interview Cheat Sheet (LeetCode 46)
-
-Problem Type: Backtracking – Permutations
-
-Use When:
-
-You need all arrangements of a set of numbers
-
-Order matters
-
-Each position must use exactly one element
 
 ✨ Flashcard
 
@@ -5893,80 +5581,152 @@ Front:
 
 Back:
 
-Fix one position at a time
+Fix a position
 
 Swap each available number into that position
 
 Recurse to fix the next position
 
-Swap back (undo) to restore for next iteration
+Swap back (undo) to restore the array
 
 Stop when all positions are fixed → save
 
-⚡ Step-by-Step Mental Template
+⚡ Step-by-Step Combined Explanation
 
-1️⃣ Initialize result container
-
+1️⃣ Initialize Result Container
 res = []
 
 
-Will store all permutations
+Stores all generated permutations.
 
-2️⃣ Define backtracking function
+Example:
 
+res = []
+
+2️⃣ Define Backtracking Function
 def backtrack(start):
     if start == len(nums):
         res.append(nums[:])
         return
 
 
-start → current position being fixed
+start → index of the position being fixed.
 
-Base case: all positions fixed → save current permutation
+Base case → all positions fixed → save a copy of nums.
 
-3️⃣ Loop through remaining numbers
+Mental Map:
 
+[ _, _, _ ]
+  ↑ start
+
+3️⃣ Loop Through Remaining Numbers
 for i in range(start, len(nums)):
-    nums[start], nums[i] = nums[i], nums[start]  # swap in
-    backtrack(start + 1)                          # recurse
-    nums[start], nums[i] = nums[i], nums[start]  # swap back
 
 
-Swap → place choice at current position
+Try every number for the current position.
 
-Recurse → fix next position
+Example:
 
-Swap back → restore array for next iteration
+nums = [1,2,3], start = 0
+i = 0 → 1
+i = 1 → 2
+i = 2 → 3
 
-4️⃣ Start recursion
+4️⃣ Swap (Choose)
+nums[start], nums[i] = nums[i], nums[start]
 
+
+Swap the number at index i into the current position.
+
+Example before swap: [1,2,3], start = 0, i = 2
+
+After swap: [3,2,1]
+
+Mental Map:
+
+“Put new number in the current slot”
+
+5️⃣ Recurse (Explore)
+backtrack(start + 1)
+
+
+Move to next position and repeat process.
+
+Mental Map:
+
+[3,2,1]
+   ↑ start=1
+
+6️⃣ Swap Back (Undo)
+nums[start], nums[i] = nums[i], nums[start]
+
+
+Restore array to original state before trying the next number.
+
+Critical step – without this, permutations get corrupted.
+
+Example:
+
+Before undo: [3,2,1]
+After undo: [1,2,3]
+
+7️⃣ Start Recursion
 backtrack(0)
 return res
 
-🧠 Mental Map / Animation
 
-Visualize fixing seats:
+Start fixing positions from index 0
 
-nums = [1,2,3]
+Return the list of all permutations
 
-Fix index 0 → try 1,2,3
- ├─ Fix index 1 → try remaining numbers
- │    ├─ Fix index 2 → save permutation
- │    └─ Backtrack (swap back)
- └─ Next choice at index 0
-
-
-Key: Fix → Explore → Undo → Repeat
-
-📝 Example Walkthrough
+🧠 Step-by-Step Mental Animation
 
 Input: [1,2,3]
 
-Step 1: fix index 0 → pick 1 → [1, _, _]
-Step 2: fix index 1 → pick 2 → [1,2,_]
-Step 3: fix index 2 → pick 3 → [1,2,3] → save
-Step 4: backtrack → swap back → try next at index 1 → [1,3,2] → save
-Step 5: backtrack → swap back → next choice at index 0 → [2,1,3] → repeat
+Fix index 0: try 1,2,3
+
+swap(0,0) → [1,2,3]
+swap(0,1) → [2,1,3]
+swap(0,2) → [3,2,1]
+
+
+Fix next index: repeat for index 1
+
+Example branch:
+
+[2,1,3]
+Fix index 1 → try remaining numbers
+   [2,1,3]
+   [2,3,1]
+
+
+Fix last index → base case → save permutation
+
+🌳 Recursion Tree Visualization
+                 [1,2,3]
+            /       |       \
+       [1,_,_]  [2,_,_]  [3,_,_]
+        /   \      /  \     /   \
+   [1,2,3][1,3,2] [2,1,3][2,3,1] [3,1,2][3,2,1]
+
+
+Each level fixes one position.
+
+Leaves → complete permutations.
+
+✅ Example Walkthrough
+
+Input: [1,2,3]
+
+Fix index 0 → pick 1 → [1,_,_]
+
+Fix index 1 → pick 2 → [1,2,_]
+
+Fix index 2 → pick 3 → [1,2,3] → save
+
+Backtrack → swap back → pick next at index 2 → [1,3,2] → save
+
+Backtrack → next choice at index 0 → [2,1,3] → repeat
 
 Final Result:
 
@@ -5976,13 +5736,17 @@ Final Result:
 
 Always swap back after recursion
 
-Use nums[:] or .copy() when saving
+Use nums[:] or .copy() when saving path
 
 Complexity:
 
 Time: O(n × n!)
 
 Space: O(n) recursion stack
+
+🧠 One-Line Intuition
+
+“Fix a position. Try every number. Undo. Repeat until all positions are fixed.”
 
 💡 Universal Backtracking Template
 def backtrack(choice_state, options):
