@@ -6,7 +6,7 @@ class Solution:
 
         def backtrack(start):
             if start == len(nums):
-                res.append(nums.copy())
+                res.append(nums.copy())  #res.append(nums[:]) for lower than python 3
                 return
 
             for i in range(start, len(nums)):
