@@ -5760,3 +5760,245 @@ def backtrack(choice_state, options):
 
 
 Permutations = choice_state = nums[:fixed], options = remaining numbers
+
+👉 Backtracking – Unique Permutations Using Used Array (LeetCode 47)
+
+Efficiently generate all unique permutations from an array that may contain duplicates.
+
+Perfect when:
+
+You need all arrangements of elements
+
+Order matters
+
+Some elements may repeat
+
+You must avoid duplicate permutations
+
+Classic permutation + backtracking problem
+
+✨ Flashcard
+
+Front:
+“How do I generate all unique permutations of an array with duplicates?”
+
+Back:
+
+Sort the array to group duplicates
+
+Track used elements with a used[] array
+
+Pick each unused element
+
+Skip duplicates if the previous identical element wasn’t used
+
+Recurse to build the next position
+
+Undo choice (pop + mark unused)
+
+Stop when all positions are filled → save
+
+⚡ Step-by-Step Combined Explanation
+
+1️⃣ Initialize Result Container
+res = []
+
+
+Stores all unique permutations.
+
+Example:
+
+res = []
+
+2️⃣ Sort Input & Setup Used Array
+nums.sort()          # sort to make duplicates adjacent
+used = [False] * len(nums)
+
+
+Sorting ensures duplicates are next to each other → easy to skip.
+
+used[i] tracks if nums[i] is already in the current path.
+
+Example:
+
+nums = [1,1,2]
+used = [False, False, False]
+
+3️⃣ Define Backtracking Function
+def backtrack(path):
+    if len(path) == len(nums):
+        res.append(path[:])
+        return
+
+
+path → current permutation being built.
+
+Base case → all positions filled → save a copy.
+
+Mental Map:
+
+[ _, _, _ ]
+  ↑ path length
+
+4️⃣ Loop Through All Numbers
+for i in range(len(nums)):
+
+
+Try every number in nums for the current position.
+
+Skip already used numbers:
+
+if used[i]:
+    continue
+
+
+Skip duplicates only if previous duplicate wasn’t used:
+
+if i > 0 and nums[i] == nums[i-1] and not used[i-1]:
+    continue
+
+
+Example:
+
+nums = [1,1,2]
+used = [True, False, False]
+i = 1 → skip (duplicate not used)
+
+5️⃣ Choose the Number
+used[i] = True
+path.append(nums[i])
+
+
+Mark as used and add to path.
+
+Example:
+
+path = [1]
+used = [True, False, False]
+
+
+Mental Map:
+
+“Pick a number and move forward”
+
+6️⃣ Recurse
+backtrack(path)
+
+
+Move to the next position and continue building permutation.
+
+Mental Map:
+
+[1]
+  ↑ next pick
+
+7️⃣ Undo Choice (Backtrack)
+path.pop()
+used[i] = False
+
+
+Remove last number and mark as unused to try the next possibility.
+
+Example:
+
+path = []
+used = [False, False, False]
+
+
+Mental Map:
+
+“Reset before trying next number”
+
+8️⃣ Start Recursion
+backtrack([])
+return res
+
+
+Start building permutation with an empty path.
+
+Return all unique permutations at the end.
+
+🧠 Step-by-Step Dry Run – nums = [1,1,2]
+
+Initial Setup:
+
+nums = [1,1,2], used = [False, False, False], path = [], res = []
+
+Step 1: Pick first 1 (i=0)
+path = [1], used = [True, False, False]
+
+
+Recurse:
+
+Step 2: Pick second 1 (i=1)
+path = [1,1], used = [True, True, False]
+
+
+Recurse:
+
+Step 3: Pick 2 (i=2)
+path = [1,1,2], used = [True, True, True]
+Base case → save → res = [[1,1,2]]
+
+
+Backtrack → remove 2 → path = [1,1], used = [True, True, False]
+
+Step 4: Backtrack second 1
+
+Pop → path = [1], used = [True, False, False]
+
+i=2 → pick 2 → path = [1,2], used = [True, False, True]
+
+Recurse → i=1 → pick second 1 → path = [1,2,1], used = [True, True, True]
+
+Save → res = [[1,1,2],[1,2,1]]
+
+Step 5: Backtrack first 1
+
+Pop → path = [], used = [False, False, False]
+
+i=1 → skip (duplicate 1 not used)
+
+i=2 → pick 2 → path = [2], used = [False, False, True]
+
+Recurse → pick 1 (i=0) → path = [2,1], used = [True, False, True]
+
+Pick 1 (i=1) → path = [2,1,1], used = [True, True, True]
+
+Save → res = [[1,1,2],[1,2,1],[2,1,1]]
+
+🌳 Recursion Tree Visualization
+[]
+├─ 1
+│   ├─ 1
+│   │   └─ 2 → [1,1,2]
+│   └─ 2
+│       └─ 1 → [1,2,1]
+├─ 1 → skipped
+└─ 2
+    ├─ 1
+    │   └─ 1 → [2,1,1]
+    └─ 1 → skipped
+
+✅ Final Result
+[[1,1,2],[1,2,1],[2,1,1]]
+
+🔑 Interview Tips
+
+Always sort array first to handle duplicates
+
+Use used[] array to track picked numbers
+
+Skip duplicates if previous duplicate is not used
+
+Always pop path + mark unused for backtracking
+
+Complexity:
+
+Time: O(n! × n)
+
+Space: O(n) recursion stack + O(n) used[]
+
+🧠 One-Line Intuition
+
+“Pick unused numbers one by one, skip duplicates, build path recursively, undo choice, repeat until all positions filled → save path.”
