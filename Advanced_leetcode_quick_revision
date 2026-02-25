@@ -5748,18 +5748,7 @@ Space: O(n) recursion stack
 
 “Fix a position. Try every number. Undo. Repeat until all positions are fixed.”
 
-💡 Universal Backtracking Template
-def backtrack(choice_state, options):
-    if done(choice_state):
-        save(choice_state)
-        return
-    for option in options:
-        make_choice(option)
-        backtrack(choice_state + option, remaining_options)
-        undo_choice(option)
 
-
-Permutations = choice_state = nums[:fixed], options = remaining numbers
 
 👉 Backtracking – Unique Permutations Using Used Array (LeetCode 47)
 
