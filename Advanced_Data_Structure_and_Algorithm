@@ -3132,3 +3132,140 @@ Backtracking =
 
 "DFS on decision tree
 
+
+👉 Dijkstra – Min Heap (Priority Queue)
+
+Compute shortest distances from a source to all nodes in a weighted directed graph using a min-heap.
+
+✨ Flashcard
+
+“Heap decides next node to explore. Update distances → push to heap → explore neighbors.”
+
+⚡ Full Explanation (Very Easy)
+
+1. Build adjacency list
+
+Goal
+Store graph in a format that allows fast neighbor access.
+
+🔍 How the code works (Line-by-Line)
+
+adj = {i: [] for i in range(1, n+1)}
+for s, d, w in edges:
+    adj[s].append((d, w))
+
+adj → dictionary: key = node, value = list of (neighbor, weight)
+
+Loop over edges → add directed edges to adjacency list
+
+🧠 Mental Map
+“Adjacency list = who is connected to whom, and at what cost.”
+
+📦 Complexity
+Time: O(E) | Space: O(V + E)
+
+2. Initialize distances
+
+Goal
+Track shortest known distance to each node from src.
+
+🔍 How the code works
+
+dist = {i: float("inf") for i in range(1, n+1)}
+dist[src] = 0
+
+All nodes → infinity (unknown distance)
+
+Source → 0 (starting point)
+
+🧠 Mental Map
+“∞ everywhere, except start = 0.”
+
+📦 Complexity
+Time: O(V) | Space: O(V)
+
+3. Initialize min-heap
+
+Goal
+Pick the next node with smallest distance to explore.
+
+🔍 How the code works
+
+minHeap = [(0, src)]
+
+Heap stores (current_distance, node)
+
+Always pops the node with minimum distance first
+
+🧠 Mental Map
+“Heap = next fastest runner to explore.”
+
+📦 Complexity
+Time: O(1) for push initially | O(log V) per later push
+
+4. Process nodes
+
+Goal
+Explore nodes in distance order until all shortest paths are found.
+
+🔍 How the code works
+
+while minHeap:
+    currDist, node = heapq.heappop(minHeap)
+    if currDist > dist[node]:
+        continue
+
+Pop node with smallest currDist
+
+If currDist > dist[node] → skip outdated entry
+
+🧠 Mental Map
+“Heap may contain old entries → ignore if distance is already better.”
+
+📦 Complexity
+Time: O(V log V + E log V) total
+
+5. Explore neighbors
+
+Goal
+Relax edges and update shortest distances.
+
+🔍 How the code works
+
+for nei, weight in adj[node]:
+    newDist = currDist + weight
+    if newDist < dist[nei]:
+        dist[nei] = newDist
+        heapq.heappush(minHeap, (newDist, nei))
+
+For each neighbor → calculate potential new distance
+
+If shorter → update dist and push to heap
+
+🧠 Mental Map
+“Update distance → tell heap to explore this node later.”
+
+📦 Complexity
+Time: O(E log V) (heap push per edge)
+
+6. Return distances
+
+Goal
+Provide shortest paths from source to all nodes.
+
+return dist
+
+🧠 Mental Map
+“Distance table is ready → done!”
+
+📦 Complexity
+Time: O(1) | Space: O(V)
+
+💡 Key Insight for Interviews
+
+dist stores knowledge → shortest distances found so far
+
+heap drives exploration → always pick the next most promising node
+
+Must push neighbor after updating distance → otherwise Dijkstra won’t explore the new shortest path
+
