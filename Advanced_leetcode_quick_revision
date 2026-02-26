@@ -5991,3 +5991,175 @@ Space: O(n) recursion stack + O(n) used[]
 🧠 One-Line Intuition
 
 “Pick unused numbers one by one, skip duplicates, build path recursively, undo choice, repeat until all positions filled → save path.”
+
+👉 Dijkstra – Network Delay Time (LeetCode 743)
+
+Efficiently calculate the minimum time for a signal to reach all nodes in a weighted directed graph.
+
+Perfect when:
+
+You have a weighted graph (edges with travel times)
+
+You want the shortest path from a single source
+
+You need to know when the last node receives the signal
+
+You must handle unreachable nodes
+
+Classic heap-based Dijkstra problem.
+
+✨ Flashcard
+
+Front:
+“How do I calculate the network delay time from a source node in a weighted graph?”
+
+Back:
+
+Build adjacency list
+
+Initialize distances to infinity, except source = 0
+
+Use a min-heap (priority queue) to pick the closest node
+
+For each neighbor, update distance if shorter path is found
+
+Push the updated neighbor distance into the heap
+
+Skip outdated distances in the heap
+
+After all nodes processed → check largest distance for the delay
+
+Return -1 if any node is unreachable
+
+⚡ Step-by-Step Combined Explanation
+1️⃣ Build Adjacency List
+adj = {i: [] for i in range(1, n+1)}
+for s, d, w in times:
+    adj[s].append((d, w))
+
+adj[node] = list of (neighbor, weight)
+
+Example:
+
+times = [[2,1,1],[2,3,1],[3,4,1]]
+adj = {
+  1: [],
+  2: [(1,1),(3,1)],
+  3: [(4,1)],
+  4: []
+}
+
+Mental Map: “All outgoing roads from each node”
+
+2️⃣ Initialize Distance Table
+dist = {i: float("inf") for i in range(1, n+1)}
+dist[k] = 0
+
+Distance = shortest known distance from source k
+
+Start with infinity for all nodes → 0 for source
+
+Example:
+
+dist = {1:inf, 2:0, 3:inf, 4:inf}
+
+Mental Map: “How long it will take signal to reach each node”
+
+3️⃣ Setup Min Heap
+minHeap = [(0, k)]
+
+Heap contains (distance, node)
+
+Always process the closest node first
+
+Min-heap ensures efficiency
+
+4️⃣ Process Nodes
+while minHeap:
+    currDist, node = heapq.heappop(minHeap)
+
+Pop the node with smallest distance
+
+currDist = current shortest time to reach this node
+
+5️⃣ Skip Outdated Distances
+if currDist > dist[node]:
+    continue
+
+Heap may contain old distances for a node
+
+Skip if we already found a shorter path
+
+Example:
+Heap = [(3,2),(4,2)]
+
+dist[2] = 3
+
+Pop (4,2) → 4 > 3 → skip
+
+Mental Map: “Ignore slower paths we don’t need”
+
+6️⃣ Explore Neighbors & Update Distances
+for nei, weight in adj[node]:
+    newDist = currDist + weight
+    if newDist < dist[nei]:
+        dist[nei] = newDist
+        heapq.heappush(minHeap, (newDist, nei))
+
+For each neighbor:
+
+Calculate newDist = distance to current node + edge weight
+
+If newDist is smaller → update dist[nei]
+
+Push (newDist, neighbor) into heap
+
+Mental Map: “Signal spreads along shortest paths → update travel times”
+
+7️⃣ Check Network Delay Time
+maxDist = max(dist.values())
+return maxDist if maxDist < float("inf") else -1
+
+Largest distance in dist = when the last node receives the signal
+
+If any node still = inf → unreachable → return -1
+
+Example:
+
+dist = {1:0, 2:3, 3:1, 4:4}
+max(dist.values()) = 4 → network delay = 4
+
+Mental Map: “Time for the signal to reach all nodes”
+
+🧠 Step-by-Step Dry Run – times = [[2,1,1],[2,3,1],[3,4,1]], n=4, k=2
+Step	Heap	Node	dist table	Action
+0	[(0,2)]	-	{1:inf,2:0,3:inf,4:inf}	Init
+1	[]	2	{1:inf,2:0,3:inf,4:inf}	Explore 2’s neighbors: 1→1,3→1
+2	[(1,1),(1,3)]	1	{1:1,2:0,3:1,4:inf}	No neighbors, done
+3	[(1,3)]	3	{1:1,2:0,3:1,4:inf}	Explore 3’s neighbor 4→2, push heap
+4	[(2,4)]	4	{1:1,2:0,3:1,4:2}	Done
+Done	[]	-	{1:1,2:0,3:1,4:2}	max(dist)=2 → return 2
+🌳 Heap + Distance Visualization
+Heap: [(0,2)]             dist: {1:inf,2:0,3:inf,4:inf}
+Pop 2 → neighbors: 1,3
+Heap: [(1,1),(1,3)]       dist: {1:1,2:0,3:1,4:inf}
+Pop 1 → no neighbors
+Pop 3 → neighbor 4
+Heap: [(2,4)]             dist: {1:1,2:0,3:1,4:2}
+Pop 4 → no neighbors
+
+Network delay = 2 (last node receives signal at t=2)
+
+🔑 Interview Tips
+
+Always use a min-heap for efficiency (O(E log V))
+
+Skip outdated distances (currDist > dist[node])
+
+Network delay = max of all shortest distances
+
+Return -1 if any node unreachable
+
+🧠 One-Line Intuition
+
+“Pick the closest node, spread the signal to neighbors updating shortest times, repeat until all nodes processed → largest distance = network delay.”
