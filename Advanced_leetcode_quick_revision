@@ -6163,3 +6163,247 @@ Return -1 if any node unreachable
 🧠 One-Line Intuition
 
 “Pick the closest node, spread the signal to neighbors updating shortest times, repeat until all nodes processed → largest distance = network delay.”
+
+👉 Dijkstra on Grid – Swim in Rising Water (LeetCode 778)
+
+Efficiently calculate the minimum time required to reach the bottom-right cell in a grid where water level rises over time.
+
+Perfect when:
+
+You have a grid with elevations
+
+Movement is 4-directional
+
+The “cost” of a path depends on the maximum value along the path
+
+You want the minimum possible maximum
+
+Classic min-heap Dijkstra variation
+
+✨ Flashcard
+
+Front:
+“How do I find the minimum time to reach bottom-right in a rising water grid?”
+
+Back:
+
+Treat each cell as a graph node
+
+Time to enter a cell = max(elevation so far, cell elevation)
+
+Use a min-heap to always expand the lowest time cell
+
+Mark visited when popped (finalized)
+
+Stop when bottom-right is popped from heap
+
+⚡ Step-by-Step Combined Explanation
+1️⃣ Initialize Grid Info
+n = len(grid)
+visited = [[False] * n for _ in range(n)]
+
+visited[r][c] → marks finalized cells
+
+Just like dist[] in normal Dijkstra
+
+Mental Map:
+“Have we already processed this cell with minimum possible time?”
+
+2️⃣ Setup Min Heap
+minHeap = [(grid[0][0], 0, 0)]
+
+Heap contains:
+
+(time_needed, row, col)
+
+Start at (0,0).
+
+Why time = grid[0][0]?
+
+Because water must rise at least to that elevation for you to stand there.
+
+3️⃣ Directions (4 Moves)
+directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+Allowed moves:
+
+Down
+
+Up
+
+Right
+
+Left
+
+Mental Map:
+“From each cell, try all four neighbors.”
+
+4️⃣ Process Cells (Dijkstra Loop)
+while minHeap:
+    time, r, c = heapq.heappop(minHeap)
+
+Pop the cell requiring the smallest time to reach.
+
+Exactly like:
+
+currDist, node = heapq.heappop(minHeap)
+
+in Network Delay Time.
+
+5️⃣ If Destination → Return
+if r == n - 1 and c == n - 1:
+    return time
+
+Why return immediately?
+
+Because:
+
+Heap guarantees this is the minimum possible time to reach bottom-right.
+
+Once popped → finalized → optimal.
+
+6️⃣ Skip Already Visited
+if visited[r][c]:
+    continue
+visited[r][c] = True
+
+Same as:
+
+if currDist > dist[node]: continue
+
+We mark visited when popped because:
+
+At that moment → we know this is the best possible time for that cell.
+
+Mental Map:
+“Lock this cell. We’ve reached it in minimum time.”
+
+7️⃣ Explore Neighbors
+for dr, dc in directions:
+    nr, nc = r + dr, c + dc
+
+Try all 4 adjacent cells.
+
+Check Valid Move
+if 0 <= nr < n and 0 <= nc < n and not visited[nr][nc]:
+
+Ensure:
+
+Inside grid
+
+Not already finalized
+
+8️⃣ Compute Time to Enter Neighbor
+newTime = max(time, grid[nr][nc])
+
+This is the KEY difference from normal Dijkstra.
+
+Instead of:
+
+newDist = currDist + weight
+
+We do:
+
+newTime = max(current_path_time, neighbor_elevation)
+
+Why?
+
+Because:
+
+Water must be high enough for all previous cells
+
+AND high enough for this new cell
+
+So we take the larger of the two.
+
+Mental Map:
+
+“Earliest time water must rise so I can stand on this neighbor.”
+
+9️⃣ Push into Heap
+heapq.heappush(minHeap, (newTime, nr, nc))
+
+We tell the heap:
+
+“If water rises to newTime, I can reach (nr,nc).”
+
+Heap keeps smallest time first.
+
+🧠 Step-by-Step Dry Run
+
+Example:
+
+grid = [
+  [0, 2],
+  [1, 3]
+]
+Step 0
+
+Heap:
+
+[(0,0,0)]
+Step 1
+
+Pop (0,0) time=0
+
+Push neighbors:
+
+(1,0) → max(0,1)=1
+
+(0,1) → max(0,2)=2
+
+Heap:
+
+[(1,1,0),(2,0,1)]
+Step 2
+
+Pop (1,0) time=1
+
+Push neighbor:
+
+(1,1) → max(1,3)=3
+
+Heap:
+
+[(2,0,1),(3,1,1)]
+Step 3
+
+Pop (0,1) time=2
+
+Push:
+
+(1,1) → max(2,3)=3
+
+Heap:
+
+[(3,1,1),(3,1,1)]
+Step 4
+
+Pop (1,1) time=3
+
+Destination reached → return 3
+
+🌳 Heap Visualization
+Heap: [(0,0,0)]
+Pop → explore neighbors
+Heap: [(1,1,0),(2,0,1)]
+Pop (1,0)
+Heap: [(2,0,1),(3,1,1)]
+Pop (0,1)
+Heap: [(3,1,1),(3,1,1)]
+Pop (1,1) → DONE
+🔑 Interview Tips
+
+This is Dijkstra where:
+
+distance = maximum elevation along path
+
+Mark visited after popping
+
+Return immediately when reaching bottom-right
+
+Complexity: O(n² log n)
+
+🧠 One-Line Intuition
+
+“Always expand the cell that requires the least water level so far → the first time you reach bottom-right, that water level is the minimum possible.”
