@@ -3269,3 +3269,313 @@ heap drives exploration → always pick the next most promising node
 
 Must push neighbor after updating distance → otherwise Dijkstra won’t explore the new shortest path
 
+
+🎯 ✅ TOTAL COMPLEXITY
+
+Let:
+
+V = number of vertices
+
+E = number of edges
+
+🕒 Total Time Complexity
+𝑂
+(
+(
+𝑉
++
+𝐸
+)
+log
+⁡
+𝑉
+)
+O((V+E)logV)
+	​
+
+
+Why?
+
+Each node can be pushed into heap → O(V log V)
+
+Each edge relaxation may push into heap → O(E log V)
+
+Combined → O((V + E) log V)
+
+For dense graphs (E ≈ V²):
+
+𝑂
+(
+𝐸
+log
+⁡
+𝑉
+)
+O(ElogV)
+🧠 Total Space Complexity
+𝑂
+(
+𝑉
++
+𝐸
+)
+O(V+E)
+	​
+
+
+Adjacency list → O(V + E)
+
+Distance table → O(V)
+
+Heap (worst case) → O(V)
+
+
+👉 Prim’s Algorithm – Min Heap (Priority Queue) (Cost + Edges Version)
+
+Compute the Minimum Spanning Tree (MST) of a weighted undirected graph using a min-heap — and return both total cost and MST edges.
+
+✨ Flashcard
+
+“Start anywhere → always pick smallest edge connecting new node → grow tree → track parent to store edges.”
+
+⚡ Full Explanation (Very Easy)
+1️⃣ Build adjacency list
+
+🎯 Goal
+
+Store graph in a format that allows fast neighbor access.
+
+🔍 How the code works (Line-by-Line)
+
+adj = {i: [] for i in range(1, n+1)}
+
+for u, v, w in edges:
+    adj[u].append((v, w))
+    adj[v].append((u, w))
+
+Create dictionary for all nodes
+
+Since MST is undirected, add both directions:
+
+u → v
+
+v → u
+
+🧠 Mental Map
+
+“Adjacency list = who is connected to whom, and at what cost.”
+
+📦 Complexity
+
+Time: O(E)
+Space: O(V + E)
+
+2️⃣ Initialize visited set
+
+🎯 Goal
+
+Track which nodes are already inside the MST.
+
+🔍 How the code works
+
+visited = set()
+
+Empty set at start
+
+When a node is added to MST → add to visited
+
+🧠 Mental Map
+
+“Visited = nodes already inside the growing tree.”
+
+📦 Complexity
+
+Time: O(1)
+Space: O(V)
+
+3️⃣ Initialize min-heap
+
+🎯 Goal
+
+Always pick the smallest edge that connects to a new node.
+
+🔍 How the code works
+
+minHeap = [(0, 1, -1)]   # (weight, node, parent)
+
+Heap stores:
+
+(weight, node, parent)
+
+Start from node 1
+
+Weight = 0 (first node has no incoming edge)
+
+Parent = -1 (because it has no parent)
+
+🧠 Mental Map
+
+“Heap = all edges touching the current tree. Smallest one wins.”
+
+Parent helps us remember:
+👉 Who connected this node to the tree.
+
+📦 Complexity
+
+Initial push: O(1)
+Each push/pop: O(log V)
+
+4️⃣ Process nodes
+
+🎯 Goal
+
+Grow MST until all nodes are included.
+
+🔍 How the code works
+
+while minHeap and len(visited) < n:
+    weight, node, parent = heapq.heappop(minHeap)
+
+    if node in visited:
+        continue
+
+Pop smallest edge
+
+If node already in MST → skip
+
+This prevents cycles
+
+🧠 Mental Map
+
+“Heap may contain extra edges → ignore if node already taken.”
+
+📦 Complexity
+
+Total: O(E log V)
+
+5️⃣ Add node to MST & push neighbors
+
+🎯 Goal
+
+Expand the tree from the new node.
+
+🔍 How the code works
+
+visited.add(node)
+totalCost += weight
+
+if parent != -1:
+    mstEdges.append([parent, node])
+
+for nei, w in adj[node]:
+    if nei not in visited:
+        heapq.heappush(minHeap, (w, nei, node))
+
+Add node to visited
+
+Add edge weight to total cost
+
+If not starting node → store edge [parent, node]
+
+Push outgoing edges into heap (if neighbor not visited)
+
+🧠 Mental Map
+
+“Take smallest edge → add new node → record edge → expose its edges → repeat.”
+
+Tree keeps growing outward.
+
+📦 Complexity
+
+Each edge pushed once → O(E log V)
+
+6️⃣ Return result
+
+🎯 Goal
+
+Return total weight AND edges of Minimum Spanning Tree.
+
+return totalCost, mstEdges
+
+🧠 Mental Map
+
+“Tree built → structure + total cost ready.”
+
+📦 Complexity
+
+Time: O(1)
+Space: O(1)
+
+💡 Key Insight for Interviews
+
+visited defines the growing tree
+
+heap decides which edge to take next
+
+Parent tracking allows storing MST structure
+
+Skip if node already visited → prevents cycles
+
+Works only for undirected connected graphs
+
+🆚 Prim vs Dijkstra (Ultra Clear)
+Dijkstra	Prim
+Finds shortest path from source	Builds MST
+Maintains distance array	No distance array
+Heap stores (distance, node)	Heap stores (weight, node, parent)
+Directed allowed	Undirected graph
+📦 🔥 Total Complexity (Very Important for Interviews)
+
+Let:
+
+V = number of nodes
+
+E = number of edges
+
+⏱ Time Complexity
+
+Building adjacency list → O(E)
+
+Each edge may be pushed into heap once → O(E log V)
+
+Each node popped at most once → O(V log V)
+
+✅ Final Time Complexity:
+
+𝑂
+(
+𝐸
+log
+⁡
+𝑉
+)
+O(ElogV)
+
+(For connected graph, E ≥ V − 1)
+
+🧠 Why not O(V²)?
+
+That’s for the adjacency-matrix version of Prim.
+
+Heap version → more efficient for sparse graphs.
+
+📦 Space Complexity
+
+Adjacency list → O(V + E)
+Visited set → O(V)
+Heap → up to O(E)
+MST edges list → O(V)
+
+✅ Final Space Complexity:
+
+𝑂
+(
+𝑉
++
+𝐸
+)
+O(V+E)
+🎯 Interview Gold Line
+
+“Prim using min-heap runs in O(E log V) time and O(V + E) space, and by tracking parent in the heap we can return both total cost and MST edges.” 🚀
+
