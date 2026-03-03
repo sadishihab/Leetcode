@@ -6407,3 +6407,194 @@ Complexity: O(n² log n)
 🧠 One-Line Intuition
 
 “Always expand the cell that requires the least water level so far → the first time you reach bottom-right, that water level is the minimum possible.”
+
+
+👉 Dijkstra – Path with Maximum Probability (LeetCode 1514)
+
+Efficiently calculate the maximum probability path between two nodes in an undirected weighted graph.
+
+Perfect when:
+
+You have a weighted graph
+
+Edge weights represent probabilities
+
+You want the maximum product path
+
+You must handle disconnected graphs
+
+Classic Dijkstra variation (maximize instead of minimize)
+
+✨ Flashcard
+
+Front:
+“How do I find the path with maximum probability between two nodes?”
+
+Back:
+
+Build adjacency list (undirected graph)
+
+Initialize probability array with 0
+
+Start node probability = 1
+
+Use a max-heap to always pick the highest probability node
+
+For each neighbor:
+
+newProb = currentProb × edgeProb
+
+Update if larger
+
+Stop when reaching destination
+
+Return 0 if unreachable
+
+⚡ Step-by-Step Combined Explanation
+1️⃣ Build Adjacency List (Undirected)
+adj = {i: [] for i in range(n)}
+for i in range(len(edges)):
+    a, b = edges[i]
+    prob = succProb[i]
+    adj[a].append((b, prob))
+    adj[b].append((a, prob))
+
+Mental Map:
+“All possible roads with their success probabilities.”
+
+Example:
+
+edges = [[0,1],[1,2],[0,2]]
+succProb = [0.5,0.5,0.2]
+
+adj = {
+  0: [(1,0.5),(2,0.2)],
+  1: [(0,0.5),(2,0.5)],
+  2: [(1,0.5),(0,0.2)]
+}
+2️⃣ Initialize Probability Table
+prob = [0.0] * n
+prob[start] = 1.0
+
+prob[i] = maximum probability to reach node i
+
+Start node = 1 (100%)
+
+Mental Map:
+“Best success chance found so far.”
+
+3️⃣ Setup Max Heap
+
+Python only has min-heap → we store negative probabilities.
+
+import heapq
+maxHeap = [(-1.0, start)]
+
+We push (-probability, node)
+So the largest probability comes out first.
+
+4️⃣ Process Nodes (Modified Dijkstra)
+while maxHeap:
+    currProb, node = heapq.heappop(maxHeap)
+    currProb = -currProb
+
+Pop the node with the highest probability so far.
+
+5️⃣ Early Stop If Reached Destination
+if node == end:
+    return currProb
+
+Because heap ensures this is the maximum possible.
+
+6️⃣ Explore Neighbors
+for nei, edgeProb in adj[node]:
+    newProb = currProb * edgeProb
+    if newProb > prob[nei]:
+        prob[nei] = newProb
+        heapq.heappush(maxHeap, (-newProb, nei))
+
+Key difference from normal Dijkstra:
+
+Instead of:
+
+newDist = currDist + weight
+
+We do:
+
+newProb = currProb * edgeProb
+
+Because probabilities multiply along a path.
+
+Mental Map:
+
+“Probability spreads like signal strength — multiply along edges.”
+
+7️⃣ If No Path Found
+return 0.0
+
+
+🧠 Step-by-Step Dry Run
+
+Example:
+
+n = 3
+edges = [[0,1],[1,2],[0,2]]
+succProb = [0.5,0.5,0.2]
+start = 0, end = 2
+Step 0
+
+Heap:
+
+[(-1.0, 0)]
+Step 1
+
+Pop (0) prob=1
+
+Push neighbors:
+
+0 → 1 = 1 × 0.5 = 0.5
+
+0 → 2 = 1 × 0.2 = 0.2
+
+Heap:
+
+[(-0.5,1), (-0.2,2)]
+Step 2
+
+Pop (1) prob=0.5
+
+Check neighbor 2:
+
+0.5 × 0.5 = 0.25
+
+Better than 0.2 → update.
+
+Heap:
+
+[(-0.25,2), (-0.2,2)]
+Step 3
+
+Pop (2) prob=0.25
+
+Reached destination → return 0.25
+
+🔑 Interview Tips
+
+This is Dijkstra but:
+
+Minimize → becomes maximize
+
+Addition → becomes multiplication
+
+Use max-heap (or negative values)
+
+Early stop when reaching end
+
+Return 0 if unreachable
+
+Time Complexity:
+
+O(E log V)
+🧠 One-Line Intuition
+
+“Always move through the path with the highest success probability so far — the first time you reach the destination, that probability is the maximum possible.”
