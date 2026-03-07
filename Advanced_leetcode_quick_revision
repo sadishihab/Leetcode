@@ -6805,3 +6805,204 @@ All points visited ✅
 Step 5: Return Result
 return totalCost  # 16
 
+👉 Find Critical & Pseudo-Critical Edges (LeetCode 1489)
+
+Efficiently identify edges in a weighted undirected graph that are:
+
+Critical → must appear in all MSTs
+
+Pseudo-critical → appear in some MSTs
+
+Classic Kruskal + Union-Find approach.
+
+✨ Flashcard
+
+Front:
+“How do I classify MST edges as critical or pseudo-critical?”
+
+Back:
+
+Compute original MST weight (base) using Kruskal.
+
+Test each edge:
+
+Remove it → if MST weight increases → critical
+
+Force it first → if MST weight unchanged → pseudo-critical
+
+Return lists of original indices.
+
+⚡ Step-by-Step Explanation
+1️⃣ Attach Original Index & Sort Edges
+edges = [edge + [i] for i, edge in enumerate(edges)]
+edges.sort(key=lambda x: x[2])
+
+Mental Map:
+
+edges[i] = [u, v, weight, original_index] → we remember original input position.
+
+Sorting by weight → standard Kruskal requirement.
+
+Goal: Easily track original edge indices and process MST by weight.
+
+2️⃣ Union-Find Setup
+parent = list(range(n))
+rank = [0] * n
+
+parent[i] → leader of node i in disjoint sets.
+
+rank[i] → optimization to attach smaller tree under bigger tree.
+
+Helper Functions:
+def find(x):
+    if parent[x] != x:
+        parent[x] = find(parent[x])
+    return parent[x]
+
+Recursively find the root of x’s set.
+
+Path compression → parent[x] = find(parent[x]).
+
+def union(x, y):
+    rx, ry = find(x), find(y)
+    if rx == ry:
+        return False
+    if rank[rx] < rank[ry]:
+        parent[rx] = ry
+    else:
+        parent[ry] = rx
+        if rank[rx] == rank[ry]:
+            rank[rx] += 1
+    return True
+
+Merge two sets if they’re disjoint.
+
+Return True if merged → edge added to MST.
+
+Return False if already connected → avoid cycle.
+
+Mental Map:
+
+“Union-Find is MST’s referee — allows or rejects edges.”
+
+3️⃣ Kruskal Helper with skip_edge & force_edge
+def kruskal(skip_edge=None, force_edge=None):
+    for i in range(n):
+        parent[i] = i
+        rank[i] = 0
+    weight = 0
+    edges_used = 0
+
+Reset Union-Find for each MST test.
+
+weight → accumulate MST cost.
+
+edges_used → stop after n-1 edges.
+
+Force an Edge First (Pseudo-Critical Test)
+if force_edge != None:
+    u, v, w, _ = edges[force_edge]
+    if union(u, v):
+        weight += w
+        edges_used += 1
+
+Optionally include a specific edge first.
+
+_ ignores original index (not needed inside MST).
+
+Ensures edge appears in MST if possible.
+
+Standard Kruskal Loop
+for i, (u, v, w, idx) in enumerate(edges):
+    if i == skip_edge:  # critical test
+        continue
+    if union(u, v):
+        weight += w
+        edges_used += 1
+    if edges_used == n - 1:
+        break
+
+Mental Map:
+
+Skip an edge → see if MST breaks (critical test).
+
+Add cheapest edges without cycles → standard Kruskal.
+
+Stop after n-1 edges → MST complete.
+
+Return MST Weight
+if edges_used == n - 1:
+    return weight
+return float('inf')
+
+Return MST cost if fully connected.
+
+Return inf if graph disconnected → edge removal broke connectivity.
+
+4️⃣ Original MST
+base = kruskal()
+
+Compute base MST weight using all edges normally.
+
+This is reference for comparison.
+
+5️⃣ Test Each Edge
+critical = []
+pseudo = []
+
+for i in range(len(edges)):
+
+    # test critical
+    if kruskal(skip_edge=i) > base:
+        critical.append(edges[i][3])
+
+    # test pseudo critical
+    elif kruskal(force_edge=i) == base:
+        pseudo.append(edges[i][3])
+How it works:
+
+Critical: skip edge → MST cost increases → must be in every MST.
+
+Pseudo-critical: force edge → MST cost same → can appear in some MST.
+
+Append original index edges[i][3] → ensures output format matches LeetCode.
+
+6️⃣ Return Result
+return [critical, pseudo]
+
+Two lists:
+
+First → critical edges
+
+Second → pseudo-critical edges
+
+🔑 Interview Tips
+
+Always attach original index before sorting.
+
+Union-Find inside Kruskal → allows skip/force logic efficiently.
+
+Compare MST weight to base → detect critical/pseudo-critical.
+
+Complexity: O(E log E × E) → feasible for E ≤ 200.
+
+🧠 One-Line Intuition
+
+“Test each edge by removing or forcing it → compare MST weight → classify as critical or pseudo-critical.”
+
+🌳 Dry Run Example
+
+Input:
+
+n = 5
+edges = [[0,1,1],[1,2,1],[2,3,2],[0,3,2],[0,4,3],[3,4,3],[1,4,6]]
+
+Base MST weight = 7
+
+Edge 0 (0-1) → remove → weight 8 → critical
+
+Edge 2 (2-3) → force → weight 7 → pseudo-critical
+
+Edge 6 (1-4) → remove → no change → not critical
+
+Output: [critical=[0,1], pseudo=[2,3,4,5]]
