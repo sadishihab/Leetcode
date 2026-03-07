@@ -3579,3 +3579,352 @@ O(V+E)
 
 “Prim using min-heap runs in O(E log V) time and O(V + E) space, and by tracking parent in the heap we can return both total cost and MST edges.” 🚀
 
+
+👉 Kruskal’s Algorithm – Union Find (Disjoint Set)
+Compute the Minimum Spanning Tree (MST) of a weighted undirected graph by always choosing the smallest edge that does not create a cycle.
+
+✨ Flashcard
+
+“Sort edges by weight → take smallest edge → add if it doesn't create cycle → repeat until MST formed.”
+
+⚡ Full Explanation (Very Easy)
+1️⃣ Initialize parent array
+
+🎯 Goal
+
+Track which set (component) each node belongs to.
+
+🔍 How the code works (Line-by-Line)
+
+parent = list(range(n))
+
+Creates parent for every node.
+
+Example if n = 5
+
+parent = [0,1,2,3,4]
+
+Meaning:
+
+0 → parent 0
+1 → parent 1
+2 → parent 2
+3 → parent 3
+4 → parent 4
+
+Each node starts as its own set.
+
+🧠 Mental Map
+
+“Initially every node is its own tree.”
+
+📦 Complexity
+
+Time: O(V)
+Space: O(V)
+
+2️⃣ Initialize rank array
+
+🎯 Goal
+
+Keep trees balanced during union operations.
+
+🔍 How the code works
+
+rank = [0] * n
+
+Creates rank list:
+
+rank = [0,0,0,0,0]
+
+Rank roughly represents tree height.
+
+During union:
+
+attach smaller tree under bigger tree
+
+🧠 Mental Map
+
+“Rank helps keep trees shallow → faster find.”
+
+📦 Complexity
+
+Time: O(V)
+Space: O(V)
+
+3️⃣ Find function (Path Compression)
+
+🎯 Goal
+
+Find the root parent of a node.
+
+🔍 How the code works
+
+def find(x):
+    if parent[x] != x:
+        parent[x] = find(parent[x])
+    return parent[x]
+Step-by-Step
+
+If node is not its own parent:
+
+follow parent chain
+
+Example:
+
+3 → 2 → 1
+
+After path compression:
+
+3 → 1
+2 → 1
+
+Tree becomes flatter.
+
+🧠 Mental Map
+
+“Find the leader of the group and flatten the path.”
+
+📦 Complexity
+
+Amortized:
+
+O(α(n))
+
+α = inverse Ackermann function (almost constant).
+
+4️⃣ Union function
+
+🎯 Goal
+
+Merge two sets if they are different.
+
+🔍 How the code works
+
+def union(x, y):
+    rx, ry = find(x), find(y)
+
+Find roots of both nodes.
+
+Example:
+
+x → root rx
+y → root ry
+Cycle check
+if rx == ry:
+    return False
+
+If both nodes share same root:
+
+Adding edge would create cycle
+
+So we reject the edge.
+
+Merge by rank
+if rank[rx] < rank[ry]:
+    parent[rx] = ry
+
+Attach smaller tree under bigger.
+
+Else:
+
+parent[ry] = rx
+
+If ranks equal:
+
+rank[rx] += 1
+
+Tree height increases.
+
+Finally:
+
+return True
+
+Meaning edge successfully added.
+
+🧠 Mental Map
+
+“Only connect components that are not already connected.”
+
+📦 Complexity
+
+Amortized:
+
+O(α(V))
+5️⃣ Sort edges by weight
+
+🎯 Goal
+
+Process edges from smallest to largest.
+
+🔍 How the code works
+
+edges.sort(key=lambda x: x[2])
+
+Edges format:
+
+(u, v, weight)
+
+Sorting example:
+
+Before
+
+(1,2,5)
+(0,3,1)
+(2,3,3)
+
+After sorting
+
+(0,3,1)
+(2,3,3)
+(1,2,5)
+
+🧠 Mental Map
+
+“Kruskal always chooses the cheapest available edge.”
+
+📦 Complexity
+
+Time:
+
+O(E log E)
+6️⃣ Initialize MST weight
+
+🎯 Goal
+
+Store total cost of MST.
+
+mst_weight = 0
+
+🧠 Mental Map
+
+“Sum of weights of chosen edges.”
+
+📦 Complexity
+
+Time: O(1)
+Space: O(1)
+
+7️⃣ Process edges
+
+🎯 Goal
+
+Add edges that do not create cycles.
+
+🔍 How the code works
+
+for u, v, w in edges:
+
+Iterate through sorted edges.
+
+Then:
+
+if union(u, v):
+    mst_weight += w
+
+If union succeeds:
+
+✔ edge connects two different components
+✔ add weight to MST
+
+If union fails:
+
+❌ cycle detected → skip edge
+
+🧠 Mental Map
+
+“Take smallest edge → check cycle → accept or reject.”
+
+📦 Complexity
+
+Each edge:
+
+Union-Find ≈ O(α(V))
+
+Total:
+
+O(E α(V))
+8️⃣ Return result
+
+🎯 Goal
+
+Return MST total weight.
+
+return mst_weight
+
+🧠 Mental Map
+
+“All safe edges chosen → MST weight ready.”
+
+📦 Complexity
+
+Time: O(1)
+Space: O(1)
+
+💡 Key Insight for Interviews
+
+Kruskal works by:
+
+Sorting edges
+
+Using Union-Find to detect cycles
+
+Adding smallest safe edge
+
+Union-Find makes cycle detection extremely fast.
+
+🆚 Prim vs Kruskal (Ultra Clear)
+Prim	Kruskal
+Starts from a node	Starts from edges
+Uses heap	Uses sorting
+Grows one tree	Connects components
+Uses visited set	Uses union-find
+Good for dense graphs	Good for sparse graphs
+📦 🔥 Total Complexity (Very Important for Interviews)
+
+Let:
+
+V = number of vertices
+E = number of edges
+⏱ Time Complexity
+
+Sorting edges
+
+O(E log E)
+
+Union-Find operations
+
+O(E α(V))
+
+Final:
+
+O(E log E)
+
+Since
+
+log E ≈ log V
+
+Often written as:
+
+O(E log V)
+📦 Space Complexity
+
+Parent array
+
+O(V)
+
+Rank array
+
+O(V)
+
+Edges storage
+
+O(E)
+
+Final:
+
+O(V + E)
+🎯 Interview Gold Line
+
+“Kruskal’s algorithm sorts edges and uses Union-Find to add the smallest edges that do not create cycles, achieving O(E log E) time and O(V + E) space.” 🚀
+
