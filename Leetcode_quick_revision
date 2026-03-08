@@ -1974,56 +1974,6 @@ Can be easily rewritten using DFS recursion by replacing BFS with recursive trav
 
 BFS avoids recursion depth issues for larger graphs.
 
-👉 Problem: Course Schedule (LeetCode 207)
-
-✅ Key Idea
-Model the problem as a directed graph:
-
-Each course = node
-
-Each prerequisite pair [a, b] = edge b → a (you must take b before a)
-
-You can complete all courses iff the graph has no cycles.
-If there’s a cycle (e.g., course A depends on B and B depends on A), it’s impossible.
-We detect cycles using Kahn’s Algorithm (BFS-based topological sorting).
-
-✨ Flashcard
-
-Topological Sort (BFS):
-Queue all nodes with in-degree 0 → pop → reduce neighbors’ in-degree → repeat.
-If all nodes processed → no cycle → valid course order.
-
-
-⚡ Step-by-Step Thinking Approach
-
-Build an adjacency list to represent course dependencies.
-Example:
-prerequisites = [[1, 0], [2, 1]]
-⇒ 0 → 1 → 2
-
-
-Count in-degrees (number of prerequisites per course).
-
-Start BFS with all nodes having in-degree 0 (no prerequisites).
-
-Take courses one by one, and reduce in-degree of dependent courses.
-
-If a course’s in-degree becomes 0, it’s ready to take.
-
-
-If all courses are taken, it means no cycles exist → return True.
-Otherwise → cycle detected → return False.
-
-
-⏱️ Complexity
-OperationTimeSpaceBuild graphO(V + E)O(V + E)BFS traversalO(V + E)O(V)
-Where V = numCourses, E = len(prerequisites).
-
-✅ Notes
-
-Alternative DFS approach: detect cycles using recursion and a visiting set.
-BFS (Kahn’s algorithm) is often cleaner and more intuitive for this problem.
-
 
 👉 Problem: Unique Paths (LeetCode 62)
 
