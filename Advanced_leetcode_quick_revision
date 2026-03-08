@@ -7303,3 +7303,273 @@ O(V + E)
 🎯 Interview Gold Line
 
 “Course Schedule reduces to detecting cycles in a directed graph using DFS with three states, solving the problem in O(V + E) time.” 🚀
+
+
+👉 Course Schedule II (LeetCode 210)
+
+Return a valid order of courses such that all prerequisites are satisfied.
+
+If the graph contains a cycle, finishing all courses is impossible, so return [].
+
+Classic Topological Sort using DFS + Cycle Detection.
+
+✨ Flashcard
+
+Front:
+“How do I return the correct order of courses given prerequisites?”
+
+Back:
+
+Build a directed graph.
+
+Run DFS with 3 states:
+
+0 = unvisited
+1 = visiting
+2 = finished
+
+Append node after visiting neighbors.
+
+Reverse the result → valid topological order.
+
+If cycle detected → return [].
+
+⚡ Step-by-Step Explanation
+1️⃣ Build Graph
+adj = {i: [] for i in range(numCourses)}
+
+for a, b in prerequisites:
+    adj[b].append(a)
+Meaning
+
+Each prerequisite:
+
+[a, b]
+
+means:
+
+b → a
+
+You must complete b before a.
+
+Example:
+
+prerequisites = [[1,0],[2,0],[3,1],[3,2]]
+
+Graph:
+
+0 → [1,2]
+1 → [3]
+2 → [3]
+3 → []
+Mental Map
+
+“Edges point from prerequisite → course.”
+
+2️⃣ Create State Array
+state = [0] * numCourses
+
+State meaning:
+
+0 → unvisited
+1 → visiting
+2 → finished
+
+Example:
+
+state = [0,0,0,0]
+Mental Map
+
+Nodes move:
+
+unvisited → visiting → finished
+3️⃣ DFS Function
+def dfs(course):
+
+DFS explores dependencies.
+
+4️⃣ Detect Cycle
+if state[course] == 1:
+    return False
+
+Example cycle:
+
+0 → 1
+1 → 0
+
+DFS:
+
+dfs(0)
+ dfs(1)
+  dfs(0) ← already visiting
+
+Cycle detected.
+
+Mental Map
+
+“Returning to a visiting node means circular dependency.”
+
+5️⃣ Skip Finished Nodes
+if state[course] == 2:
+    return True
+
+If node already processed → skip.
+
+Example:
+
+course 3 already processed
+Mental Map
+
+“Finished nodes are safe.”
+
+6️⃣ Mark Node Visiting
+state[course] = 1
+
+Example:
+
+state = [1,0,0,0]
+
+Course 0 is currently in recursion stack.
+
+7️⃣ Explore Neighbors
+for nei in adj[course]:
+    if not dfs(nei):
+        return False
+
+Explore all dependent courses.
+
+Example:
+
+0 → [1,2]
+
+DFS explores:
+
+dfs(1)
+dfs(2)
+8️⃣ Append Course
+state[course] = 2
+res.append(course)
+
+Important rule:
+
+append AFTER exploring neighbors
+
+Example append order:
+
+[3,1,2,0]
+9️⃣ Run DFS for All Courses
+for i in range(numCourses):
+    if not dfs(i):
+        return []
+
+Graph may have multiple components.
+
+Example:
+
+0 → 1
+
+2 → 3
+
+We must check all.
+
+🔟 Reverse Result
+return res[::-1]
+
+Because nodes were appended postorder.
+
+Example:
+
+Before reverse
+
+[3,1,2,0]
+
+After reverse
+
+[0,2,1,3]
+
+Valid course order.
+
+🧠 Dry Run
+
+Input:
+
+numCourses = 4
+prerequisites = [[1,0],[2,0],[3,1],[3,2]]
+
+Graph:
+
+0 → [1,2]
+1 → [3]
+2 → [3]
+
+DFS order:
+
+0 → 1 → 3
+append 3
+append 1
+0 → 2
+append 2
+append 0
+
+Result before reverse:
+
+[3,1,2,0]
+
+Final result:
+
+[0,2,1,3]
+🔑 Interview Tips
+
+Course Schedule II is Course Schedule I + return ordering.
+
+Key idea:
+
+Topological Sort + Cycle Detection
+
+If cycle exists:
+
+return []
+
+Else:
+
+return valid topological order
+📦 Complexity
+
+Let
+
+V = number of courses
+E = number of prerequisites
+Time Complexity
+
+Building graph
+
+O(E)
+
+DFS traversal
+
+O(V + E)
+
+Final
+
+O(V + E)
+Space Complexity
+
+Adjacency list
+
+O(V + E)
+
+State array
+
+O(V)
+
+Recursion stack
+
+O(V)
+
+Final
+
+O(V + E)
+
+🎯 Interview Gold Line
+
+“Course Schedule II uses DFS-based topological sorting with cycle detection to produce a valid course ordering in O(V + E) time.” 🚀
