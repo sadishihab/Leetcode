@@ -7573,3 +7573,154 @@ O(V + E)
 🎯 Interview Gold Line
 
 “Course Schedule II uses DFS-based topological sorting with cycle detection to produce a valid course ordering in O(V + E) time.” 🚀
+
+👉 Course Schedule IV (LeetCode 1462)
+
+Return True / False for each query [u, v] asking:
+“Is course u a prerequisite of course v?”
+
+Classic Topological Sort + Prerequisite Propagation using DFS.
+
+✨ Flashcard
+
+Front:
+“How do I efficiently answer multiple prerequisite queries?”
+
+Back:
+
+Build a directed graph from prerequisites.
+
+Run DFS topological sort to process courses in dependency order.
+
+Propagate prerequisites for each course using sets.
+
+Answer queries by checking if u exists in the prerequisite set of v.
+
+⚡ Step-by-Step Explanation
+
+1️⃣ Build Edge List
+edges = prerequisites
+
+Just store [u, v] edges, meaning:
+
+u → v  (u must be taken before v)
+
+Example:
+
+prerequisites = [[0,1],[1,2],[2,3]]
+Graph: 0 → 1 → 2 → 3
+2️⃣ Get Topological Order
+order = topoSort(numCourses, edges)
+
+Use DFS Topological Sort:
+
+Ensures every course is processed after all its prerequisites.
+
+Helps safely propagate prerequisite information.
+
+Example result:
+
+order = [0,1,2,3]
+3️⃣ Build Adjacency List
+adj = {i: [] for i in range(numCourses)}
+for u,v in prerequisites:
+    adj[u].append(v)
+
+Example:
+
+adj = {
+0: [1],
+1: [2],
+2: [3],
+3: []
+}
+4️⃣ Initialize Prerequisite Sets
+pre = [set() for _ in range(numCourses)]
+
+pre[i] stores all courses that are prerequisites for course i.
+
+Initially, all sets are empty.
+
+pre = [{}, {}, {}, {}]
+5️⃣ Process Nodes in Topological Order
+for node in order:
+    for nei in adj[node]:
+        pre[nei].add(node)       # direct prerequisite
+        pre[nei] |= pre[node]    # propagate indirect prerequisites
+
+Step-by-step propagation example:
+
+Node	Neighbor	Action	pre after step
+0	1	add 0	[{}, {0}, {}, {}]
+1	2	add 1 + pre[1]	[{}, {0}, {0,1}, {}]
+2	3	add 2 + pre[2]	[{}, {0}, {0,1}, {0,1,2}]
+
+✅ Now each course knows all direct + indirect prerequisites.
+
+6️⃣ Answer Queries
+ans = []
+for u,v in queries:
+    ans.append(u in pre[v])
+
+Check if u exists in pre[v]:
+
+Example queries:
+
+queries = [[0,3],[1,3],[3,0],[0,2]]
+Result = [True, True, False, True]
+
+🧠 Dry Run Example
+
+Input:
+
+numCourses = 4
+prerequisites = [[0,1],[1,2],[2,3]]
+queries = [[0,3],[1,3],[3,0],[0,2]]
+
+Processing:
+
+Topo order: [0,1,2,3]
+
+Propagate prerequisites:
+
+pre[0] = {}
+pre[1] = {0}
+pre[2] = {0,1}
+pre[3] = {0,1,2}
+
+Answer queries:
+
+[0,3] → 0 in pre[3] → True
+[1,3] → 1 in pre[3] → True
+[3,0] → 3 in pre[0] → False
+[0,2] → 0 in pre[2] → True
+
+🔑 Interview Tips
+
+Topological order ensures prerequisites are processed first.
+
+Use a set for each course to store all prerequisites efficiently.
+
+Query answers are O(1) per query.
+
+Works well for numCourses ≤ 100 and many queries.
+
+📦 Complexity
+
+Part	Complexity
+Build graph	O(E)
+Topo sort (DFS)	O(V + E)
+Propagate prerequisites	O(V²)
+Answer queries	O(1) per query
+
+Space Complexity:
+
+Adjacency list: O(V + E)
+
+Prerequisite sets: O(V²) in worst case
+
+DFS recursion: O(V)
+
+🎯 Interview Gold Line
+
+“Course Schedule IV uses topological sorting with DFS to propagate prerequisites efficiently, allowing O(1) query checks after O(V²) preprocessing.” 🚀
