@@ -1,30 +1,32 @@
-from typing import List
-from collections import deque
-
 class Solution:
-    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        # Step 1: Build adjacency list
-        adjList = {i: [] for i in range(numCourses)}
-        for course, prereq in prerequisites:
-            adjList[prereq].append(course)
+    def canFinish(self, numCourses, prerequisites):
 
-        # Step 2: Compute in-degrees
-        indegree = [0] * numCourses
-        for course, prereq in prerequisites:
-            indegree[course] += 1
+        adj = {i: [] for i in range(numCourses)}
 
-        # Step 3: Initialize queue with courses having 0 in-degree
-        queue = deque([i for i in range(numCourses) if indegree[i] == 0])
-        taken = 0
+        for a, b in prerequisites:
+            adj[b].append(a)
 
-        # Step 4: BFS - Topological sort
-        while queue:
-            curr = queue.popleft()
-            taken += 1
-            for neighbor in adjList[curr]:
-                indegree[neighbor] -= 1
-                if indegree[neighbor] == 0:
-                    queue.append(neighbor)
+        state = [0] * numCourses   # 0=unvisited, 1=visiting, 2=visited
 
-        # Step 5: Check if all courses can be taken
-        return taken == numCourses
+        def dfs(course):
+
+            if state[course] == 1:
+                return False
+
+            if state[course] == 2:
+                return True
+
+            state[course] = 1
+
+            for nei in adj[course]:
+                if not dfs(nei):
+                    return False
+
+            state[course] = 2
+            return True
+
+        for i in range(numCourses):
+            if not dfs(i):
+                return False
+
+        return True
