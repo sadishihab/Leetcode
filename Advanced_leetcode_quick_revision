@@ -7006,3 +7006,300 @@ Edge 2 (2-3) → force → weight 7 → pseudo-critical
 Edge 6 (1-4) → remove → no change → not critical
 
 Output: [critical=[0,1], pseudo=[2,3,4,5]]
+
+👉 Course Schedule (LeetCode 207)
+
+Determine whether it is possible to finish all courses given prerequisite relationships.
+
+Each pair [a, b] means:
+
+b → a
+
+You must complete course b before course a.
+
+If the dependency graph contains a cycle, finishing all courses is impossible.
+
+Classic DFS + Cycle Detection in Directed Graph.
+
+✨ Flashcard
+
+Front:
+“How do I determine if all courses can be completed given prerequisites?”
+
+Back:
+
+Build a directed graph.
+
+Use DFS with 3 states:
+
+0 = unvisited
+1 = visiting
+2 = finished
+
+If DFS revisits a visiting node → cycle exists → return False.
+
+If no cycle exists → return True.
+
+⚡ Step-by-Step Explanation
+1️⃣ Build the Graph
+adj = {i: [] for i in range(numCourses)}
+
+for a, b in prerequisites:
+    adj[b].append(a)
+Mental Map
+
+Each prerequisite:
+
+[a, b]
+
+means
+
+b → a
+
+Example:
+
+numCourses = 4
+prerequisites = [[1,0],[2,0],[3,1],[3,2]]
+
+Graph becomes:
+
+0 → [1,2]
+1 → [3]
+2 → [3]
+3 → []
+
+Meaning:
+
+0 before 1
+0 before 2
+1 before 3
+2 before 3
+Goal
+
+Build adjacency list so DFS can explore course dependencies.
+
+2️⃣ Create State Array
+state = [0] * numCourses
+State Meaning
+0 → unvisited
+1 → visiting (currently in recursion stack)
+2 → visited (fully processed)
+
+Example:
+
+state = [0,0,0,0]
+Mental Map
+
+Each course moves through:
+
+unvisited → visiting → finished
+
+This helps detect cycles.
+
+3️⃣ DFS Function
+def dfs(course):
+
+DFS explores course dependencies recursively.
+
+4️⃣ Cycle Detection
+if state[course] == 1:
+    return False
+
+If we revisit a visiting node, a cycle exists.
+
+Example:
+
+0 → 1
+1 → 0
+
+DFS:
+
+dfs(0)
+  dfs(1)
+    dfs(0)  ← already visiting
+
+Cycle detected.
+
+Mental Map
+
+“Returning to a node currently being explored means circular dependency.”
+
+5️⃣ Skip Processed Nodes
+if state[course] == 2:
+    return True
+
+If a node is already finished:
+
+✔ No need to process again.
+
+Example:
+
+3 already processed → skip
+Mental Map
+
+“Finished nodes are safe.”
+
+6️⃣ Mark Node as Visiting
+state[course] = 1
+
+This marks the node as currently in recursion stack.
+
+Example:
+
+state = [1,0,0,0]
+
+Meaning course 0 is being explored.
+
+Mental Map
+
+“Node entered DFS path.”
+
+7️⃣ Visit Neighbors (Dependent Courses)
+for nei in adj[course]:
+    if not dfs(nei):
+        return False
+
+Explore all courses that depend on the current course.
+
+Example:
+
+0 → [1,2]
+
+DFS explores:
+
+dfs(1)
+dfs(2)
+
+If any neighbor detects a cycle → stop immediately.
+
+Mental Map
+
+“Explore all dependent courses.”
+
+8️⃣ Mark Node as Finished
+state[course] = 2
+
+Course processing is complete.
+
+Example:
+
+state = [2,0,0,0]
+Mental Map
+
+“Course fully processed and safe.”
+
+9️⃣ Check All Courses
+for i in range(numCourses):
+    if not dfs(i):
+        return False
+
+We must start DFS from every course because the graph might have multiple components.
+
+Example:
+
+0 → 1
+
+2 → 3
+
+Two independent course groups.
+
+Mental Map
+
+“Check every course for cycles.”
+
+🔟 Return Result
+return True
+
+If no cycle is found, all courses can be completed.
+
+Mental Map
+
+“No circular dependency → schedule possible.”
+
+🧠 Dry Run Example
+Input
+numCourses = 2
+prerequisites = [[1,0]]
+
+Graph:
+
+0 → 1
+
+DFS:
+
+dfs(0)
+  dfs(1)
+
+No cycle → return
+
+True
+Cycle Example
+numCourses = 2
+prerequisites = [[1,0],[0,1]]
+
+Graph:
+
+0 → 1
+1 → 0
+
+DFS:
+
+dfs(0)
+  dfs(1)
+    dfs(0) ← visiting again
+
+Cycle detected → return
+
+False
+🔑 Interview Tips
+
+This problem is pure cycle detection in a directed graph.
+
+Key ideas:
+
+DFS traversal
+3-state cycle detection
+detect back-edge (visiting → visiting)
+
+If a cycle exists → impossible to complete courses.
+
+📦 Complexity
+
+Let:
+
+V = number of courses
+E = number of prerequisites
+Time Complexity
+
+Building graph
+
+O(E)
+
+DFS traversal
+
+O(V + E)
+
+Final:
+
+O(V + E)
+Space Complexity
+
+Adjacency list
+
+O(V + E)
+
+State array
+
+O(V)
+
+Recursion stack
+
+O(V)
+
+Final:
+
+O(V + E)
+
+🎯 Interview Gold Line
+
+“Course Schedule reduces to detecting cycles in a directed graph using DFS with three states, solving the problem in O(V + E) time.” 🚀
