@@ -7724,3 +7724,159 @@ DFS recursion: O(V)
 🎯 Interview Gold Line
 
 “Course Schedule IV uses topological sorting with DFS to propagate prerequisites efficiently, allowing O(1) query checks after O(V²) preprocessing.” 🚀
+
+
+👉 Sort Items by Groups Respecting Dependencies (LeetCode 1203)
+
+Return a list of all items such that:
+
+1️⃣ All item dependencies are satisfied.
+2️⃣ Items from the same group stay together (if possible).
+
+Classic Two-Level Topological Sort (Groups + Items) using DFS.
+
+✨ Flashcard
+
+Front:
+“How do I sort items with groups and dependencies efficiently?”
+
+Back:
+
+Assign unique group IDs to items with no group (-1).
+
+Build item dependency graph and group dependency graph.
+
+Run DFS topological sort on groups and items.
+
+Collect items by groups according to item topo order.
+
+Merge items in topologically sorted group order.
+
+⚡ Step-by-Step Explanation
+
+1️⃣ Assign Unique Groups
+new_group_id = m
+for i in range(n):
+    if group[i] == -1:
+        group[i] = new_group_id
+        new_group_id += 1
+
+Ungrouped items get a unique new group.
+
+Ensures every item belongs to some group.
+
+Example:
+
+Original groups:  [-1,-1,1,0,0,1,0,-1]
+After assignment: [2,3,1,0,0,1,0,4]
+2️⃣ Build Graphs
+
+Item-level dependencies:
+
+item_edges = []
+for curr in range(n):
+    for pre in beforeItems[curr]:
+        item_edges.append((pre+1, curr+1))
+
+Group-level dependencies (only if items belong to different groups):
+
+group_edges = []
+for curr in range(n):
+    for pre in beforeItems[curr]:
+        if group[curr] != group[pre]:
+            group_edges.append((group[pre]+1, group[curr]+1))
+
++1 because topoSort is 1-indexed.
+
+Group edges ensure groups appear in proper dependency order.
+
+3️⃣ Topological Sort
+group_order = topoSort(new_group_id, group_edges)
+if not group_order: return []
+
+item_order = topoSort(n, item_edges)
+if not item_order: return []
+
+DFS topo sort detects cycles.
+
+If cycle exists → return [].
+
+4️⃣ Collect Items by Groups
+from collections import defaultdict
+group_to_items = defaultdict(list)
+for item in item_order:
+    group_to_items[group[item-1]].append(item-1)
+
+Maps each group → sorted items in that group.
+
+Item topo order ensures dependencies inside the group are satisfied.
+
+5️⃣ Merge Items by Group Order
+res = []
+for g in group_order:
+    res.extend(group_to_items.get(g-1, []))
+
+Concatenate items group by group following group_order.
+
+Ensures all group and item dependencies are respected.
+
+🧠 Dry Run Example
+
+n = 8
+m = 2
+group = [-1,-1,1,0,0,1,0,-1]
+beforeItems = [[],[6],[5],[6],[3,6],[],[],[]]
+
+Step 1 – Assign groups
+
+group = [2,3,1,0,0,1,0,4]
+
+Step 2 – Build graphs
+
+item edges: 6→1,5→2,6→3,3→4,6→4
+group edges: 0→3,1→1 (ignored), ...
+
+Step 3 – Topo sort
+
+group_order = [0,1,2,3,4]
+item_order = [6,5,3,4,2,1,0,7]
+
+Step 4 – Collect items by group
+
+group0 → [6,3,4]
+group1 → [5,2]
+group2 → [0]
+group3 → [1]
+group4 → [7]
+
+Step 5 – Merge
+
+final result = [6,3,4,5,2,0,1,7]
+
+✅ Respects all item + group dependencies.
+
+🔑 Interview Tips
+
+Assign unique groups first to simplify group dependencies.
+
+Perform two-level topological sort:
+1️⃣ Groups
+2️⃣ Items inside groups
+
+DFS topo sort detects cycles automatically.
+
+Works for n, m ≤ 10⁴ efficiently.
+
+📦 Complexity
+
+Part	Complexity
+Build graphs	O(n + Σ
+Topo sort items	O(n + e_items)
+Topo sort groups	O(g + e_groups)
+Merge	O(n)
+
+Space: adjacency lists + group map → O(n + m)
+
+🎯 Interview Gold Line
+
+“Sort Items by Groups uses a two-level DFS topological sort to satisfy both item and group dependencies, combining them efficiently into a single order.” 🚀
