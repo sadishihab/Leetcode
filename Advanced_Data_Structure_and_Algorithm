@@ -4286,3 +4286,143 @@ O(V + E)
 🎯 Interview Gold Line
 
 “Topological sort uses DFS to visit nodes, detects cycles using a visiting state, and appends nodes after exploring their dependencies, producing a valid ordering in O(V + E) time.” 🚀
+
+
+
+👉 0/1 Knapsack – Optimized DP (1D Array)
+
+Given a list of items with weights and profits, and a backpack with limited capacity, find the maximum profit you can carry.
+
+Each item can be used only once.
+
+✨ Flashcard
+
+“Decide for each item: take it or skip it → update the maximum profit for each capacity → iterate backwards to avoid reuse.”
+
+⚡ Full Explanation (Very Easy)
+1️⃣ Initialize DP Array
+
+🎯 Goal
+
+Store the maximum profit achievable for every possible backpack capacity.
+
+🔍 How the code works
+
+dp = [0] * (capacity + 1)
+
+dp[c] = maximum profit possible with capacity c
+
+Index 0 → capacity 0
+
+Index capacity → full backpack
+
+Example if capacity = 5:
+
+dp = [0, 0, 0, 0, 0, 0]
+
+🧠 Mental Map
+
+“dp[c] remembers the best profit for that capacity.”
+
+2️⃣ Loop Through Each Item
+
+🎯 Goal
+
+Decide for each item whether to include it or skip it.
+
+🔍 How the code works
+
+for i in range(n):
+
+i = current item index
+
+profit[i] = value of item
+
+weight[i] = weight of item
+
+🧠 Mental Map
+
+“Process one item at a time and update capacities.”
+
+3️⃣ Traverse Capacities Backwards
+
+🎯 Goal
+
+Ensure each item is used only once.
+
+🔍 How the code works
+
+for c in range(capacity, weight[i]-1, -1):
+    dp[c] = max(dp[c], profit[i] + dp[c - weight[i]])
+
+Start from capacity and go downwards
+
+dp[c] → skip the item
+
+profit[i] + dp[c - weight[i]] → include the item
+
+Take the maximum of the two
+
+🧠 Mental Map
+
+“Check both choices: skip or take → update best profit.”
+
+Example:
+
+Item 1 → weight 2, profit 3, capacity 5
+
+c = 5
+dp[5] = max(dp[5], 3 + dp[5-2])
+dp[5] = max(0, 3 + dp[3])
+dp[5] = 3
+4️⃣ Why Backward Iteration?
+
+❗ Very Important
+
+If we iterate forward, the same item can be counted multiple times → becomes unbounded knapsack.
+
+Backward ensures 0/1 constraint (use each item once).
+
+🧠 Mental Map
+
+“Backward iteration = no item reused.”
+
+5️⃣ Return Maximum Profit
+
+🎯 Goal
+
+Return the best profit for full capacity.
+
+🔍 How the code works
+
+return dp[capacity]
+
+dp[capacity] = maximum profit for the backpack
+
+Example
+
+profit = [60, 100, 120]
+weight = [10, 20, 30]
+capacity = 50
+
+print(knapsack(profit, weight, capacity))  # Output: 220
+
+🧠 Mental Map
+
+“After considering all items, dp[capacity] holds the answer.”
+
+💡 Key Insight for Interviews
+
+1️⃣ Each item → take it or skip it
+2️⃣ Update DP array for all capacities backwards
+3️⃣ Maximum profit is in dp[capacity]
+
+📦 🔥 Total Complexity (Very Important for Interviews)
+
+⏱ Time: O(n × capacity)
+
+📦 Space: O(capacity)
+
+🎯 Interview Gold Line
+
+“Iterate over items → for each capacity from max to item weight → update dp[c] = max(skip, take) → dp[capacity] has max profit.” 🚀
