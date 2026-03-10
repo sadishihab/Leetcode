@@ -8113,3 +8113,273 @@ Space: O(target)
 🎯 Interview Gold Line
 
 “Partition Equal Subset Sum converts the problem into a 0/1 knapsack where we check if a subset can reach total/2 using dynamic programming.” 🚀
+
+
+👉 Target Sum (LeetCode 494)
+
+Return the number of ways to assign + or - signs to each number so that the final expression equals target.
+
+Example:
+
+nums = [1,1,1,1,1]
+target = 3
+
+Valid expressions:
+
++1 +1 +1 +1 -1
++1 +1 +1 -1 +1
++1 +1 -1 +1 +1
++1 -1 +1 +1 +1
+-1 +1 +1 +1 +1
+
+Answer → 5 ways
+
+This problem can be converted into a 0/1 Knapsack counting problem.
+
+✨ Flashcard
+
+Front
+
+“How can we count the number of ways to reach a target by adding + or - signs?”
+
+Back
+
+1️⃣ Compute total sum of array.
+2️⃣ Convert the equation into subset sum.
+3️⃣ Target subset = (total - target) / 2.
+4️⃣ Use 0/1 knapsack counting DP to count subsets.
+5️⃣ The result is the number of ways.
+
+⚡ Step-by-Step Explanation
+1️⃣ Compute Total Sum
+total = sum(nums)
+
+🎯 Goal
+
+Find the total sum of all numbers.
+
+Example:
+
+nums = [1,1,1,1,1]
+total = 5
+
+🧠 Mental Map
+
+“We first understand the total amount of numbers available.”
+
+2️⃣ Convert the Equation
+
+Each number gets either:
+
++nums[i]
+or
+-nums[i]
+
+Let:
+
+P = sum of numbers with +
+N = sum of numbers with -
+
+Then:
+
+P - N = target
+
+Also:
+
+P + N = total
+
+Add both equations:
+
+2P = target + total
+
+Rearrange:
+
+P = (target + total) / 2
+
+Equivalent commonly used formula:
+
+subset_sum = (total - target) / 2
+
+🎯 Goal
+
+Convert the problem into a subset sum problem.
+
+🧠 Mental Map
+
+“Target Sum → Subset Sum problem.”
+
+3️⃣ Check If Solution Is Possible
+if total < abs(target) or (total - target) % 2 != 0:
+    return 0
+
+🎯 Goal
+
+Detect impossible cases early.
+
+Cases that fail:
+
+1️⃣ Target is larger than total sum
+2️⃣ (total - target) is odd
+
+Example:
+
+nums = [1,2,3]
+target = 1
+
+total = 6
+(6 - 1) = 5  → odd
+
+Impossible → return 0
+
+🧠 Mental Map
+
+“If the math doesn’t work → no solution.”
+
+4️⃣ Define Knapsack Capacity
+capacity = (total - target) // 2
+
+🎯 Goal
+
+Transform the problem into a subset sum knapsack.
+
+Example:
+
+nums = [1,1,1,1,1]
+target = 3
+
+total = 5
+capacity = (5 - 3) / 2 = 1
+
+Now the problem becomes:
+
+How many subsets sum to 1?
+
+🧠 Mental Map
+
+“We count subsets that equal capacity.”
+
+5️⃣ Convert Problem to Knapsack
+profit = nums
+weight = nums
+
+🎯 Goal
+
+Reuse the knapsack template.
+
+But instead of maximizing value, we count ways.
+
+Meaning:
+
+dp[c] = number of ways to build sum c
+
+🧠 Mental Map
+
+“Each number contributes to building sums.”
+
+6️⃣ Knapsack DP Logic
+dp = [0] * (capacity + 1)
+dp[0] = 1
+
+Meaning:
+
+dp[c] = number of ways to build sum c
+
+Important initialization:
+
+dp[0] = 1
+
+Why?
+
+There is 1 way to make sum 0 → choose nothing.
+
+Process Each Number
+for i in range(len(profit)):
+
+We process numbers one by one.
+
+For each number we decide:
+
+use it
+or
+skip it
+Traverse Capacities Backwards
+for c in range(capacity, weight[i] - 1, -1):
+
+Backward traversal ensures:
+
+each number is used only once
+
+This keeps it a 0/1 knapsack.
+
+Update Rule
+dp[c] += dp[c - weight[i]]
+
+Meaning:
+
+Ways to make sum c increase by the ways we could make c - weight[i].
+
+🧠 Mental Map
+
+“If we can make sum (c - number), adding this number makes sum c.”
+
+🧠 Dry Run Example
+nums = [1,1,1,1,1]
+target = 3
+
+Step 1
+
+total = 5
+
+Step 2
+
+capacity = (5 - 3) / 2 = 1
+
+Step 3
+
+Count subsets that sum to 1.
+
+Possible subsets:
+
+[1]
+
+But there are 5 positions where that 1 can be chosen.
+
+So total ways:
+
+5
+
+Return:
+
+5
+🔑 Interview Tips
+
+Recognize these keywords:
+
+add / subtract numbers
+
+expression target
+
+number of ways
+
+subset difference
+
+These usually map to:
+
+Target Sum
+      ↓
+Subset Difference
+      ↓
+Knapsack Counting
+
+Important trick:
+
+capacity = (total - target) / 2
+dp[c] += dp[c - num]
+📦 Complexity
+
+Time: O(n × capacity)
+Space: O(capacity)
+
+🎯 Interview Gold Line
+
+“Target Sum converts the sign-assignment problem into counting subsets with sum (total − target)/2, which can be solved using a 0/1 knapsack dynamic programming approach.” 🚀
