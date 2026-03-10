@@ -7880,3 +7880,236 @@ Space: adjacency lists + group map → O(n + m)
 🎯 Interview Gold Line
 
 “Sort Items by Groups uses a two-level DFS topological sort to satisfy both item and group dependencies, combining them efficiently into a single order.” 🚀
+
+
+👉 Partition Equal Subset Sum (LeetCode 416)
+
+Return True if the array can be split into two subsets with equal sum, otherwise False.
+
+Key idea:
+If the total sum is even, we try to find a subset whose sum = total/2.
+
+This becomes a 0/1 Knapsack problem.
+
+✨ Flashcard
+
+Front:
+“How can we check if an array can be partitioned into two equal subsets?”
+
+Back:
+
+1️⃣ Compute total sum of array.
+2️⃣ If total is odd → impossible.
+3️⃣ Target = total / 2.
+4️⃣ Use 0/1 knapsack to see if we can build sum = target.
+5️⃣ If max knapsack value equals target → partition exists.
+
+⚡ Step-by-Step Explanation
+1️⃣ Compute Total Sum
+total = sum(nums)
+
+🎯 Goal
+
+Determine whether the array can possibly be split into two equal parts.
+
+Example:
+
+nums = [1,5,11,5]
+total = 22
+
+🧠 Mental Map
+
+“Two equal subsets must each sum to total/2.”
+
+2️⃣ Check If Sum Is Odd
+if total % 2 != 0:
+    return False
+
+🎯 Goal
+
+If the total sum is odd, it cannot be divided into two equal integers.
+
+Example:
+
+nums = [1,2,3,5]
+total = 11
+
+Impossible:
+
+subset1 + subset2 = 11
+
+🧠 Mental Map
+
+“Odd total → impossible partition.”
+
+3️⃣ Define Target Subset Sum
+target = total // 2
+
+🎯 Goal
+
+Convert the problem into a subset sum problem.
+
+Example:
+
+nums = [1,5,11,5]
+target = 11
+
+Now the question becomes:
+
+Can we pick numbers that sum to 11?
+
+If yes:
+
+subset1 = 11
+subset2 = 11
+
+Partition exists.
+
+🧠 Mental Map
+
+“Find subset = total/2.”
+
+4️⃣ Convert Problem to Knapsack
+profit = nums
+weight = nums
+
+🎯 Goal
+
+Reuse the knapsack template.
+
+Why?
+
+Because knapsack tries to:
+
+maximize sum ≤ capacity
+
+If we set:
+
+capacity = target
+weight = nums
+profit = nums
+
+Then knapsack will compute:
+
+largest achievable subset sum ≤ target
+
+🧠 Mental Map
+
+“Numbers act as both weight and value.”
+
+5️⃣ Run Knapsack Algorithm
+if knapsack(profit, weight, target) == target:
+    return True
+
+🎯 Goal
+
+Check whether the maximum achievable sum equals the target.
+
+If:
+
+dp[target] = target
+
+Then a subset exists.
+
+Otherwise:
+
+no valid partition
+6️⃣ Knapsack DP Logic
+dp = [0] * (capacity + 1)
+
+Meaning:
+
+dp[c] = maximum sum achievable with capacity c
+
+Example (capacity = 11):
+
+dp = [0,0,0,0,0,0,0,0,0,0,0,0]
+Process Each Number
+for i in range(n):
+
+We process numbers one by one.
+
+For each number we decide:
+
+take it
+or
+skip it
+Traverse Capacities Backwards
+for c in range(capacity, weight[i] - 1, -1):
+
+We go backwards to ensure each number is used only once.
+
+Update rule:
+
+dp[c] = max(
+    dp[c],
+    profit[i] + dp[c-weight[i]]
+)
+
+Meaning:
+
+skip number
+or
+take number
+
+Pick the larger sum.
+
+🧠 Mental Map
+
+“Try adding the number if it improves the sum.”
+
+🧠 Dry Run Example
+nums = [1,5,11,5]
+
+Total:
+
+22
+
+Target:
+
+11
+
+Knapsack tries to build sum 11.
+
+Possible subset:
+
+[5,5,1] = 11
+
+Remaining numbers:
+
+[11]
+
+Two equal subsets:
+
+11 and 11
+
+Return:
+
+True
+🔑 Interview Tips
+
+Recognize these keywords:
+
+partition
+
+subset
+
+equal sum
+
+target sum
+
+These usually map to:
+
+Subset Sum → 0/1 Knapsack
+
+Important trick:
+
+weight = nums
+profit = nums
+capacity = target
+📦 Complexity
+Time:  O(n × target)
+Space: O(target)
+🎯 Interview Gold Line
+
+“Partition Equal Subset Sum converts the problem into a 0/1 knapsack where we check if a subset can reach total/2 using dynamic programming.” 🚀
