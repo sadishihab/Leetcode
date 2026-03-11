@@ -4426,3 +4426,171 @@ print(knapsack(profit, weight, capacity))  # Output: 220
 🎯 Interview Gold Line
 
 “Iterate over items → for each capacity from max to item weight → update dp[c] = max(skip, take) → dp[capacity] has max profit.” 🚀
+
+
+👉 Unbounded Knapsack – Optimized DP (1D Array)
+
+Given a list of items with weights and profits, and a backpack with limited capacity, find the maximum profit you can carry.
+
+Each item can be used unlimited times.
+
+✨ Flashcard
+
+“For each item: take it as many times as useful → update profit for every capacity → iterate forward to allow reuse.”
+
+⚡ Full Explanation (Very Easy)
+1️⃣ Initialize DP Array
+
+🎯 Goal
+
+Store the maximum profit achievable for every possible backpack capacity.
+
+🔍 How the code works
+
+dp = [0] * (capacity + 1)
+dp[c] = maximum profit possible with capacity c
+
+Index meaning:
+
+dp[0] → capacity 0
+
+dp[capacity] → full backpack
+
+Example if capacity = 5
+
+dp = [0, 0, 0, 0, 0, 0]
+
+🧠 Mental Map
+
+“dp[c] stores the best profit achievable with capacity c.”
+
+2️⃣ Loop Through Each Item
+
+🎯 Goal
+
+Process each item and decide how it affects the profit.
+
+🔍 How the code works
+
+for i in range(n):
+
+Meaning:
+
+i = current item index
+profit[i] = value of item
+weight[i] = weight of item
+
+🧠 Mental Map
+
+“Consider one item type at a time.”
+
+3️⃣ Traverse Capacities Forward
+
+🎯 Goal
+
+Allow the same item to be used multiple times.
+
+🔍 How the code works
+
+for c in range(weight[i], capacity + 1):
+    dp[c] = max(dp[c], profit[i] + dp[c - weight[i]])
+
+Explanation:
+
+dp[c] = max(
+            dp[c],                      # skip item
+            profit[i] + dp[c-weight[i]] # take item again
+         )
+
+Because we iterate left → right, we can reuse the same item.
+
+🧠 Mental Map
+
+“Check both choices: skip or take again → update best profit.”
+
+Example
+
+Item → weight = 2, profit = 3
+Capacity = 5
+
+c = 2
+dp[2] = max(0, 3 + dp[0])
+dp[2] = 3
+c = 4
+dp[4] = max(0, 3 + dp[2])
+dp[4] = 6
+
+Here the item was used twice.
+
+4️⃣ Why Forward Iteration?
+
+❗ Very Important
+
+If we iterate backward, the item would only be used once → becomes 0/1 knapsack.
+
+Forward iteration allows:
+
+reuse of the same item
+
+🧠 Mental Map
+
+“Forward iteration = item reuse allowed.”
+
+5️⃣ Return Maximum Profit
+
+🎯 Goal
+
+Return the best profit for the full backpack capacity.
+
+🔍 How the code works
+
+return dp[capacity]
+dp[capacity] = maximum profit achievable
+
+Example
+profit = [10, 40, 50, 70]
+weight = [1, 3, 4, 5]
+capacity = 8
+
+print(unbounded_knapsack(profit, weight, capacity))
+
+Output
+
+110
+
+Best choice:
+
+weight 3 + weight 5
+profit 40 + 70 = 110
+🧠 Mental Model
+
+Imagine filling a backpack:
+
+capacity 1 → best profit
+capacity 2 → best profit
+capacity 3 → best profit
+...
+capacity N → best profit
+
+Each time you check:
+
+"Can adding this item increase profit?"
+💡 Key Insight for Interviews
+
+1️⃣ Each item → can be taken multiple times
+2️⃣ Update DP array forward
+3️⃣ dp[c] = max(skip, take)
+4️⃣ Answer is dp[capacity]
+
+📦 🔥 Total Complexity (Very Important for Interviews)
+
+⏱ Time
+
+O(n × capacity)
+
+📦 Space
+
+O(capacity)
+🎯 Interview Gold Line
+
+“Iterate items → update capacities forward → allow reuse → dp[c] = max(skip, take) → dp[capacity] gives maximum profit.” 🚀
