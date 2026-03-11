@@ -8774,3 +8774,281 @@ Space : O(total/2)
 🎯 Interview Gold Line
 
 “Last Stone Weight II reduces to partitioning stones into two groups with sums as equal as possible, which can be solved using a 0/1 knapsack that maximizes subset sum ≤ total/2.” 🚀
+
+
+👉 Coin Change (LeetCode 322)
+
+Return the minimum number of coins needed to make a given amount.
+
+Each coin:
+
+can be used unlimited times
+
+has a fixed denomination
+
+If the amount cannot be formed, return -1.
+
+Example:
+
+coins = [1,2,5]
+amount = 11
+
+Possible combination:
+
+5 + 5 + 1 = 11
+
+Minimum coins:
+
+3
+
+Key idea:
+
+Instead of trying all combinations, we compute the minimum coins needed for every amount from 0 → amount.
+
+This becomes an Unbounded Knapsack problem because each coin can be used multiple times.
+
+✨ Flashcard
+
+Front
+
+“How do we solve Coin Change using Unbounded Knapsack?”
+
+Back
+
+1️⃣ Capacity = amount
+2️⃣ Items = coins
+3️⃣ Weight = coin value
+4️⃣ Profit = 1 (each coin counts as one coin)
+5️⃣ dp[c] = minimum coins needed for amount c
+6️⃣ Traverse capacities forward to allow reuse
+7️⃣ Update:
+
+dp[c] = min(dp[c], 1 + dp[c - coin])
+
+8️⃣ If dp[amount] is still ∞ → return -1
+
+⚡ Step-by-Step Explanation
+1️⃣ Understand the Goal
+
+Example:
+
+coins = [1,2,5]
+amount = 11
+
+Possible ways:
+
+5+5+1 = 3 coins
+2+2+2+2+2+1 = 6 coins
+1+1+1+1+1+1+1+1+1+1+1 = 11 coins
+
+Goal:
+
+Find the MINIMUM number of coins.
+
+Brute force tries all combinations, which is exponential.
+
+Instead we use Dynamic Programming.
+
+2️⃣ Convert to Unbounded Knapsack
+
+Why knapsack?
+
+Because:
+
+coins = items
+
+amount = capacity
+
+each coin can be used multiple times
+
+So it matches Unbounded Knapsack.
+
+🧠 Mental Map
+
+coin change
+     ↓
+unlimited items
+     ↓
+unbounded knapsack
+3️⃣ Reformulate the Goal
+
+We build solutions for all smaller amounts first.
+
+Define:
+
+dp[c] = minimum coins required to make amount c
+
+Example:
+
+dp[7] = minimum coins needed to make amount 7
+4️⃣ Convert Coins to Knapsack Items
+
+Each coin becomes:
+
+weight = coin value
+profit = 1
+
+Why profit = 1?
+
+Because each coin contributes one coin count.
+
+Example:
+
+coins = [1,2,5]
+
+items:
+
+(1,1)
+(2,1)
+(5,1)
+
+Capacity:
+
+capacity = amount
+5️⃣ Define Knapsack State
+dp[c]
+
+Meaning:
+
+minimum coins required to form amount c
+
+Example:
+
+dp[11] = minimum coins needed for amount 11
+6️⃣ Initialize DP
+dp = [∞] * (amount + 1)
+dp[0] = 0
+
+Why?
+
+Because:
+
+0 coins needed to form amount 0
+
+Example:
+
+amount = 5
+
+dp = [0,∞,∞,∞,∞,∞]
+7️⃣ Process Each Coin
+
+For every coin:
+
+coin = coins[i]
+
+We update all amounts that can include this coin.
+
+Important:
+
+We traverse forward.
+
+for c in range(coin, amount + 1)
+
+Why forward?
+
+Because we allow reusing the same coin.
+
+Example:
+
+coin = 2
+
+We can build:
+
+4 = 2 + 2
+6 = 2 + 2 + 2
+8️⃣ Knapsack Update Rule
+dp[c] = min(
+    dp[c],
+    1 + dp[c - coin]
+)
+
+Meaning:
+
+Two choices:
+
+skip the coin
+or
+use the coin
+
+Using the coin adds:
+
+1 coin + best solution for remaining amount
+
+🧠 Mental Map
+
+take coin
+↓
+solve smaller amount
+↓
+add 1 coin
+🧠 Dry Run Example
+coins = [1,2,5]
+amount = 11
+
+Start:
+
+dp = [0,∞,∞,∞,∞,∞,∞,∞,∞,∞,∞,∞]
+
+After processing coins, DP becomes:
+
+dp[1] = 1
+dp[2] = 1
+dp[3] = 2
+dp[4] = 2
+dp[5] = 1
+...
+dp[10] = 2
+dp[11] = 3
+
+Best combination:
+
+11 = 5 + 5 + 1
+
+Answer:
+
+3
+💻 Code (Using Unbounded Knapsack Template)
+def unbounded_knapsack(coins, amount):
+    n = len(coins)
+
+    # dp[c] = minimum coins needed for amount c
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
+
+    for i in range(n):
+        # Traverse forward (allow reuse of same coin)
+        for c in range(coins[i], amount + 1):
+            dp[c] = min(dp[c], 1 + dp[c - coins[i]])
+
+    return dp[amount] if dp[amount] != float('inf') else -1
+
+
+class Solution:
+    def coinChange(self, coins, amount):
+        return unbounded_knapsack(coins, amount)
+🔑 Interview Tips
+
+Recognize these keywords:
+
+minimum coins
+unlimited coins
+make amount
+
+This maps to:
+
+Unbounded Knapsack
+
+Important trick:
+
+capacity = amount
+weight = coin
+profit = 1
+
+Forward traversal allows reusing coins.
+
+📦 Complexity
+Time  : O(n × amount)
+Space : O(amount)
+🎯 Interview Gold Line
+
+“Coin Change is an Unbounded Knapsack problem where we minimize the number of coins needed to reach the target amount by building solutions for smaller amounts first.” 🚀
