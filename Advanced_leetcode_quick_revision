@@ -9052,3 +9052,256 @@ Space : O(amount)
 🎯 Interview Gold Line
 
 “Coin Change is an Unbounded Knapsack problem where we minimize the number of coins needed to reach the target amount by building solutions for smaller amounts first.” 🚀
+
+
+👉 Coin Change II (LeetCode 518)
+
+Return the number of combinations that make up a given amount using the provided coins.
+
+Each coin:
+
+can be used unlimited times
+
+order does NOT matter
+
+Example:
+
+amount = 5
+coins = [1,2,5]
+
+Possible combinations:
+
+5
+2 + 2 + 1
+2 + 1 + 1 + 1
+1 + 1 + 1 + 1 + 1
+
+Answer:
+
+4
+
+Key idea:
+
+Instead of minimizing coins (like Coin Change I), here we count the number of ways to reach the amount.
+
+This becomes an Unbounded Knapsack (Combination Counting) problem.
+
+✨ Flashcard
+
+Front
+
+“How do we solve Coin Change II using Unbounded Knapsack?”
+
+Back
+
+1️⃣ Capacity = amount
+2️⃣ Items = coins
+3️⃣ Weight = coin value
+4️⃣ dp[c] = number of ways to make amount c
+5️⃣ Base case → dp[0] = 1
+6️⃣ Traverse coins first to avoid permutation duplicates
+7️⃣ Update:
+
+dp[c] += dp[c - coin]
+
+8️⃣ Final answer = dp[amount]
+
+⚡ Step-by-Step Explanation
+1️⃣ Understand the Goal
+
+Example:
+
+amount = 5
+coins = [1,2,5]
+
+We must count distinct combinations, not permutations.
+
+Valid:
+
+2+2+1
+
+Invalid duplicate:
+
+1+2+2
+
+Both represent the same combination.
+
+Goal:
+
+Count unique combinations.
+2️⃣ Convert to Unbounded Knapsack
+
+Why knapsack?
+
+Because:
+
+coins = items
+
+amount = capacity
+
+coins can be used unlimited times
+
+🧠 Mental Map
+
+coin change II
+      ↓
+unlimited items
+      ↓
+unbounded knapsack
+      ↓
+count combinations
+3️⃣ Reformulate the Goal
+
+Define:
+
+dp[c]
+
+Meaning:
+
+number of ways to form amount c
+
+Example:
+
+dp[5] = number of ways to make amount 5
+4️⃣ Convert Coins to Knapsack Items
+
+Each coin becomes:
+
+weight = coin
+profit = combination count
+
+Example:
+
+coins = [1,2,5]
+
+Items:
+
+1
+2
+5
+
+Capacity:
+
+capacity = amount
+5️⃣ Define Knapsack State
+dp[c]
+
+Meaning:
+
+number of combinations that produce amount c
+
+Example:
+
+dp[3] = number of ways to make 3
+6️⃣ Initialize DP
+dp = [0] * (amount + 1)
+dp[0] = 1
+
+Why?
+
+Because:
+
+There is exactly 1 way to make amount 0
+→ choose no coins
+
+Example:
+
+amount = 5
+
+dp = [1,0,0,0,0,0]
+7️⃣ Process Each Coin
+
+For every coin:
+
+coin = coins[i]
+
+We update all amounts that can include this coin.
+
+Traversal:
+
+for c in range(coin, amount+1)
+
+Why forward?
+
+Because coins are reusable.
+
+Example:
+
+coin = 2
+
+We can build:
+
+4 = 2 + 2
+6 = 2 + 2 + 2
+8️⃣ Knapsack Update Rule
+dp[c] += dp[c - coin]
+
+Meaning:
+
+Two possibilities:
+
+skip coin
+or
+use coin
+
+Using the coin means:
+
+extend all combinations that formed (c - coin)
+
+dp[c] = current number of ways to make c,   dp[c - coin] = number of ways to make remaining amount,  Add coin → new ways
+
+🧠 Mental Map
+
+ways to make c
++=
+ways to make smaller amount (c - coin)
+🧠 Dry Run Example
+coins = [1,2,5]
+amount = 5
+
+Start:
+
+dp = [1,0,0,0,0,0]
+
+After processing coin 1:
+
+dp = [1,1,1,1,1,1]
+
+After coin 2:
+
+dp = [1,1,2,2,3,3]
+
+After coin 5:
+
+dp = [1,1,2,2,3,4]
+
+Result:
+
+dp[5] = 4
+
+🔑 Interview Tips
+
+Recognize these keywords:
+
+number of ways
+combinations
+unlimited coins
+
+This maps to:
+
+Unbounded Knapsack (Counting)
+
+Important trick:
+
+capacity = amount
+dp[0] = 1
+dp[c] += dp[c - coin]
+
+And iterate coins first to avoid permutations.
+
+📦 Complexity
+Time  : O(n × amount)
+Space : O(amount)
+🎯 Interview Gold Line
+
+“Coin Change II is an Unbounded Knapsack counting problem where dp[c] stores the number of ways to form amount c, and each coin extends combinations of smaller amounts.” 🚀
