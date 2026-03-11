@@ -8540,3 +8540,237 @@ Space : O(m × n)
 🎯 Interview Gold Line
 
 “Ones and Zeroes is a two-dimensional 0/1 knapsack problem, where each string consumes zeros and ones as weights and contributes 1 to the subset size.” 🚀
+
+👉 Last Stone Weight II (LeetCode 1049)
+
+Return the smallest possible weight of the final stone after repeatedly smashing stones together.
+
+Each smash follows:
+
+x ≤ y
+x == y → both destroyed
+x != y → new stone = y - x
+
+Key idea:
+Instead of simulating the smashing process, we partition stones into two groups whose sums are as close as possible.
+
+This becomes a 0/1 Knapsack problem.
+
+✨ Flashcard
+
+Front
+
+“How do we solve Last Stone Weight II using Knapsack?”
+
+Back
+
+1️⃣ Compute total weight of stones.
+2️⃣ Target capacity = total // 2.
+3️⃣ Treat each stone as an item.
+4️⃣ Weight = stone weight
+5️⃣ Value = stone weight
+6️⃣ Use 0/1 knapsack to maximize subset sum ≤ target.
+7️⃣ Final answer = total - 2 * best_subset_sum.
+
+⚡ Step-by-Step Explanation
+1️⃣ Understand the Goal
+
+Example:
+
+stones = [2,7,4,1,8,1]
+
+Possible smash sequence:
+
+8 - 7 = 1
+4 - 2 = 2
+2 - 1 = 1
+1 - 1 = 0
+
+Final stone weight:
+
+1
+
+Simulating all smash combinations is complex.
+
+Instead we think differently.
+
+2️⃣ Convert to Partition Problem
+
+Imagine splitting stones into two groups:
+
+Group A sum = S1
+Group B sum = S2
+
+After smashing all stones, the final weight becomes:
+
+|S1 - S2|
+
+Why?
+
+Because stones cancel each other during smashing.
+
+Goal:
+
+minimize |S1 - S2|
+
+🧠 Mental Map
+
+“Make two groups with sums as equal as possible.”
+
+3️⃣ Reformulate the Goal
+
+Let:
+
+total = S1 + S2
+
+Difference:
+
+|S1 - S2| = |total - 2*S1|
+
+To minimize this:
+
+S1 should be as close as possible to total/2
+
+So we solve:
+
+find subset sum ≤ total/2
+maximize it
+
+This is exactly 0/1 knapsack.
+
+4️⃣ Convert Stones to Knapsack Items
+
+Each stone becomes:
+
+weight = stone
+profit = stone
+
+Why?
+
+Because we want to maximize the subset sum.
+
+Example:
+
+stones = [2,7,4,1,8,1]
+
+Items:
+
+(2,2)
+(7,7)
+(4,4)
+(1,1)
+(8,8)
+(1,1)
+
+Capacity:
+
+capacity = total // 2
+5️⃣ Define Knapsack State
+dp[c]
+
+Meaning:
+
+maximum subset sum achievable with capacity c
+
+Example:
+
+dp[11]
+
+means:
+
+largest subset sum ≤ 11
+6️⃣ Initialize DP
+dp = [0] * (capacity + 1)
+
+Example:
+
+If
+
+capacity = 11
+dp = [0,0,0,0,0,0,0,0,0,0,0,0]
+7️⃣ Process Each Stone
+
+For every stone we decide:
+
+take it
+or
+skip it
+
+We traverse capacities backwards to ensure each stone is used once.
+
+for c in range(capacity, weight[i] - 1, -1)
+8️⃣ Knapsack Update Rule
+dp[c] = max(
+    dp[c],
+    profit[i] + dp[c - weight[i]]
+)
+
+Meaning:
+
+skip stone
+or
+take stone
+
+Pick the larger subset sum.
+
+🧠 Mental Map
+
+“Add stone if it improves the subset sum.”
+
+🧠 Dry Run Example
+stones = [2,7,4,1,8,1]
+
+Step 1
+
+total = 23
+
+Step 2
+
+capacity = 23 // 2 = 11
+
+Knapsack tries to build subset sum close to 11.
+
+Possible subset:
+
+[7,4] = 11
+
+So:
+
+best_subset_sum = 11
+
+Final answer:
+
+total - 2 * best
+= 23 - 22
+= 1
+
+Return:
+
+1
+🔑 Interview Tips
+
+Recognize these keywords:
+
+smash stones
+minimum remaining weight
+partition stones
+
+This maps to:
+
+Minimum Subset Difference
+        ↓
+Partition Problem
+        ↓
+0/1 Knapsack
+
+Important trick:
+
+capacity = total // 2
+profit = stones
+weight = stones
+📦 Complexity
+Time  : O(n × total/2)
+Space : O(total/2)
+🎯 Interview Gold Line
+
+“Last Stone Weight II reduces to partitioning stones into two groups with sums as equal as possible, which can be solved using a 0/1 knapsack that maximizes subset sum ≤ total/2.” 🚀
