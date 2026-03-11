@@ -8383,3 +8383,160 @@ Space: O(capacity)
 🎯 Interview Gold Line
 
 “Target Sum converts the sign-assignment problem into counting subsets with sum (total − target)/2, which can be solved using a 0/1 knapsack dynamic programming approach.” 🚀
+
+
+👉 Ones and Zeroes (LeetCode 474)
+
+Return the maximum number of strings you can pick such that the total number of 0s ≤ m and 1s ≤ n.
+
+Each string can be used at most once.
+
+Key idea:
+This is a 0/1 Knapsack problem with two capacities.
+
+Capacity 1 → number of 0s
+
+Capacity 2 → number of 1s
+
+We try to maximize the number of strings chosen.
+
+✨ Flashcard
+
+Front
+
+“How do we solve Ones and Zeroes using Knapsack?”
+
+Back
+
+1️⃣ For each string count zeros and ones.
+2️⃣ Treat each string as an item.
+3️⃣ Weight = (zeros, ones)
+4️⃣ Value = 1 (one string selected).
+5️⃣ Use 2D knapsack to maximize the number of strings.
+
+⚡ Step-by-Step Explanation
+1️⃣ Understand the Goal
+
+Example:
+
+strs = ["10","0001","111001","1","0"]
+m = 5
+n = 3
+
+We must choose strings so that:
+
+total zeros ≤ 5
+total ones ≤ 3
+
+Example valid subset:
+
+["10","0001","1","0"]
+
+Size = 4
+
+2️⃣ Convert Each String to Weight
+
+Each string consumes some 0s and 1s.
+
+Example:
+
+"10"     → zeros=1 ones=1
+"0001"   → zeros=3 ones=1
+"1"      → zeros=0 ones=1
+"0"      → zeros=1 ones=0
+
+So each item becomes:
+
+weight = (zeros, ones)
+profit = 1
+
+🧠 Mental Map
+
+“Each string costs zeros and ones.”
+
+3️⃣ Define Knapsack State
+dp[i][j]
+
+Meaning:
+
+maximum number of strings
+using at most i zeros and j ones
+
+Example:
+
+dp[5][3]
+
+means:
+
+maximum subset using ≤5 zeros and ≤3 ones
+4️⃣ Initialize DP
+dp = [[0]*(n+1) for _ in range(m+1)]
+
+Example if:
+
+m = 5
+n = 3
+dp = 6 × 4 matrix
+5️⃣ Process Each String
+
+For every string:
+
+count zeros
+count ones
+
+Then run backward knapsack.
+
+Backward is important because each string can be used only once.
+
+6️⃣ Knapsack Update Rule
+dp[i][j] = max(
+    dp[i][j],
+    1 + dp[i-zero][j-one]
+)
+
+Meaning:
+
+skip the string
+or
+take the string
+
+Pick the larger result.
+
+🧠 Dry Run Example
+strs = ["10","0","1"]
+m = 1
+n = 1
+
+Possible subsets:
+
+["10"] → size 1
+["0","1"] → size 2
+
+Best answer:
+
+2
+
+🔑 Interview Tips
+
+Recognize these keywords:
+
+maximum subset
+limited zeros and ones
+each string used once
+
+This maps to:
+
+0/1 Knapsack
+     +
+Two capacities
+
+Important trick:
+
+weight = (zeros, ones)
+value = 1
+📦 Complexity
+Time  : O(len(strs) × m × n)
+Space : O(m × n)
+🎯 Interview Gold Line
+
+“Ones and Zeroes is a two-dimensional 0/1 knapsack problem, where each string consumes zeros and ones as weights and contributes 1 to the subset size.” 🚀
