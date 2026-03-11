@@ -9305,3 +9305,163 @@ Space : O(amount)
 🎯 Interview Gold Line
 
 “Coin Change II is an Unbounded Knapsack counting problem where dp[c] stores the number of ways to form amount c, and each coin extends combinations of smaller amounts.” 🚀
+
+
+👉 Minimum Cost for Tickets (LeetCode 983)
+
+Return the minimum cost to travel on all given travel days using any combination of 1‑day, 7‑day, and 30‑day tickets.
+
+You can buy a ticket of:
+
+Duration	Cost
+1‑day	costs[0]
+7‑day	costs[1]
+30‑day	costs[2]
+
+Each ticket covers that many consecutive days, including the day it’s bought.
+
+🧠 Key Idea
+
+This is an Unbounded Knapsack / DP Interval Problem:
+
+We must cover all days in the days[] list.
+
+For each travel day, we choose one of 3 passes.
+
+Each pass can be used multiple times (unlimited).
+
+We aim to minimize total cost.
+
+We solve this using DP over days with a technique closely related to your unbounded knapsack algorithm.
+
+✨ Flashcard
+
+Front
+
+“How do we solve Minimum Cost for Tickets using an unbounded knapsack‑like DP?”
+
+Back
+
+1️⃣ Treat each ticket type as an item you can buy unlimited times
+2️⃣ DP state: dp[d] = minimum cost to cover all travel up to day d
+3️⃣ Initialize base: dp[0] = 0
+4️⃣ For each travel day, choose one of 3 tickets
+5️⃣ Use forward logic to reuse tickets as needed
+6️⃣ Answer: dp[last_travel_day]
+
+🎯 Step‑by‑Step Explanation
+1️⃣ Understand the Goal
+
+Example input:
+
+days  = [1,4,6,7,8,20]
+costs = [2,7,15]
+
+We want the minimum cost to cover all travel days.
+
+2️⃣ Convert to DP
+
+Define:
+
+dp[d]
+
+Meaning:
+
+🌳 minimum cost to cover all travel up to day d (inclusive)
+
+We will compute this from smallest day to largest day.
+
+3️⃣ Initialize DP
+dp = [0] * (last_day + 1)
+
+Where:
+
+last_day = days[-1]
+
+Because we only care up to the last travel day.
+
+4️⃣ Transition
+
+For each day d:
+
+If d is a travel day:
+
+We choose three options:
+
+dp[d] = min(
+    dp[d - 1] + costs[0],   # 1‑day pass
+    dp[max(0, d - 7)] + costs[1],  # 7‑day pass
+    dp[max(0, d - 30)] + costs[2]  # 30‑day pass
+)
+
+Else:
+
+dp[d] = dp[d - 1]
+
+Because no travel means no additional cost.
+
+🧠 How this Matches Unbounded Knapsack
+
+Your unbounded knapsack template:
+
+for i in range(n):
+    for c in range(weight[i], capacity + 1):
+        dp[c] = min(dp[c], profit[i] + dp[c - weight[i]])
+
+Here:
+
+We treat day increments as the “capacity”
+
+Tickets are “items” with:
+
+weight = duration of coverage (1, 7, 30)
+
+profit = cost
+
+We minimize total cost.
+
+But because coverage is calendar based (days aren’t continuous), we need a fixed calendar DP instead of strictly looping through weights.
+
+This is a known variant of unbounded knapsack on a custom index (day).
+
+
+🔍 Why This Works
+
+Consider each pass as an unlimited resource:
+
+The 7‑day pass can cover days d−6 … d → like reusing an item
+
+The 30‑day pass can cover days d−29 … d
+
+Unlike coin change where dp[c] += …, here we take min because we want cost minimization.
+
+So conceptually it’s:
+
+dp[current_day] = minimum cost of tickets chosen so far
+🧠 More Intuition
+
+When d is a travel day:
+
+1‑day pass: pay cost for today only
+
+7‑day pass: pay once, cover today and next 6 days
+
+30‑day pass: pay once, cover today and next 29 days
+
+We look back to find how much we already paid before the current ticket’s validity starts.
+
+📦 Complexity
+Time : O(last_travel_day)
+Space: O(last_travel_day)
+
+Often faster than iterating amounts like a pure knapsack because days are sparse.
+
+🧠 Interview Tip
+
+You can express this exactly like unbounded knapsack:
+
+dp[day] = min(
+    dp[day − length] + cost
+)
+
+for each ticket, treating day like capacity
