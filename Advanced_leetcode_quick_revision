@@ -9766,3 +9766,435 @@ Match → add two options (use + skip)
 No match → skip
 
 Base case: empty t → 1 way
+
+
+👉 Edit Distance (Leetcode 72)
+
+Return the minimum number of operations required to convert word1 → word2.
+
+Allowed operations:
+
+1️⃣ Insert a character
+2️⃣ Delete a character
+3️⃣ Replace a character
+
+Example
+word1 = "horse"
+word2 = "ros"
+
+Output = 3
+
+Operations:
+
+horse → rorse   (replace h → r)
+rorse → rose    (delete r)
+rose  → ros     (delete e)
+
+✨ Flashcard
+
+Front:
+“How do we solve Edit Distance using 2D DP?”
+
+Back (short steps)
+
+1️⃣ Break strings into prefixes
+2️⃣ Make a DP grid for prefixes
+3️⃣ Convert string → empty = delete all
+4️⃣ Convert empty → string = insert all
+5️⃣ If characters match → copy diagonal
+6️⃣ If different → min(delete, insert, replace) + 1
+7️⃣ Bottom-right cell = minimum edit distance
+
+🧠 Key Idea
+
+We compare prefixes of both strings.
+
+Let
+
+dp[i][j]
+
+= minimum operations to convert
+
+s1[:i]  →  s2[:j]
+
+Example meaning:
+
+dp[3][2]
+
+means
+
+first 3 chars of s1 → first 2 chars of s2
+⚙️ DP Formula
+
+If characters match:
+
+dp[i][j] = dp[i-1][j-1]
+
+(no operation needed)
+
+If characters differ:
+
+We try 3 operations.
+
+dp[i][j] =
+1 + min(
+        dp[i][j-1],   # insert
+        dp[i-1][j],   # delete
+        dp[i-1][j-1]  # replace
+      )
+
+
+🧱 Block-by-Block Explanation
+Block 1 — Class and Function Definition
+class Solution:
+    def minDistance(self, word1, word2):
+
+This is the LeetCode required structure.
+
+Solution → class required by LeetCode
+
+minDistance() → main function called by the judge
+
+Inputs:
+
+word1
+
+word2
+
+Output: minimum operations to convert word1 → word2
+
+Block 2 — Helper DP Function
+def dp(s1, s2):
+
+We create a helper function so the logic stays clean.
+
+Parameters:
+
+s1 = first string
+
+s2 = second string
+
+Goal:
+
+Find minimum operations to convert s1 → s2
+Block 3 — Create DP Table
+N, M = len(s1), len(s2)
+dp = [[0] * (M + 1) for _ in range(N + 1)]
+
+We create a 2D dynamic programming table.
+
+Size:
+
+(N+1) × (M+1)
+
+Why +1?
+
+Because we include empty prefixes.
+
+Meaning of each cell:
+
+dp[i][j]
+
+= minimum operations to convert
+
+s1[:i] → s2[:j]
+
+Example:
+
+dp[3][2]
+
+means
+
+first 3 characters of s1
+→ first 2 characters of s2
+Block 4 — Base Case (Delete All Characters)
+for i in range(N + 1):
+    dp[i][0] = i
+
+Convert:
+
+s1[:i] → ""
+
+We must delete all characters.
+
+Example:
+
+"horse" → ""
+delete 5 characters
+
+So:
+
+dp[i][0] = i
+Block 5 — Base Case (Insert All Characters)
+for j in range(M + 1):
+    dp[0][j] = j
+
+Convert:
+
+"" → s2[:j]
+
+We must insert all characters.
+
+Example:
+
+"" → "ros"
+insert 3 characters
+
+So:
+
+dp[0][j] = j
+Block 6 — Compare Characters
+for i in range(N):
+    for j in range(M):
+
+We loop through every character pair.
+
+s1[i]
+s2[j]
+Block 7 — Characters Match
+if s1[i] == s2[j]:
+    dp[i+1][j+1] = dp[i][j]
+
+If characters match:
+
+No operation needed
+
+So we copy the diagonal value.
+
+Example:
+
+s1 = horse
+s2 = ros
+
+If characters match:
+
+dp[i+1][j+1] = dp[i][j]
+Block 8 — Characters Do Not Match
+dp[i+1][j+1] = 1 + min(
+    dp[i][j+1],   # delete
+    dp[i+1][j],   # insert
+    dp[i][j]      # replace
+)
+
+We try three operations.
+
+Take the minimum cost.
+
+Then add +1 because we performed an operation.
+
+Block 9 — Return Final Answer
+return dp[N][M]
+
+This cell represents:
+
+s1[:N] → s2[:M]
+
+Meaning:
+
+whole string → whole string
+Block 10 — Call Helper Function
+return dp(word1, word2)
+
+We pass the input strings into the DP function.
+
+🔬 Line-by-Line Detailed Explanation
+Line
+N, M = len(s1), len(s2)
+
+We compute lengths.
+
+Example:
+
+s1 = horse → N = 5
+s2 = ros   → M = 3
+Line
+dp = [[0] * (M + 1) for _ in range(N + 1)]
+
+Creates a grid:
+
+Example:
+
+      "" r o s
+""    0  1 2 3
+h
+o
+r
+s
+e
+
+Rows → s1
+Columns → s2
+
+Line
+for i in range(N + 1):
+
+Loop through all prefixes of s1 including empty string.
+
+Example:
+
+"", "h", "ho", "hor", "hors", "horse"
+Line
+dp[i][0] = i
+
+To convert:
+
+s1[:i] → ""
+
+We delete everything.
+
+Example:
+
+dp[3][0] = 3
+
+because
+
+"hor" → ""
+
+needs 3 deletions.
+
+Line
+for j in range(M + 1):
+
+Loop through prefixes of s2.
+
+Example:
+
+"", "r", "ro", "ros"
+Line
+dp[0][j] = j
+
+Convert:
+
+"" → s2[:j]
+
+We insert characters.
+
+Example:
+
+dp[0][3] = 3
+
+because
+
+"" → "ros"
+
+needs 3 insertions.
+
+Line
+for i in range(N):
+
+Loop through characters of s1.
+
+Line
+for j in range(M):
+
+Loop through characters of s2.
+
+Line
+if s1[i] == s2[j]:
+
+Check if characters match.
+
+Example:
+
+s1 = horse
+s2 = ros
+
+Check:
+
+h vs r
+o vs o
+r vs r
+Line
+dp[i+1][j+1] = dp[i][j]
+
+Why i+1 and j+1?
+
+Because row 0 and column 0 represent empty strings.
+
+So actual characters start at index 1 in the DP table.
+
+Line
+1 + min(...)
+
+We try three possibilities.
+
+Delete
+dp[i][j+1]
+
+Meaning:
+
+remove character from s1
+
+Example:
+
+horse → orse
+Insert
+dp[i+1][j]
+
+Meaning:
+
+insert character into s1
+
+Example:
+
+ros → rros
+Replace
+dp[i][j]
+
+Meaning:
+
+replace character
+
+Example:
+
+h → r
+Line
+return dp[N][M]
+
+Final answer.
+
+Example:
+
+horse → ros
+
+Answer:
+
+3
+🧠 Why This Problem Is Important
+
+Edit Distance is the foundation of:
+
+Git diff
+
+Spell checkers
+
+DNA sequence matching
+
+Text correction
+
+Autocomplete
+
+📊 Time Complexity
+O(N × M)
+
+Example:
+
+500 × 500 = 250,000 operations
+
+Very safe.
+
+🧠 Intuition Shortcut
+
+Think of Edit Distance as:
+
+LCS but allowing operations
+
+Instead of:
+
+max()
+
+we use:
+
+min()
+
+because we want the minimum number of edits.
