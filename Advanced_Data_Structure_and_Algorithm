@@ -4594,3 +4594,240 @@ O(capacity)
 🎯 Interview Gold Line
 
 “Iterate items → update capacities forward → allow reuse → dp[c] = max(skip, take) → dp[capacity] gives maximum profit.” 🚀
+
+
+👉 Longest Common Subsequence (LCS) – Bottom-Up DP (2D Table)
+
+Given two strings s1 and s2, find the length of the longest subsequence that appears in both strings.
+
+A subsequence means characters appear in order but not necessarily consecutively.
+
+Example:
+
+s1 = "abcde"
+s2 = "ace"
+
+Common subsequence → "ace"
+
+Length → 3
+
+✨ Flashcard
+
+“Compare characters → if match extend subsequence → if not match skip one character → take the best result.”
+
+⚡ Full Explanation (Very Easy)
+1️⃣ Initialize DP Table
+
+🎯 Goal
+
+Store the LCS length for every prefix of the two strings.
+
+🔍 How the code works
+
+dp = [[0] * (M+1) for _ in range(N+1)]
+
+Meaning:
+
+dp[i][j] = LCS length between
+           s1[:i] and s2[:j]
+
+Index meaning:
+
+dp[0][*] → empty s1
+dp[*][0] → empty s2
+
+Example:
+
+s1 = "abc"
+s2 = "ac"
+
+Initial table:
+
+      ""  a  c
+   ------------
+"" |  0   0  0
+a  |  0
+b  |  0
+c  |  0
+
+🧠 Mental Map
+
+“dp[i][j] stores the LCS length for the first i characters of s1 and first j characters of s2.”
+
+2️⃣ Traverse the Strings
+
+🎯 Goal
+
+Compare every pair of characters.
+
+🔍 How the code works
+
+for i in range(N):
+    for j in range(M):
+
+Meaning:
+
+i → character index in s1
+j → character index in s2
+
+Example comparisons:
+
+a vs a
+a vs c
+b vs a
+b vs c
+c vs a
+c vs c
+
+🧠 Mental Map
+
+“Check how each character pair contributes to the subsequence.”
+
+3️⃣ If Characters Match
+
+🎯 Goal
+
+Extend the current subsequence.
+
+🔍 How the code works
+
+if s1[i] == s2[j]:
+    dp[i+1][j+1] = 1 + dp[i][j]
+
+Explanation:
+
+dp[i][j] = subsequence length without these characters
+
+If characters match:
+
+new subsequence length = previous + 1
+
+Visual idea:
+
+      ↖ diagonal + 1
+
+Example:
+
+a vs a
+
+Table update:
+
+      ""  a  c
+   ------------
+"" |  0   0  0
+a  |  0   1
+
+🧠 Mental Map
+
+“Matching characters extend the subsequence.”
+
+4️⃣ If Characters Don't Match
+
+🎯 Goal
+
+Skip one character and keep the best subsequence.
+
+🔍 How the code works
+
+dp[i+1][j+1] = max(dp[i][j+1], dp[i+1][j])
+
+Explanation:
+
+Option 1 → skip character from s1
+Option 2 → skip character from s2
+
+So:
+
+dp[i][j+1] → ignore s1[i]
+dp[i+1][j] → ignore s2[j]
+
+We take the maximum because we want the longest subsequence.
+
+Visual idea:
+
+      ↑
+      |
+←-----+
+
+Example:
+
+b vs c
+top  = dp[1][2]
+left = dp[2][1]
+dp[2][2] = max(top, left)
+
+🧠 Mental Map
+
+“Characters don't match → skip one → keep the best subsequence.”
+
+5️⃣ Return the Final LCS Length
+
+🎯 Goal
+
+Return the LCS length for the full strings.
+
+🔍 How the code works
+
+return dp[N][M]
+
+Meaning:
+
+LCS(s1, s2)
+
+Example:
+
+s1 = "abc"
+s2 = "ac"
+
+Final table:
+
+      ""  a  c
+   ------------
+"" |  0   0  0
+a  |  0   1  1
+b  |  0   1  1
+c  |  0   1  2
+
+Result:
+
+dp[3][2] = 2
+
+LCS:
+
+"ac"
+🧠 Mental Model
+
+Imagine building subsequences gradually:
+
+compare characters
+→ match → extend subsequence
+→ no match → skip one character
+→ keep longest result
+
+The DP table stores the best subsequence length for every prefix pair.
+
+💡 Key Insight for Interviews
+
+1️⃣ Compare characters from both strings
+2️⃣ If match → extend subsequence
+3️⃣ If not match → skip one character
+4️⃣ Use max(top, left) to keep best result
+5️⃣ Final answer is dp[N][M]
+
+📦 🔥 Total Complexity (Very Important for Interviews)
+
+⏱ Time
+
+O(N × M)
+
+Because we fill an N × M table.
+
+📦 Space
+
+O(N × M)
+
+For the DP table.
+
+🎯 Interview Gold Line
+
+“Build a DP table comparing string prefixes → match extends subsequence → mismatch skips one character → max(top,left) keeps the longest → final answer in dp[N][M].” 🚀
