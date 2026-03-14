@@ -10198,3 +10198,710 @@ we use:
 min()
 
 because we want the minimum number of edits.
+
+
+👉 Interleaving String (LeetCode 97)
+
+Return True or False depending on whether s3 can be formed by interleaving s1 and s2.
+
+Interleaving means:
+
+We take characters from s1 and s2
+
+We must keep the order of characters in each string
+
+Example
+s1 = "ab"
+s2 = "cd"
+s3 = "acbd"
+
+Possible construction:
+
+a  ← from s1
+c  ← from s2
+b  ← from s1
+d  ← from s2
+
+Order preserved:
+
+s1: a → b ✔
+s2: c → d ✔
+
+Output:
+
+True
+✨ Flashcard
+
+Front:
+“How do we check if a string is an interleaving of two strings using DP?”
+
+Back (short steps)
+
+1️⃣ Total length must match
+2️⃣ Break strings into prefixes
+3️⃣ Create a DP grid for prefixes
+4️⃣ dp[i][j] means using s1[:i] and s2[:j]
+5️⃣ If next char matches s1 → come from top
+6️⃣ If next char matches s2 → come from left
+7️⃣ Bottom-right cell tells the answer
+
+🧠 Key Idea
+
+We compare prefixes of the strings.
+
+Let
+
+dp[i][j]
+
+mean:
+
+Can we form s3[:i+j]
+using
+
+s1[:i] and s2[:j]
+
+Example:
+
+dp[2][1]
+
+means
+
+first 2 chars of s1
+first 1 char of s2
+→ can they form first 3 chars of s3 ?
+⚙️ DP Logic
+
+To reach dp[i][j], the last character of s3 must come from either:
+
+From s1
+
+If:
+
+s1[i-1] == s3[i+j-1]
+
+then we check:
+
+dp[i-1][j]
+
+Meaning:
+
+Before using this character, the previous state must already be valid.
+
+From s2
+
+If:
+
+s2[j-1] == s3[i+j-1]
+
+then we check:
+
+dp[i][j-1]
+
+So the formula becomes:
+
+dp[i][j] =
+(dp[i-1][j] and s1[i-1] == s3[i+j-1])
+OR
+(dp[i][j-1] and s2[j-1] == s3[i+j-1])
+🧱 Block-by-Block Explanation
+Block 1 — Class and Function Definition
+class Solution(object):
+    def isInterleave(self, s1, s2, s3):
+
+LeetCode required structure.
+
+Inputs:
+
+s1
+s2
+s3
+
+Output:
+
+True / False
+Block 2 — Get String Lengths
+N, M = len(s1), len(s2)
+
+Example:
+
+s1 = "ab" → N = 2
+s2 = "cd" → M = 2
+Block 3 — Length Check
+if N + M != len(s3):
+    return False
+
+Important observation:
+
+If s3 is made by mixing s1 and s2, then
+
+len(s3) = len(s1) + len(s2)
+
+Example:
+
+s1 = "ab"
+s2 = "cd"
+
+total = 4
+
+If s3 length is not 4 → impossible.
+
+So we immediately return False.
+
+Block 4 — Create DP Table
+dp = [[False] * (M + 1) for _ in range(N + 1)]
+
+We create a 2D DP table.
+
+Size:
+
+(N+1) × (M+1)
+
+Why +1?
+
+Because we include empty prefixes.
+
+Meaning:
+
+dp[i][j]
+
+= can we build
+
+s3[:i+j]
+
+using
+
+s1[:i] and s2[:j]
+Block 5 — Starting State
+dp[0][0] = True
+
+Meaning:
+
+"" + "" → ""
+
+Empty strings can form empty string.
+
+So:
+
+True
+Block 6 — Traverse the DP Table
+for i in range(N + 1):
+    for j in range(M + 1):
+
+We iterate through every prefix combination.
+
+Example:
+
+i → prefix length of s1
+j → prefix length of s2
+Block 7 — Take Character From s1
+if i > 0 and s1[i-1] == s3[i+j-1]:
+    dp[i][j] = dp[i][j] or dp[i-1][j]
+
+Explanation:
+
+i > 0
+
+means we have characters available in s1.
+
+Then check:
+
+s1[i-1] == s3[i+j-1]
+
+Meaning:
+
+Does the next character of s3 match s1?
+
+If yes:
+
+dp[i][j] = dp[i-1][j]
+
+Meaning:
+
+If previous state was valid, we extend it.
+
+Block 8 — Take Character From s2
+if j > 0 and s2[j-1] == s3[i+j-1]:
+    dp[i][j] = dp[i][j] or dp[i][j-1]
+
+Same logic.
+
+Check if the next character of s3 came from s2.
+
+If yes:
+
+dp[i][j] = dp[i][j-1]
+
+Meaning:
+
+We extend from the left cell.
+
+Block 9 — Return Final Answer
+return dp[N][M]
+
+This represents:
+
+s1[:N] and s2[:M]
+
+forming
+
+s3[:N+M]
+
+Meaning:
+
+whole s1 + whole s2 → whole s3
+🔬 Line-by-Line Key Logic
+Line
+s1[i-1] == s3[i+j-1]
+
+Why i+j-1?
+
+Because:
+
+i characters from s1
+j characters from s2
+
+Total characters used:
+
+i + j
+
+So the last index is:
+
+i + j - 1
+Line
+dp[i][j] = dp[i][j] or dp[i-1][j]
+
+Meaning:
+
+If either path works, we mark True.
+
+Possible paths:
+
+from s1
+or
+from s2
+🧠 Visual Intuition
+
+Think of the DP table like a grid path.
+
+       s2 →
+     0   1   2
+
+s1 0 T
+↓
+   1
+   2
+
+Moves:
+
+DOWN  → take from s1
+RIGHT → take from s2
+
+We try to reach:
+
+dp[N][M]
+📊 Time Complexity
+O(N × M)
+
+Example:
+
+200 × 200 = 40,000
+
+Very fast.
+
+🧠 Intuition Shortcut
+
+Think of this problem as:
+
+Merge two strings while keeping order
+
+DP checks:
+
+Did the next character come from s1
+OR
+from s2 ?
+
+🎯 Easy Explanation:
+🧠 Core Idea (Very Simple)
+
+Think of s3 as a merged string of s1 and s2.
+
+Rules:
+
+1️⃣ You can take the next character from s1
+2️⃣ Or take the next character from s2
+3️⃣ But you cannot change the order inside each string
+
+So the question becomes:
+
+At each step, did the next character of s3 come from s1 or s2?
+
+📋 Example
+s1 = "ab"
+s2 = "cd"
+s3 = "acbd"
+
+Possible formation:
+
+a (from s1)
+c (from s2)
+b (from s1)
+d (from s2)
+
+Order preserved:
+
+s1: a → b ✔
+s2: c → d ✔
+
+So answer = True
+
+❌ Example (Invalid)
+s1 = "ab"
+s2 = "cd"
+s3 = "adbc"
+
+If we try:
+
+a (s1)
+d (s2)
+b (s1)
+c (s2)
+
+But c comes after d in s2.
+
+Original order:
+
+c → d
+
+But here we used:
+
+d → c ❌
+
+So not allowed.
+
+🧩 Why Dynamic Programming?
+
+Because at many positions we have two choices:
+
+Take from s1
+or
+Take from s2
+
+Example:
+
+s1 = "aa"
+s2 = "aa"
+s3 = "aaaa"
+
+At each step we could pick from either string.
+
+This creates many possible paths.
+
+Instead of trying all paths (which is slow), we use DP to remember results.
+
+
+👉 Example
+s1 = "ab"
+s2 = "cd"
+s3 = "acbd"
+
+Lengths
+
+N = 2
+M = 2
+
+Check length:
+
+len(s1) + len(s2) = 4
+len(s3) = 4
+
+✔ Valid → continue
+
+🧠 DP Meaning
+dp[i][j]
+
+means
+
+Can we build s3[:i+j]
+using
+
+s1[:i] and s2[:j]
+🧱 Step 1 — Create DP Table
+
+Size:
+
+(N+1) × (M+1)
+      ""   c    d
+   ----------------
+"" |  T   F    F
+a  |  F   F    F
+b  |  F   F    F
+
+Rows → s1
+Columns → s2
+
+dp[0][0] = True
+
+because
+
+"" + "" → ""
+🧱 Step 2 — Fill First Row (Using Only s2)
+
+Check if s2 alone can build s3.
+
+Cell dp[0][1]
+s2[0] = c
+s3[0] = a
+
+Not equal.
+
+dp[0][1] = False
+Cell dp[0][2]
+s2[1] = d
+s3[1] = c
+
+Not equal.
+
+dp[0][2] = False
+
+Table now:
+
+      ""   c    d
+   ----------------
+"" |  T   F    F
+a  |  F   F    F
+b  |  F   F    F
+🧱 Step 3 — Fill First Column (Using Only s1)
+Cell dp[1][0]
+
+Check:
+
+s1[0] = a
+s3[0] = a
+
+Match ✔
+
+Check previous state:
+
+dp[0][0] = True
+
+So
+
+dp[1][0] = True
+Cell dp[2][0]
+
+Check:
+
+s1[1] = b
+s3[1] = c
+
+Not equal.
+
+dp[2][0] = False
+
+Table:
+
+      ""   c    d
+   ----------------
+"" |  T   F    F
+a  |  T   F    F
+b  |  F   F    F
+🧱 Step 4 — Fill Inner Cells
+Cell dp[1][1]
+
+Meaning:
+
+s1[:1] = "a"
+s2[:1] = "c"
+
+Can they form
+
+s3[:2] = "ac" ?
+
+Last char of s3:
+
+s3[1] = c
+Try from s1
+s1[0] = a
+
+Not equal.
+
+Try from s2
+s2[0] = c
+
+Match ✔
+
+Check:
+
+dp[1][0] = True
+
+So
+
+dp[1][1] = True
+Cell dp[1][2]
+
+Meaning:
+
+s1[:1] = "a"
+s2[:2] = "cd"
+
+Target:
+
+s3[:3] = "acb"
+
+Last char:
+
+s3[2] = b
+
+Check from s1:
+
+s1[0] = a
+
+Not equal.
+
+Check from s2:
+
+s2[1] = d
+
+Not equal.
+
+dp[1][2] = False
+Cell dp[2][1]
+
+Meaning:
+
+s1[:2] = "ab"
+s2[:1] = "c"
+
+Target:
+
+s3[:3] = "acb"
+
+Last char:
+
+s3[2] = b
+
+Check from s1:
+
+s1[1] = b
+
+Match ✔
+
+Check:
+
+dp[1][1] = True
+
+So
+
+dp[2][1] = True
+Cell dp[2][2]
+
+Meaning:
+
+s1[:2] = "ab"
+s2[:2] = "cd"
+
+Target:
+
+s3[:4] = "acbd"
+
+Last char:
+
+s3[3] = d
+
+Check from s1:
+
+s1[1] = b
+
+Not equal.
+
+Check from s2:
+
+s2[1] = d
+
+Match ✔
+
+Check:
+
+dp[2][1] = True
+
+So
+
+dp[2][2] = True
+✅ Final DP Table
+      ""   c    d
+   ----------------
+"" |  T   F    F
+a  |  T   T    F
+b  |  F   T    T
+
+Final answer:
+
+dp[2][2] = True
+
+So
+
+s3 IS a valid interleaving
+🧠 Visual Path (Very Important)
+
+The successful path is:
+
+(0,0)
+ ↓  take a from s1
+(1,0)
+ →  take c from s2
+(1,1)
+ ↓  take b from s1
+(2,1)
+ →  take d from s2
+(2,2)
+
+Path:
+
+DOWN → RIGHT → DOWN → RIGHT
+
+Meaning:
+
+s1 → s2 → s1 → s2
+
+Which builds:
+
+a c b d
+📝 Summary
+
+📝 DP Meaning
+
+dp[i][j]
+
+Can we build
+
+s3[:i+j]
+
+using
+
+s1[:i] and s2[:j]
+
+📋 Transitions
+
+from s1 → dp[i-1][j]
+from s2 → dp[i][j-1]
+
+✔ Final Answer
+
+dp[N][M]
+
+💡 Interview Trick
+
+Think of this problem as:
+
+Walking in a grid
+
+Moves:
+
+DOWN  = take from s1
+RIGHT = take from s2
+
+Goal:
+
+Reach bottom-right
+
+If you want, I can also show the 1D DP optimization version of this problem (which reduces space from O(N*M) → O(M)), which interviewers love to ask as a follow-up.
