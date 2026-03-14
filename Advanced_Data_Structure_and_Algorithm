@@ -4831,3 +4831,308 @@ For the DP table.
 🎯 Interview Gold Line
 
 “Build a DP table comparing string prefixes → match extends subsequence → mismatch skips one character → max(top,left) keeps the longest → final answer in dp[N][M].” 🚀
+
+👉 Longest Palindromic Substring Length – Expand Around Center
+
+Given a string s, find the length of the longest substring that is a palindrome.
+
+A palindrome reads the same forward and backward.
+
+Example:
+
+s = "babad"
+
+Possible palindromes:
+bab
+aba
+
+Length → 3
+✨ Flashcard
+
+“Treat every index as a center → expand left and right while characters match → keep the longest palindrome length.”
+
+⚡ Full Explanation (Very Easy)
+1️⃣ Define the Expand Function
+
+🎯 Goal
+
+Expand from the center and calculate the palindrome length.
+
+🔍 How the code works
+
+def expand(l, r):
+    while l >= 0 and r < len(s) and s[l] == s[r]:
+        l -= 1
+        r += 1
+    return r - l - 1
+
+Meaning
+
+Start with two pointers:
+
+l → left pointer
+r → right pointer
+
+Expand outward while:
+
+1️⃣ l is inside the string
+2️⃣ r is inside the string
+3️⃣ characters match
+
+s[l] == s[r]
+
+When the loop stops:
+
+l and r moved one step too far
+
+So the real palindrome length is:
+
+r - l - 1
+
+Example:
+
+racecar
+   ^
+center
+
+Expansion:
+
+l ←      → r
+r a c e c a r
+
+Length:
+
+7
+
+🧠 Mental Map
+
+“Start from center → expand outward → stop when characters differ.”
+
+2️⃣ Initialize the Answer
+
+🎯 Goal
+
+Track the longest palindrome found.
+
+🔍 How the code works
+
+ans = 0
+
+Meaning:
+
+ans = longest palindrome length so far
+
+Example:
+
+s = "babad"
+
+Initial state:
+
+ans = 0
+
+🧠 Mental Map
+
+“Keep updating the longest palindrome length.”
+
+3️⃣ Try Every Character as Center
+
+🎯 Goal
+
+Check every possible palindrome center.
+
+🔍 How the code works
+
+for i in range(len(s)):
+
+Meaning:
+
+i = possible center position
+
+Example:
+
+s = "babad"
+
+centers:
+b
+ a
+  b
+   a
+    d
+
+Each index might be the middle of a palindrome.
+
+🧠 Mental Map
+
+“Every character can be the center of a palindrome.”
+
+4️⃣ Check Odd-Length Palindromes
+
+🎯 Goal
+
+Handle palindromes like:
+
+aba
+racecar
+level
+
+🔍 How the code works
+
+expand(i, i)
+
+Both pointers start at the same index.
+
+l = i
+r = i
+
+Example:
+
+aba
+ ^
+center
+
+Expansion:
+
+a b a
+↑   ↑
+
+Palindrome length:
+
+3
+
+🧠 Mental Map
+
+“Odd palindromes have a single middle character.”
+
+5️⃣ Check Even-Length Palindromes
+
+🎯 Goal
+
+Handle palindromes like:
+
+abba
+noon
+
+🔍 How the code works
+
+expand(i, i + 1)
+
+Two centers:
+
+l = i
+r = i + 1
+
+Example:
+
+abba
+ ^^
+center
+
+Expansion:
+
+a b b a
+↑     ↑
+
+Palindrome length:
+
+4
+
+🧠 Mental Map
+
+“Even palindromes have two center characters.”
+
+6️⃣ Keep the Maximum Length
+
+🎯 Goal
+
+Update the longest palindrome found.
+
+🔍 How the code works
+
+ans = max(ans, expand(i, i), expand(i, i + 1))
+
+Explanation:
+
+We check:
+
+odd palindrome length
+even palindrome length
+previous best length
+
+Then keep the maximum.
+
+Example:
+
+s = "babad"
+
+Possible results:
+
+bab → 3
+aba → 3
+
+So:
+
+ans = 3
+
+🧠 Mental Map
+
+“Try both palindrome types → keep the longest one.”
+
+7️⃣ Return the Final Answer
+
+🎯 Goal
+
+Return the length of the longest palindrome.
+
+🔍 How the code works
+
+return ans
+
+Example:
+
+s = "babad"
+
+Longest palindrome:
+
+bab
+
+Result:
+
+3
+🧠 Mental Model
+
+Imagine palindromes growing from the center.
+
+pick center
+→ expand left & right
+→ characters match → keep expanding
+→ characters differ → stop
+→ measure length
+→ keep the longest
+
+The algorithm checks every possible center.
+
+💡 Key Insight for Interviews
+
+1️⃣ Every palindrome has a center
+2️⃣ Centers can be one character (odd) or two characters (even)
+3️⃣ Expand outward while characters match
+4️⃣ Track the maximum length
+5️⃣ Return the longest palindrome length
+
+📦 🔥 Total Complexity (Very Important for Interviews)
+
+⏱ Time
+
+O(N²)
+
+Because for each character we may expand across the string.
+
+📦 Space
+
+O(1)
+
+No extra memory used.
+
+🎯 Interview Gold Line
+
+“Treat every index as a palindrome center → expand outward for odd and even cases → track the maximum length → return the longest palindrome.” 🚀
