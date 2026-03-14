@@ -11239,3 +11239,185 @@ Palindrome → expand around center
 Odd + even centers cover all possibilities
 
 Track longest seen
+
+
+👉 Palindromic Substrings (LeetCode 647)
+
+Return the total number of palindromic substrings in a string s.
+
+A palindrome reads the same forward and backward.
+
+A substring must be contiguous.
+
+Example 1
+
+s = "abc"
+
+Output = 3
+
+Palindromes:
+
+"a"
+"b"
+"c"
+
+Example 2
+
+s = "aaa"
+
+Output = 6
+
+Palindromes:
+
+"a"
+"a"
+"a"
+"aa"
+"aa"
+"aaa"
+
+✨ Flashcard
+
+Front:
+“How do we count all palindromic substrings?”
+
+Back (short steps)
+
+1️⃣ Treat every character as a center
+2️⃣ Expand outward while characters match
+3️⃣ Count every valid expansion
+4️⃣ Check odd-length and even-length palindromes
+5️⃣ Sum all counts
+
+🧠 Key Idea
+
+Every palindrome has a center.
+
+Possible centers:
+
+single character → odd palindrome
+
+between characters → even palindrome
+
+Example:
+
+"aaa"
+
+Centers:
+
+a | a | a
+
+and
+
+a a
+a a
+
+Expand from each center and count palindromes.
+
+⚙️ Algorithm Idea — Expand Around Center
+
+For each index i:
+
+expand(i, i)     → odd palindrome
+expand(i, i+1)   → even palindrome
+
+Every time characters match → count += 1
+
+🧱 Block-by-Block Explanation
+
+Block 1 — Function Definition
+class Solution:
+    def countSubstrings(self, s):
+
+Input:
+
+s → string
+
+Output:
+
+number of palindromic substrings
+Block 2 — Expand Function
+        def expand(l, r):
+            count = 0
+            while l >= 0 and r < len(s) and s[l] == s[r]:
+                count += 1
+                l -= 1
+                r += 1
+            return count
+
+This function:
+
+expands around center (l, r)
+
+every successful expansion = one palindrome
+
+Example:
+
+s = "aaa"
+center = 1
+
+expansions:
+"a"
+"aaa"
+
+Count increases each time.
+
+Block 3 — Initialize Result
+        ans = 0
+
+Stores total number of palindromic substrings.
+
+Block 4 — Check All Centers
+        for i in range(len(s)):
+            ans += expand(i, i)      # odd-length palindromes
+            ans += expand(i, i + 1)  # even-length palindromes
+
+We check:
+
+Odd palindromes:
+
+racecar
+   ^
+
+Even palindromes:
+
+abba
+  ^
+Block 5 — Return Answer
+        return ans
+
+Return the total count.
+
+
+📊 Time Complexity
+
+O(N²)
+
+Because we expand from every center.
+
+Maximum:
+
+1000 × 1000
+
+Which is acceptable.
+
+📦 Space Complexity
+
+O(1)
+
+No extra memory used.
+
+🧠 Intuition Shortcut
+
+This problem is basically:
+
+Longest Palindrome idea
++
+Count every expansion
+
+Steps:
+
+Pick center
+Expand
+Count
+Repeat
