@@ -10996,44 +10996,7 @@ dp[i][j] = max(
     dp[i-1][j],
     dp[i][j-1]
 )
-🧱 Solution Code (Python)
-class Solution(object):
-    def shortestCommonSupersequence(self, str1, str2):
-        N, M = len(str1), len(str2)
 
-        dp = [[0]*(M+1) for _ in range(N+1)]
-
-        for i in range(1, N+1):
-            for j in range(1, M+1):
-                if str1[i-1] == str2[j-1]:
-                    dp[i][j] = dp[i-1][j-1] + 1
-                else:
-                    dp[i][j] = max(dp[i-1][j], dp[i][j-1])
-
-        i, j = N, M
-        res = []
-
-        while i > 0 and j > 0:
-            if str1[i-1] == str2[j-1]:
-                res.append(str1[i-1])
-                i -= 1
-                j -= 1
-            elif dp[i-1][j] > dp[i][j-1]:
-                res.append(str1[i-1])
-                i -= 1
-            else:
-                res.append(str2[j-1])
-                j -= 1
-
-        while i > 0:
-            res.append(str1[i-1])
-            i -= 1
-
-        while j > 0:
-            res.append(str2[j-1])
-            j -= 1
-
-        return "".join(res[::-1])
 🧱 Block-by-Block Explanation
 Block 1 — Function Definition
 class Solution(object):
@@ -11170,3 +11133,109 @@ Steps:
 Find LCS
 Use it to merge both strings
 Avoid duplicating LCS characters
+
+
+👉 Longest Palindromic Substring (LeetCode 5)
+
+Return the longest contiguous substring of s that is a palindrome.
+
+A palindrome reads the same forward and backward.
+
+Example:
+
+s = "babad"
+Output: "bab"   # "aba" is also valid
+s = "cbbd"
+Output: "bb"
+
+✨ Flashcard
+
+Front:
+“How do we find the Longest Palindromic Substring efficiently?”
+
+Back (short steps):
+
+1️⃣ Expand around each character as a center
+2️⃣ Check both odd and even length palindromes
+3️⃣ Track the start and end indices of the longest palindrome
+4️⃣ Return the substring using the indices
+
+🧠 Key Idea
+
+Every palindrome has a center. By expanding around all possible centers, we find the longest one:
+
+Odd-length: expand around i
+
+Even-length: expand around i and i+1
+
+⚙️ DP / Expand Step 1 — Function Definition
+
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+
+Inputs:
+
+s: the string to analyze
+
+Output:
+
+Longest palindromic substring of s
+
+🧱 Block 2 — Expand Function
+
+        def expand(l, r):
+            while l >= 0 and r < len(s) and s[l] == s[r]:
+                l -= 1
+                r += 1
+            return l + 1, r - 1
+
+Expands around indices l and r while characters match
+
+Returns the actual start and end indices of the palindrome
+
+🧱 Block 3 — Initialize Result Pointers
+
+        start, end = 0, 0
+
+start and end track the longest palindrome found
+
+🧱 Block 4 — Loop Over All Centers
+
+        for i in range(len(s)):
+            l1, r1 = expand(i, i)      # odd-length palindrome
+            l2, r2 = expand(i, i + 1)  # even-length palindrome
+
+Check palindromes centered at i (odd)
+
+Check palindromes between i and i+1 (even)
+
+🧱 Block 5 — Update Longest Palindrome
+
+            if r1 - l1 > end - start:
+                start, end = l1, r1
+            if r2 - l2 > end - start:
+                start, end = l2, r2
+
+Compare lengths and update start and end if a longer palindrome is found
+
+🧱 Block 6 — Return Result
+
+        return s[start:end + 1]
+
+Slice the string to return the longest palindromic substring
+
+📊 Time Complexity
+
+O(N²) — expand from each of N centers, each may go up to N steps
+
+📊 Space Complexity
+
+O(1) — only a few pointers
+
+🧠 Intuition Shortcut
+
+Palindrome → expand around center
+
+Odd + even centers cover all possibilities
+
+Track longest seen
