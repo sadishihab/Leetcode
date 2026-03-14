@@ -10905,3 +10905,268 @@ Goal:
 Reach bottom-right
 
 If you want, I can also show the 1D DP optimization version of this problem (which reduces space from O(N*M) → O(M)), which interviewers love to ask as a follow-up.
+
+
+👉 Shortest Common Supersequence (LeetCode 1092)
+
+Return the shortest string that contains both str1 and str2 as subsequences.
+
+A subsequence means we can delete characters but cannot change order.
+
+Example
+str1 = "abac"
+str2 = "cab"
+
+Output:
+
+cabac
+
+Why?
+
+str1 = abac
+delete first c → abac
+
+str2 = cab
+delete last ac → cab
+
+Both appear inside "cabac".
+
+✨ Flashcard
+
+Front:
+“How do we find the Shortest Common Supersequence?”
+
+Back (short steps)
+
+1️⃣ Compute LCS (Longest Common Subsequence)
+2️⃣ LCS tells us which characters can be shared
+3️⃣ Build the result using both strings
+4️⃣ If characters match → add once
+5️⃣ If different → follow LCS direction
+6️⃣ Add remaining characters
+7️⃣ Result = shortest supersequence
+
+🧠 Key Idea
+
+The shortest supersequence =
+
+str1 + str2 - LCS
+
+Why?
+
+Because LCS characters appear in both strings, so we avoid duplicating them.
+
+Example:
+
+str1 = abac
+str2 = cab
+
+LCS:
+
+ab
+
+Lengths:
+
+4 + 3 - 2 = 5
+
+Shortest length = 5
+
+⚙️ DP Step 1 — Compute LCS Table
+
+We compute:
+
+dp[i][j]
+
+meaning
+
+LCS length of
+
+str1[:i]
+str2[:j]
+
+Transition:
+
+If characters match:
+
+dp[i][j] = dp[i-1][j-1] + 1
+
+Otherwise:
+
+dp[i][j] = max(
+    dp[i-1][j],
+    dp[i][j-1]
+)
+🧱 Solution Code (Python)
+class Solution(object):
+    def shortestCommonSupersequence(self, str1, str2):
+        N, M = len(str1), len(str2)
+
+        dp = [[0]*(M+1) for _ in range(N+1)]
+
+        for i in range(1, N+1):
+            for j in range(1, M+1):
+                if str1[i-1] == str2[j-1]:
+                    dp[i][j] = dp[i-1][j-1] + 1
+                else:
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+
+        i, j = N, M
+        res = []
+
+        while i > 0 and j > 0:
+            if str1[i-1] == str2[j-1]:
+                res.append(str1[i-1])
+                i -= 1
+                j -= 1
+            elif dp[i-1][j] > dp[i][j-1]:
+                res.append(str1[i-1])
+                i -= 1
+            else:
+                res.append(str2[j-1])
+                j -= 1
+
+        while i > 0:
+            res.append(str1[i-1])
+            i -= 1
+
+        while j > 0:
+            res.append(str2[j-1])
+            j -= 1
+
+        return "".join(res[::-1])
+🧱 Block-by-Block Explanation
+Block 1 — Function Definition
+class Solution(object):
+    def shortestCommonSupersequence(self, str1, str2):
+
+LeetCode required structure.
+
+Inputs:
+
+str1
+str2
+
+Output:
+
+shortest common supersequence
+Block 2 — Get Lengths
+N, M = len(str1), len(str2)
+
+Example:
+
+str1 = "abac" → N = 4
+str2 = "cab"  → M = 3
+Block 3 — Create LCS Table
+dp = [[0]*(M+1) for _ in range(N+1)]
+
+Table size:
+
+(N+1) × (M+1)
+
+Meaning:
+
+dp[i][j]
+
+=
+
+LCS length of
+str1[:i]
+str2[:j]
+Block 4 — Fill LCS Table
+for i in range(1, N+1):
+    for j in range(1, M+1):
+
+We compare characters.
+
+Block 5 — Characters Match
+if str1[i-1] == str2[j-1]:
+
+Example:
+
+a == a
+
+Then:
+
+dp[i][j] = dp[i-1][j-1] + 1
+
+Because LCS increases.
+
+Block 6 — Characters Do Not Match
+dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+
+Meaning:
+
+Either ignore character from
+
+str1
+or
+str2
+
+Take the best.
+
+Block 7 — Build the Supersequence
+i, j = N, M
+res = []
+
+We start from bottom-right of the LCS table.
+
+Block 8 — Traverse Backwards
+while i > 0 and j > 0:
+Case 1 — Characters Match
+if str1[i-1] == str2[j-1]:
+
+Add once:
+
+res.append(str1[i-1])
+
+Move diagonally:
+
+i -= 1
+j -= 1
+Case 2 — Follow Larger LCS Direction
+elif dp[i-1][j] > dp[i][j-1]:
+
+Take from str1.
+
+res.append(str1[i-1])
+i -= 1
+
+Else:
+
+res.append(str2[j-1])
+j -= 1
+Block 9 — Add Remaining Characters
+
+If one string still has characters:
+
+while i > 0:
+    res.append(str1[i-1])
+    i -= 1
+while j > 0:
+    res.append(str2[j-1])
+    j -= 1
+Block 10 — Reverse Result
+return "".join(res[::-1])
+
+Because we built the result backwards.
+
+📊 Time Complexity
+O(N × M)
+
+Example:
+
+1000 × 1000 = 1,000,000
+
+Acceptable.
+
+🧠 Intuition Shortcut
+
+This problem is basically:
+
+LCS + Merge
+
+Steps:
+
+Find LCS
+Use it to merge both strings
+Avoid duplicating LCS characters
