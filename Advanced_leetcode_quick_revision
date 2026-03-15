@@ -11421,3 +11421,474 @@ Pick center
 Expand
 Count
 Repeat
+
+
+👉 Longest Palindromic Subsequence (LeetCode 516)
+
+Return the length of the longest palindromic subsequence in a string s.
+
+A palindrome reads the same forward and backward.
+
+A subsequence means you can delete characters but cannot change the order.
+
+Example 1
+s = "bbbab"
+
+Output
+
+4
+
+Explanation:
+
+One longest palindromic subsequence:
+
+bbbb
+
+We removed the "a".
+
+Example 2
+s = "cbbd"
+
+Output
+
+2
+
+Explanation:
+
+Longest palindrome subsequence:
+
+bb
+✨ Flashcard
+
+Front:
+“How do we find the longest palindromic subsequence?”
+
+Back (short steps)
+
+1️⃣ Compare characters from both ends
+2️⃣ If characters match → include them
+3️⃣ If not → skip one side
+4️⃣ Store answers using DP
+5️⃣ Return result for the whole string
+
+🧠 Key Idea
+
+We look at a substring:
+
+s[i ... j]
+
+Two possibilities:
+
+Case 1 — Characters Match
+s[i] == s[j]
+
+Example:
+
+b ... b
+
+Then these two characters can be part of the palindrome.
+
+So:
+
+length = 2 + result of inside substring
+
+Meaning:
+
+dp[i][j] = 2 + dp[i+1][j-1]
+Case 2 — Characters Do NOT Match
+
+Example:
+
+c ... d
+
+We cannot use both.
+
+So we try:
+
+skip left character
+skip right character
+
+Take the best result.
+
+dp[i][j] = max(
+    dp[i+1][j],
+    dp[i][j-1]
+)
+⚙️ Algorithm Idea — Dynamic Programming
+
+Define:
+
+dp[i][j]
+
+Meaning:
+
+👉 Longest palindromic subsequence inside substring s[i..j]
+
+Goal:
+
+dp[0][n-1]
+🧱 Block-by-Block Explanation
+Block 1 — Function Definition
+class Solution:
+    def longestPalindromeSubseq(self, s):
+
+Input:
+
+s → string
+
+Output:
+
+length of longest palindromic subsequence
+Block 2 — Get String Length
+        n = len(s)
+
+Example:
+
+s = "bbbab"
+n = 5
+Block 3 — Create DP Table
+        dp = [[0] * n for _ in range(n)]
+
+We create a 2D table.
+
+Meaning:
+
+dp[i][j] =
+longest palindrome inside s[i..j]
+Block 4 — Base Case (Single Characters)
+        for i in range(n):
+            dp[i][i] = 1
+
+A single character is always a palindrome.
+
+Example:
+
+"a"
+"b"
+"c"
+
+Length = 1
+
+Block 5 — Fill Table from Bottom
+        for i in range(n - 1, -1, -1):
+
+We move from bottom to top.
+
+Why?
+
+Because we need values like:
+
+dp[i+1][j-1]
+
+Those must already be computed.
+
+Block 6 — Move Right
+            for j in range(i + 1, n):
+
+This checks all substrings:
+
+s[i..j]
+
+Example:
+
+bb
+bbb
+bbba
+bbbab
+Block 7 — Characters Match
+                if s[i] == s[j]:
+                    dp[i][j] = 2 + dp[i+1][j-1]
+
+Example:
+
+b ... b
+
+We include both characters.
+
+So:
+
+2 + palindrome inside
+Block 8 — Characters Do Not Match
+                else:
+                    dp[i][j] = max(dp[i+1][j], dp[i][j-1])
+
+Example:
+
+c ... d
+
+We try two options:
+
+skip left
+skip right
+
+Take the maximum.
+
+Block 9 — Return Answer
+        return dp[0][n-1]
+
+This gives the longest palindrome subsequence in the entire string.
+
+
+📊 Time Complexity
+O(N²)
+
+We fill an N × N table.
+
+📦 Space Complexity
+O(N²)
+
+Because of the DP table.
+
+🧠 Intuition Shortcut
+
+This problem is basically:
+
+Longest Palindromic Subsequence
+=
+Longest Common Subsequence
+between
+
+s
+reverse(s)
+
+Example:
+
+s = "bbbab"
+reverse = "babbb"
+
+LCS → "bbbb"
+
+Length = 4.
+
+👉Leet Code 516 Explanation
+
+1️⃣ Problem in Very Easy Words
+
+You are given a string.
+
+Example:
+
+s = "bbbab"
+
+Your job:
+
+⚡ Find the longest sequence of characters that reads the same forward and backward.
+
+This is called a palindrome.
+
+Example of palindromes:
+
+aba
+bb
+racecar
+aaaa
+2️⃣ What is a Subsequence?
+
+A subsequence means:
+
+You can delete characters, but you cannot change the order.
+
+Example:
+
+s = "bbbab"
+
+Possible subsequences:
+
+bbb
+bbbb
+bab
+bbab
+
+But NOT:
+
+abb   ❌ (order changed)
+3️⃣ What Do We Need to Find?
+
+We want:
+
+⚡ Longest subsequence that is also a palindrome
+
+Example:
+
+s = "bbbab"
+
+Possible palindromes:
+
+bb
+bbb
+bbbb
+
+The longest is:
+
+bbbb
+
+Length:
+
+4
+
+So answer:
+
+4
+4️⃣ Another Example
+s = "cbbd"
+
+Possible subsequences:
+
+c
+b
+bb
+bd
+
+Palindromes:
+
+c
+b
+bb
+d
+
+Longest:
+
+bb
+
+Length:
+
+2
+
+Answer:
+
+2
+5️⃣ The Key Idea Behind the Solution
+
+We compare characters from both ends.
+
+Example:
+
+s = "bbbab"
+
+Indexes:
+
+0 1 2 3 4
+b b b a b
+
+Now look at:
+
+first character = b
+last character  = b
+
+They match!
+
+So we can use both.
+
+Then we move inside.
+
+6️⃣ Core Logic
+
+For any substring:
+
+s[i ... j]
+
+We check two cases.
+
+Case 1 — Characters Match
+
+If:
+
+s[i] == s[j]
+
+Then these two characters can be part of the palindrome.
+
+So:
+
+length = 2 + answer of inside part
+
+Example:
+
+b ... b
+
+Inside:
+
+s[i+1 ... j-1]
+Case 2 — Characters Do NOT Match
+
+Example:
+
+c ... d
+
+They cannot both be used.
+
+So we try two options:
+
+skip left
+skip right
+
+Take the maximum.
+
+max(
+    solve(i+1, j),
+    solve(i, j-1)
+)
+7️⃣ Small Example Visualization
+
+Example:
+
+s = "cbbd"
+
+Check:
+
+c ... d
+
+Not equal.
+
+So:
+
+Option 1:
+
+check "bbd"
+
+Option 2:
+
+check "cbb"
+
+Take the maximum palindrome length.
+
+8️⃣ Why Dynamic Programming?
+
+Because we repeat the same substring problems many times.
+
+Example:
+
+solve(1,3)
+solve(2,4)
+solve(1,3) again
+
+So we store answers in a table (DP).
+
+This makes it fast.
+
+9️⃣ The DP Meaning
+
+We define:
+
+dp[i][j]
+
+Meaning:
+
+⚡ Longest palindromic subsequence in substring s[i..j]
+
+Example:
+
+s = "bbbab"
+dp[0][4] = answer
+🔟 Final Idea in One Sentence
+
+📝 Summary
+
+We compare characters from both ends:
+
+If equal → 2 + inside result
+
+If not equal → max(skip left, skip right)
+
+Use DP to avoid recomputation.
+
+
