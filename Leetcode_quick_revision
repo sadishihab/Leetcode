@@ -216,7 +216,27 @@ Time: O(n) → every node is visited once.
 Space: O(n) → recursion stack stores n calls.
 
 
-2. Merge Two Sorted Lists (LeetCode 21) – Iterative Approach
+👉 Fibonacci Number (LeetCode 509) - iterative approach
+
+✨ Flashcard:
+“Iterate from 2 to n. Track last two numbers. Sum to get current. Return current.”
+
+⚡ Full Approach:
+
+Handle base cases: if n == 0 return 0, if n == 1 return 1.
+Initialize two variables: a = 0 (F(0)), b = 1 (F(1)).
+Loop from 2 to n:
+Compute current = a + b
+Shift a, b → b, current
+After loop, b holds F(n). Return b.
+
+⏱️ Complexity
+
+Time: O(n) — each number up to n is computed once
+Space: O(1) — only two variables (a and b) are used
+
+
+Merge Two Sorted Lists (LeetCode 21) – Iterative Approach
 
 list1: 1 -> 2 -> 4    list2: 1 -> 3 -> 4    merged_list: 1 -> 1 -> 2 -> 3 -> 4 -> 4
 
