@@ -569,9 +569,11 @@ With each pass, the largest element bubbles up to the end of the list.
 ⚡ Full Approach
 
 Steps:
+
 Outer Loop (i):
-Runs n passes at most.
+Runs n-1 passes at most.
 After each pass, the last element(s) are in correct position.
+The final pass is unnecessary because the array becomes sorted after n-1 passes.
 
 Inner Loop (j):
 for j in range(0, n-i-1)
@@ -585,15 +587,16 @@ Base Case:
 If array length is 0 or 1, it’s already sorted.
 
 ⏱️ Complexity
+
 Time:
-Best: O(n) (already sorted, only one pass).
-Average: O(n²).
-Worst: O(n²).
+Best: O(n) (already sorted, only one pass)
+Average: O(n²)
+Worst: O(n²)
 
 Space:
-O(1) → in-place sorting.
+O(1) → in-place sorting
 
-Stable: ✅ Yes (equal elements keep original order).
+Stable: ✅ Yes (equal elements keep original order)
 
 ✅ Notes:
 Very simple, but inefficient for large arrays.
